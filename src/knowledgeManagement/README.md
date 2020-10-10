@@ -1,0 +1,1 @@
+`knowledgeManagement` module is related to manage faq, manage user, manage category and subcategory of KM. Inside this module consists of another 4 submodules which is `faq`, `category`, `subcategory`, `user`.
