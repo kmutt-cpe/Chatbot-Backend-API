@@ -5,8 +5,10 @@ services:
     image: mysql:5
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: test
+      MYSQL_ROOT_PASSWORD: rootchatbot
+      MYSQL_USER: cpechatbot
+      MYSQL_PASSWORD: chitchat
+      MYSQL_DATABASE: cpechatbotdb
     ports:
       - '3306:3306'
   redis:
