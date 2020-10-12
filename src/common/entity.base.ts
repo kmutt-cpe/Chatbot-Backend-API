@@ -8,23 +8,23 @@ import { isEqual, forEach } from 'lodash';
 
 export abstract class BaseEntity {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  private id: number;
 
   @CreateDateColumn({ type: 'timestamp' })
-  createdAt: Date;
+  private createdAt: Date;
 
   @UpdateDateColumn({ type: 'timestamp' })
-  updatedAt: Date;
+  private updatedAt: Date;
 
   @DeleteDateColumn({ type: 'timestamp' })
-  deletedAt: Date;
+  private deletedAt: Date;
 
   /**
    * Set value to the key of this entity.
    * @param {string} key
    * @param {any} value
    */
-  setDataValue(key: string, value: any): void {
+  public setDataValue(key: string, value: any): void {
     if (key !== 'id') {
       this[key] = value;
     }
@@ -35,7 +35,7 @@ export abstract class BaseEntity {
    * Set all value inside object to the entity
    * @param {Object} props
    */
-  setDataValues(props): void {
+  public setDataValues(props: any): void {
     forEach(props, (value, key) => this.setDataValue(key, value));
   }
 
@@ -43,7 +43,7 @@ export abstract class BaseEntity {
    * Get all data values.
    * @return all value inside this class.
    */
-  getData() {
+  public getData(): any {
     const retData = {};
     forEach(this, (value, key) => (retData[key] = value));
     return retData;
