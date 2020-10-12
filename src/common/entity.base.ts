@@ -8,16 +8,16 @@ import { isEqual, forEach } from 'lodash';
 
 export abstract class BaseEntity {
   @PrimaryGeneratedColumn('uuid')
-  private id: number;
+  id: number;
 
   @CreateDateColumn({ type: 'timestamp' })
-  private createdAt: Date;
+  createdAt: Date;
 
   @UpdateDateColumn({ type: 'timestamp' })
-  private updatedAt: Date;
+  updatedAt: Date;
 
   @DeleteDateColumn({ type: 'timestamp' })
-  private deletedAt: Date;
+  deletedAt: Date;
 
   /**
    * Set value to the key of this entity.
