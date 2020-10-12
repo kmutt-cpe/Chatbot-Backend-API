@@ -1,2 +1,2 @@
-export { default as BaseEntity } from './entity.base';
-export { default as BaseRepository } from './repository.base';
+export { BaseEntity } from './entity.base';
+export { BaseRepository } from './repository.base';

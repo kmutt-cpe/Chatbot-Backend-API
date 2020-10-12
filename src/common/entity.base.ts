@@ -6,7 +6,7 @@ import {
 } from 'typeorm';
 import { isEqual, forEach } from 'lodash';
 
-export default abstract class BaseEntity {
+export abstract class BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: number;
 
