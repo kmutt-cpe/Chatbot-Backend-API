@@ -50,22 +50,11 @@ export abstract class BaseEntity {
   }
 
   /**
-   * Convert dao from db to new Entity.
-   * @abstract
-   * @return {Entity}
-   */
-  static fromRow(rowData) {
-    // const entity = new BaseEntity();
-    // entity.dataValues = rowData.toJSON();
-    // return entity;
-  }
-
-  /**
    * Get the data that changed
    * @return {object} Property with value that changed.
    */
-  public getChangedData() {
-    // return this.changedDataValues;
+  public getChangedData(): void {
+    // todo: Add changed data to improve performance.
   }
 
   /**
@@ -76,9 +65,7 @@ export abstract class BaseEntity {
    *
    * @returns {boolean}
    */
-  public isValueChange(key, value) {
-    // const originalValue = this.dataValues[key];
-    // if (isEqual(value, originalValue)) return false;
-    // return true;
+  public isValueChange(key, value): void {
+    // todo: Add changed data to improve performance.
   }
 }
