@@ -11,6 +11,7 @@ import { AppService } from './app.service';
       autoSchemaFile: 'src/schema.gql',
     }),
     TypeOrmModule.forRoot(),
+    KnowledgeManagementModule,
   ],
   controllers: [AppController],
   providers: [AppService],
