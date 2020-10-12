@@ -5,6 +5,6 @@
   "username": "cpechatbot",
   "password": "chitchat",
   "database": "cpechatbotdb",
-  "entities": ["dist/**/*.entity.ts"],
+  "entities": ["dist/**/*.entity{.ts,.js}"],
   "synchronize": true
 }
