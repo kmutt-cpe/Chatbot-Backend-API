@@ -1,3 +1,5 @@
 import { Repository } from 'typeorm';
 
-export class BaseRepository<T> extends Repository<T> {}
+export class BaseRepository<T> extends Repository<T> {
+  // todo: Add repo function
+}
