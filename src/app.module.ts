@@ -7,10 +7,9 @@ import { AppService } from './app.service';
 
 @Module({
   imports: [
-    GraphQLModule.forRoot({
-      autoSchemaFile: 'src/schema.gql',
-    }),
+    // todo: Add GraphQL root
     TypeOrmModule.forRoot(),
+    KnowledgeManagementModule,
   ],
   controllers: [AppController],
   providers: [AppService],
