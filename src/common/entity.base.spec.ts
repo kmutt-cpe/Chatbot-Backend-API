@@ -1,7 +1,7 @@
 import { BaseEntity } from './entity.base';
 
 /**
- * Temporary Entity for test the BaseEntity.
+ * Temporary Entity class for test the BaseEntity.
  */
 class Entity extends BaseEntity {
   private entityData1 = 'data1';
