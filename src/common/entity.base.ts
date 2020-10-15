@@ -6,6 +6,9 @@ import {
 } from 'typeorm';
 import { isEqual, forEach } from 'lodash';
 
+/**
+ * Base entity that provide necessary property and method to use.
+ */
 export abstract class BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: number;
