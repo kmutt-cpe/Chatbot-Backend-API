@@ -11,7 +11,7 @@ import { PredictionModelModule } from 'predictionModel/predictionModel.module';
     // todo: Add GraphQL root
     TypeOrmModule.forRoot(),
     KnowledgeManagementModule,
-    PredictionModelModule
+    PredictionModelModule,
   ],
   controllers: [AppController],
   providers: [AppService],

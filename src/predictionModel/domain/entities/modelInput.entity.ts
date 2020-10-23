@@ -14,5 +14,5 @@ export class ModelInput extends BaseEntity implements ModelInputInterface {
   outputTime: Date;
 
   @Column()
-  status: string
+  status: string;
 }

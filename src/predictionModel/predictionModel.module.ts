@@ -4,8 +4,7 @@ import { PredictionModelController } from './predictionModel.controller';
 import { PredictionModelService } from './predictionModel.service';
 
 @Module({
-  imports: [
-  ],
+  imports: [],
   controllers: [PredictionModelController],
   providers: [PredictionModelService],
 })
