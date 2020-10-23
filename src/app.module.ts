@@ -4,14 +4,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { KnowledgeManagementModule } from './knowledgeManagement';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { PredictionModelService } from 'predictionModel/predictionModel.service';
+import { PredictionModelModule } from 'predictionModel/predictionModel.module';
 
 @Module({
   imports: [
     // todo: Add GraphQL root
     TypeOrmModule.forRoot(),
     KnowledgeManagementModule,
-    PredictionModelService
+    PredictionModelModule
   ],
   controllers: [AppController],
   providers: [AppService],
