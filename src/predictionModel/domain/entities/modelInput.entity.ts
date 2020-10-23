@@ -1,4 +1,3 @@
-import { Category as CategoryInterface } from '../interfaces/category.interface';
 import { BaseEntity } from '@BaseObject';
 import { Entity, Column } from 'typeorm';
 import { ModelInput as ModelInputInterface } from '../interfaces/modelInput.interface';
