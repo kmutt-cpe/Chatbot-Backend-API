@@ -2,6 +2,7 @@ import { Test } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { getCustomRepository, Repository } from 'typeorm';
 import { CategoryModule } from '../category.module';
+import { Category } from '../domain/entities/category.entity';
 import { CategoryRepository } from './category.repository';
 
 describe('Categoy Repository', () => {
@@ -9,7 +10,19 @@ describe('Categoy Repository', () => {
 
   beforeAll(async () => {
     await Test.createTestingModule({
-      imports: [CategoryModule, TypeOrmModule.forRoot()],
+      imports: [
+        CategoryModule,
+        TypeOrmModule.forRoot({
+          type: 'mysql',
+          host: 'localhost',
+          port: 3306,
+          username: 'cpechatbot',
+          password: 'chitchat',
+          database: 'cpechatbotdb',
+          entities: [Category],
+          synchronize: true,
+        }),
+      ],
     }).compile();
     catRepos = getCustomRepository(CategoryRepository);
   });
