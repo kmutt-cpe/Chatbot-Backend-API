@@ -1,4 +1,4 @@
-import { FAQ } from '../domain/entities/faq.entity';
+import { FAQ } from '../entities/faq.entity';
 import { EntityRepository } from 'typeorm';
 import { BaseRepository } from '@BaseObject';
 

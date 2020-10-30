@@ -1,4 +1,4 @@
-import { Category } from '../domain/entities/category.entity';
+import { Category } from '../entities/category.entity';
 import { EntityRepository } from 'typeorm';
 import { BaseRepository } from '@BaseObject';
 
