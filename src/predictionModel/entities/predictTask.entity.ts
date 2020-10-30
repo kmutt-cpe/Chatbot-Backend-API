@@ -1,9 +1,9 @@
 import { BaseEntity } from '@BaseObject';
 import { Entity, Column } from 'typeorm';
-import { ModelInput as ModelInputInterface } from '../interfaces/modelInput.interface';
+import { PredictTask as PredictTaskInterface } from '../interfaces/predictTask';
 
 @Entity()
-export class ModelInput extends BaseEntity implements ModelInputInterface {
+export class PredictTask extends BaseEntity implements PredictTaskInterface {
   @Column()
   question: string;
 
