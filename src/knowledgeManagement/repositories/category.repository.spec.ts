@@ -1,8 +1,8 @@
 import { Test } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { getCustomRepository, Repository } from 'typeorm';
-import { CategoryModule } from '../category.module';
-import { Category } from '../domain/entities/category.entity';
+import { CategoryModule } from '../km.category.module';
+import { Category } from '../entities/category.entity';
 import { CategoryRepository } from './category.repository';
 
 describe('Categoy Repository', () => {

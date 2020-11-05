@@ -1,4 +1,4 @@
-import { Subcategory } from '../domain/entities/subcategory.entity';
+import { Subcategory } from '../entities/subcategory.entity';
 import { EntityRepository } from 'typeorm';
 import { BaseRepository } from '@BaseObject';
 
