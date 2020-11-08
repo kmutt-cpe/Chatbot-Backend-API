@@ -13,13 +13,13 @@ export abstract class BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: number;
 
-  @CreateDateColumn({ type: 'timestamp' })
+  @CreateDateColumn({ type: 'datetime' })
   createdAt: Date;
 
-  @UpdateDateColumn({ type: 'timestamp' })
+  @UpdateDateColumn({ type: 'datetime' })
   updatedAt: Date;
 
-  @DeleteDateColumn({ type: 'timestamp' })
+  @DeleteDateColumn({ type: 'datetime' })
   deletedAt: Date;
 
   /**
