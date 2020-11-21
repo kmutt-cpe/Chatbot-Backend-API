@@ -1,6 +1,6 @@
 import { Test } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { getCustomRepository, Repository } from 'typeorm';
+import { getCustomRepository } from 'typeorm';
 import { CategoryModule } from '../km.category.module';
 import { Category } from '../entities/category.entity';
 import { CategoryRepository } from './category.repository';
