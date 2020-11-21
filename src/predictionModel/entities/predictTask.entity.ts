@@ -1,18 +1,32 @@
 import { BaseEntity } from '@BaseObject';
-import { Entity, Column } from 'typeorm';
+import { Column, Entity } from 'typeorm';
 import { PredictTask as PredictTaskInterface } from '../interfaces/predictTask.interface';
+
+export enum TaskStatus {
+  NEW = 'NEW',
+  IN_PROCESS = 'IN_PROCESS',
+  SUCCESS = 'SUCCESS',
+  FAILED = 'FAILED',
+}
 
 @Entity()
 export class PredictTask extends BaseEntity implements PredictTaskInterface {
-  @Column()
-  question: string;
+  @Column({ type: 'varchar' })
+  inputQuestion: string;
 
-  @Column()
-  inputTime: Date;
+  @Column({ type: 'varchar', nullable: true })
+  predictedQuestion: string = null;
 
-  @Column()
-  outputTime: Date;
+  @Column({ type: 'datetime', nullable: true })
+  inputTime: Date = null;
 
-  @Column()
-  status: string;
+  @Column({ type: 'datetime', nullable: true })
+  outputTime: Date = null;
+
+  @Column({
+    type: 'enum',
+    enum: ['NEW', 'IN_PROCESS', 'SUCCESS', 'FAILED'],
+    default: TaskStatus.NEW,
+  })
+  status: TaskStatus = TaskStatus.NEW;
 }
