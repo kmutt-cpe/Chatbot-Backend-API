@@ -1,17 +1,17 @@
+import { forEach } from 'lodash';
 import {
   CreateDateColumn,
   DeleteDateColumn,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { isEqual, forEach } from 'lodash';
 
 /**
  * Base entity that provide necessary property and method to use.
  */
 export abstract class BaseEntity {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: string;
 
   @CreateDateColumn({ type: 'datetime' })
   createdAt: Date;
