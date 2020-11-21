@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { KnowledgeManagementModule } from './knowledgeManagement/km.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { PredictionModelModule } from 'predictionModel/predictionModel.module';
+import { ChatbotModule } from './chatbot/chatbot.module';
+import { KnowledgeManagementModule } from './knowledgeManagement/km.module';
+import { PredictionModelModule } from './predictionModel/predictionModel.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { PredictionModelModule } from 'predictionModel/predictionModel.module';
     TypeOrmModule.forRoot(),
     KnowledgeManagementModule,
     PredictionModelModule,
+    ChatbotModule,
   ],
   controllers: [AppController],
   providers: [AppService],
