@@ -14,6 +14,7 @@ export class PredictionModelProcessor {
 
     predictTask.inputTime = new Date();
     predictTask.status = TaskStatus.IN_PROCESS;
+    predictTaskRepo.save(predictTask);
 
     // todo: Send to prediciton model
     await delay(5000);
