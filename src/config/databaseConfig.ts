@@ -1,5 +1,7 @@
 import { DatabaseConfig } from './interfaces/databaseConfig.interface';
 
+const resolveBoolean = (value) => (value === true || value === 'true' ? true : false);
+
 export default (): DatabaseConfig => {
   return {
     databaseConfig: {
@@ -10,7 +12,7 @@ export default (): DatabaseConfig => {
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
       autoLoadEntities: true,
-      synchronize: true,
+      synchronize: resolveBoolean(process.env.DB_SYNCHRONIZE),
     },
   };
 };
