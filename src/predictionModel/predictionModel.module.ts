@@ -1,5 +1,6 @@
 import { BullModule } from '@nestjs/bull';
 import { Module } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PredictionModelController } from './predictionModel.controller';
 import { PredictionModelProcessor } from './predictionModel.processor';
@@ -8,12 +9,10 @@ import { PredictTaskRepository } from './repositories/predictTask.repository';
 
 @Module({
   imports: [
-    BullModule.registerQueue({
+    BullModule.registerQueueAsync({
       name: 'predictionModelQueue',
-      redis: {
-        host: 'localhost',
-        port: 6379,
-      },
+      useFactory: (configService: ConfigService) => configService.get('redisConfig'),
+      inject: [ConfigService],
     }),
     TypeOrmModule.forFeature([PredictTaskRepository]),
   ],
