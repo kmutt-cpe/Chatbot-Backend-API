@@ -1,4 +1,7 @@
-export interface Category {
+import { BaseInterface } from '@BaseObject';
+import { Subcategory } from './subcategory.interface';
+
+export interface Category extends BaseInterface {
   category: string;
-  subcategory: string;
+  subcategories: Subcategory[];
 }

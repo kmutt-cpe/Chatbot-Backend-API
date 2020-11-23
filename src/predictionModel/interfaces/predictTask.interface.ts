@@ -1,4 +1,6 @@
-export interface PredictTask {
+import { BaseInterface } from '@BaseObject';
+
+export interface PredictTask extends BaseInterface {
   inputQuestion: string;
   predictedQuestion: string;
   inputTime: Date;
