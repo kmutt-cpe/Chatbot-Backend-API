@@ -3,8 +3,8 @@ import { BaseInterface } from '@BaseObject';
 import { Subcategory } from './subcategory.interface';
 
 export interface FAQ extends BaseInterface {
-  question: string;
-  answer: string;
-  subcategory: Subcategory;
-  lastEditor: User;
+  question;
+  answer;
+  subcategory;
+  lastEditor;
 }
