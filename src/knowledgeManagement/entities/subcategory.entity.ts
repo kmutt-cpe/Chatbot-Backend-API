@@ -14,4 +14,9 @@ export class Subcategory extends BaseEntity implements SubcategoryInterface {
 
   @OneToMany(() => FAQ, (faq) => faq.subcategory)
   faqs: FAQ[];
+
+  getData() {
+    // todo: Implement return data
+    return null;
+  }
 }

@@ -43,14 +43,9 @@ export abstract class BaseEntity {
   }
 
   /**
-   * Get all data values.
-   * @return all value inside this class.
+   * Get data object follow dto.
    */
-  public getData(): any {
-    const retData = {};
-    forEach(this, (value, key) => (retData[key] = value));
-    return retData;
-  }
+  public abstract getData();
 
   /**
    * Get the data that changed

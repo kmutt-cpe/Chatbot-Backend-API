@@ -16,17 +16,6 @@ describe('BaseEntity', () => {
     entity = new Entity();
   });
 
-  describe('getData', () => {
-    it('should get all data inside entity', () => {
-      const expectedData = {
-        entityData1: 'data1',
-        entityData2: 'data2',
-        entityData3: 'data3',
-      };
-      expect(entity.getData()).toStrictEqual(expectedData);
-    });
-  });
-
   describe('setDataValue', () => {
     beforeEach(async () => {
       entity.setDataValue('id', '1');
