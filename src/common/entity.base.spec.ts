@@ -7,6 +7,9 @@ class Entity extends BaseEntity {
   private entityData1 = 'data1';
   private entityData2 = 'data2';
   private entityData3 = 'data3';
+  getData() {
+    return { ...this };
+  }
 }
 
 describe('BaseEntity', () => {
