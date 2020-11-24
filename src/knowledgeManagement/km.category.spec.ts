@@ -1,13 +1,12 @@
 import { CategoryService } from './km.category.service';
-import { CategoryDto } from './dto/category.dto';
 import { Test, TestingModule } from '@nestjs/testing';
-import { getCustomRepositoryToken, getRepositoryToken } from '@nestjs/typeorm';
+import { getCustomRepositoryToken } from '@nestjs/typeorm';
 import { CategoryRepository } from './repositories/category.repository';
-import { FindOneOptions } from 'typeorm';
 import { Category } from './entities/category.entity';
 import { Category as CategoryInterface } from './interfaces/category.interface';
-import { BaseEntity } from '@BaseObject';
 import { MockBaseRepository } from '@BaseObject';
+import { CreateCategoryDto } from './dto/category.create.dto';
+import { UpdateCategoryDto } from './dto/category.update.dto';
 
 class MockCategoryRepository extends MockBaseRepository<Category> {
   constructor() {
@@ -58,7 +57,7 @@ describe('CategoryService', () => {
 
   describe('createCategory', () => {
     let retData;
-    const inputData = { category: 'registration' };
+    const inputData = { category: 'registration', subcategories: [] };
 
     beforeEach(async () => {
       retData = await categoryService.createCategory(inputData);
@@ -115,7 +114,7 @@ describe('CategoryService', () => {
       expect(retData).toStrictEqual(expectedData);
     });
 
-    it('it should update category', async () => {
+    it('it should delete category', async () => {
       const expectedData = MockCategoryRepository.getSeedData();
       expectedData.shift();
 

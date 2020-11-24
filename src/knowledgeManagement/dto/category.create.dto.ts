@@ -11,5 +11,5 @@ export class CreateCategoryDto implements CategoryInterface {
   category: string;
 
   @Field(() => [String])
-  subcategories: string[];
+  subcategories: string[] = [];
 }
