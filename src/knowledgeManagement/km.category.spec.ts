@@ -5,9 +5,6 @@ import { CategoryRepository } from './repositories/category.repository';
 import { Category } from './entities/category.entity';
 import { Category as CategoryInterface } from './interfaces/category.interface';
 import { MockBaseRepository } from '@BaseObject';
-import { CreateCategoryDto } from './dto/category.create.dto';
-import { UpdateCategoryDto } from './dto/category.update.dto';
-
 class MockCategoryRepository extends MockBaseRepository<Category> {
   constructor() {
     super(Category);
