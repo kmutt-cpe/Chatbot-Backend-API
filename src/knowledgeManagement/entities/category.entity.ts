@@ -10,7 +10,7 @@ export class Category extends BaseEntity implements CategoryInterface {
   category: string;
 
   @OneToMany(() => Subcategory, (subcategory) => subcategory.category)
-  subcategories: Subcategory[];
+  subcategories: Subcategory[] = [];
 
   getData(): CategoryDto {
     return { id: this.id, category: this.category, subcategories: this.subcategories };
