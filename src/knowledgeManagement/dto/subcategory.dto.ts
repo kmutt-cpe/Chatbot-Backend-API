@@ -10,6 +10,6 @@ export class SubcategoryDto implements SubcategoryInterface {
   @Field()
   subcategory: string;
 
-  @Field()
+  @Field(() => CategoryDto)
   category: CategoryDto;
 }

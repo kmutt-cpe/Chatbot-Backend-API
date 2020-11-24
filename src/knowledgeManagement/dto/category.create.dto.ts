@@ -10,6 +10,6 @@ export class CreateCategoryDto implements CategoryInterface {
   @IsString()
   category: string;
 
-  @Field()
+  @Field(() => [String])
   subcategories: string[];
 }
