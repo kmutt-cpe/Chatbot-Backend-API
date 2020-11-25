@@ -36,7 +36,6 @@ export class CategoryService {
     const category: Category = this.categoryRepo.create();
     category.setDataValues(createCategoryDto);
 
-    // todo: Create subcategory in categoryDto
     return (await this.categoryRepo.save(category)).getData();
   }
 

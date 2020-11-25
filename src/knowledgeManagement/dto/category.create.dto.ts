@@ -10,6 +10,5 @@ export class CreateCategoryDto implements CategoryInterface {
   @IsString()
   category: string;
 
-  @Field(() => [String])
-  subcategories: string[] = [];
+  subcategories: undefined;
 }

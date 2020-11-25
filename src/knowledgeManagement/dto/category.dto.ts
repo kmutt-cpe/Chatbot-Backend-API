@@ -1,13 +1,13 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { Category as CategoryInterface } from 'knowledgeManagement/interfaces/category.interface';
 import { SubcategoryDto } from './subcategory.dto';
 
 @ObjectType()
 export class CategoryDto implements CategoryInterface {
-  @Field()
+  @Field(() => ID)
   id: string;
 
-  @Field()
+  @Field(() => String)
   category: string;
 
   @Field(() => [SubcategoryDto], { nullable: true })
