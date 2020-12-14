@@ -1,6 +1,6 @@
 import { FindOneOptions, Repository, SaveOptions } from 'typeorm';
 import { BaseEntity } from './entity.base';
-import { BaseInterface } from './interface.base';
+
 /**
  * Base repository that provide only necessary method to CRUD the database.
  * (Custom repository from TypeORM)
@@ -25,6 +25,9 @@ export class BaseRepository<T> extends Repository<T> {
   }
 }
 
+/**
+ * Mock up repository class.
+ */
 export abstract class MockBaseRepository<T extends BaseEntity> {
   private counter = 0;
   private data = [];
@@ -34,6 +37,10 @@ export abstract class MockBaseRepository<T extends BaseEntity> {
     this.EntityName = Entity.name;
   }
 
+  /**
+   * Mock up data in database for repository.
+   * @param data Data that we want to mock up
+   */
   mockData(data: any[]): void {
     data.map((item) => {
       const entity = this.create();
@@ -42,6 +49,10 @@ export abstract class MockBaseRepository<T extends BaseEntity> {
     });
   }
 
+  /**
+   * Create entity object
+   * @return Entity object
+   */
   create(): T {
     const entity: T = new this.Entity();
     entity.id = `${this.EntityName}-${this.counter}`;
