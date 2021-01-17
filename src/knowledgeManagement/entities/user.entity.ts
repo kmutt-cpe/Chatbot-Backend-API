@@ -19,4 +19,9 @@ export class User extends BaseEntity implements UserInterface {
 
   @OneToMany(() => FAQ, (faq) => faq.lastEditor)
   faqs: FAQ[];
+
+  getData() {
+    // todo: Implement return data
+    return null;
+  }
 }

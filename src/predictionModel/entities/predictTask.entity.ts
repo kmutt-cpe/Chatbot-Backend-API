@@ -29,4 +29,9 @@ export class PredictTask extends BaseEntity implements PredictTaskInterface {
     default: TaskStatus.NEW,
   })
   status: TaskStatus = TaskStatus.NEW;
+
+  getData() {
+    // todo: Implement return data
+    return null;
+  }
 }

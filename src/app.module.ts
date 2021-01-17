@@ -12,7 +12,6 @@ import { PredictionModelModule } from './predictionModel/predictionModel.module'
 
 @Module({
   imports: [
-    // todo: Add GraphQL root
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: process.env.NODE_ENV ? '.production.env' : '.development.env',
@@ -22,6 +21,9 @@ import { PredictionModelModule } from './predictionModel/predictionModel.module'
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => configService.get('databaseConfig'),
       inject: [ConfigService],
+    }),
+    GraphQLModule.forRoot({
+      autoSchemaFile: 'src/schema.gql',
     }),
     KnowledgeManagementModule,
     PredictionModelModule,

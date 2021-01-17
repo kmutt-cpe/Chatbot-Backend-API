@@ -17,4 +17,9 @@ export class FAQ extends BaseEntity implements FAQInterface {
 
   @ManyToOne(() => User, (user) => user.faqs)
   lastEditor: User;
+
+  getData() {
+    // todo: Implement return data
+    return null;
+  }
 }
