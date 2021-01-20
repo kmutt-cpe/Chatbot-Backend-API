@@ -6,7 +6,7 @@ import { Category as CategoryInterface } from 'knowledgeManagement/interfaces/ca
 export class CreateCategoryDto implements CategoryInterface {
   id: undefined;
 
-  @Field()
+  @Field(() => String)
   @IsString()
   category: string;
 
