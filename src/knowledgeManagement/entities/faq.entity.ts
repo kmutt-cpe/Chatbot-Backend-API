@@ -3,6 +3,7 @@ import { BaseEntity } from '@BaseObject';
 import { Entity, Column, ManyToOne } from 'typeorm';
 import { User } from './user.entity';
 import { Subcategory } from './subcategory.entity';
+import { FAQDto } from 'knowledgeManagement/dto/faq.dto';
 
 @Entity()
 export class FAQ extends BaseEntity implements FAQInterface {
@@ -13,13 +14,22 @@ export class FAQ extends BaseEntity implements FAQInterface {
   answer: string;
 
   @ManyToOne(() => Subcategory, (subcategory) => subcategory.faqs)
-  subcategory: Subcategory;
+  subcategory: Promise<Subcategory>;
 
   @ManyToOne(() => User, (user) => user.faqs)
-  lastEditor: User;
+  lastEditor: Promise<User>;
 
-  getData() {
-    // todo: Implement return data
-    return null;
+  async getData(): Promise<FAQDto> {
+    const lastEditor = await this.lastEditor;
+    const subcategory = await this.subcategory;
+    const category = await subcategory.category;
+    return {
+      id: this.id,
+      question: this.question,
+      answer: this.answer,
+      subcategory: subcategory.getData(),
+      category: category.getData(),
+      lastEditor: lastEditor.getData(),
+    };
   }
 }

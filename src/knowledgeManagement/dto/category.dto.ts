@@ -11,5 +11,5 @@ export class CategoryDto implements CategoryInterface {
   category: string;
 
   @Field(() => [SubcategoryDto], { nullable: true })
-  subcategories: SubcategoryDto[];
+  subcategories: SubcategoryDto[] | undefined;
 }

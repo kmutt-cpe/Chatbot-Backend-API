@@ -2,10 +2,12 @@ import { User as UserInterface } from '../interfaces/user.interface';
 import { BaseEntity } from '@BaseObject';
 import { Entity, Column, OneToMany } from 'typeorm';
 import { FAQ } from './faq.entity';
+import { UserDto } from 'knowledgeManagement/dto/user.dto';
+import { UserRole } from './constant';
 
 @Entity()
 export class User extends BaseEntity implements UserInterface {
-  @Column()
+  @Column({ unique: true })
   username: string;
 
   @Column()
@@ -14,14 +16,19 @@ export class User extends BaseEntity implements UserInterface {
   @Column()
   name: string;
 
-  @Column()
-  role: string;
+  @Column({ type: 'set', enum: UserRole, default: UserRole.ADMIN })
+  role: UserRole;
 
   @OneToMany(() => FAQ, (faq) => faq.lastEditor)
-  faqs: FAQ[];
+  faqs: Promise<FAQ[]>;
 
-  getData() {
-    // todo: Implement return data
-    return null;
+  getData(): UserDto {
+    return {
+      id: this.id,
+      name: this.name,
+      username: this.username,
+      password: undefined,
+      role: this.role,
+    };
   }
 }
