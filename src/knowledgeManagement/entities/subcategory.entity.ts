@@ -22,6 +22,6 @@ export class Subcategory extends BaseEntity implements SubcategoryInterface {
   }
 
   async getCategory(): Promise<CategoryDto> {
-    return await (await this.category).getData();
+    return (await this.category).getData();
   }
 }
