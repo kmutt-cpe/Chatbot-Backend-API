@@ -10,18 +10,18 @@ import { UpdateCategoryDto } from './dto/category.update.dto';
 export class CategoryService {
   constructor(private readonly categoryRepo: CategoryRepository) {}
 
-  async getAllCategory(): Promise<CategoryDto[]> {
-    const categories: Category[] = await this.categoryRepo.findAll();
-    return categories.map((item) => item.getData());
+  async getAllCategory(): Promise<Category[]> {
+    return await this.categoryRepo.findAll();
   }
 
-  async getCategoryById(id: string): Promise<CategoryDto> {
+  async getCategoryById(id: string): Promise<Category> {
     const category = await this.categoryRepo.findById(id);
     // todo: Throw error 404 if not found category
-    return category.getData();
+    return category;
   }
 
-  async deleteCategoryById(id: string): Promise<CategoryDto | null> {
+
+  async deleteCategoryById(id: string): Promise<Category | null> {
     let category: Category = await this.categoryRepo.findById(id);
     if (!category)
       // todo: Throw error 404 if not found category
@@ -29,20 +29,20 @@ export class CategoryService {
     category = await this.categoryRepo.softRemove(category);
 
     // todo: Remove subcategory
-    return category ? category.getData() : null;
+    return category ? category : null;
   }
 
-  async createCategory(createCategoryDto: CreateCategoryDto): Promise<CategoryDto> {
+  async createCategory(createCategoryDto: CreateCategoryDto): Promise<Category> {
     const category: Category = this.categoryRepo.create();
     category.setDataValues(createCategoryDto);
 
-    return (await this.categoryRepo.save(category)).getData();
+    return await this.categoryRepo.save(category);
   }
 
-  async updateCategory(id: string, updateCategoryDto: UpdateCategoryDto): Promise<CategoryDto> {
+  async updateCategory(id: string, updateCategoryDto: UpdateCategoryDto): Promise<Category> {
     const category = await this.categoryRepo.findById(id);
     // todo: Throw error 404 if not found category
     category.setDataValues(updateCategoryDto);
-    return await (await this.categoryRepo.save(category)).getData();
+    return await this.categoryRepo.save(category);
   }
 }

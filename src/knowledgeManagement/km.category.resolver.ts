@@ -8,11 +8,11 @@ export class CategoryResolver {
 
   @Query(() => [CategoryDto])
   async getAllCategory(): Promise<CategoryDto[]> {
-    return await this.categoryService.getAllCategory();
+    return (await this.categoryService.getAllCategory()).map((category) => category.getData());
   }
 
   @Query(() => CategoryDto)
   async getCategoryById(@Args('id', { type: () => ID }) id: string): Promise<CategoryDto> {
-    return await this.categoryService.getCategoryById(id);
+    return (await this.categoryService.getCategoryById(id)).getData();
   }
 }
