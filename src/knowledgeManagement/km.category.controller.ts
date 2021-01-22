@@ -10,12 +10,12 @@ export class CategoryController {
 
   @Get()
   async getCategory(): Promise<CategoryDto[]> {
-    return await this.categoryService.getAllCategory();
+    return (await this.categoryService.getAllCategory()).map((category) => category.getData());
   }
 
   @Get(':id')
   async getCategoryById(@Param('id') id: string): Promise<CategoryDto> {
-    return await this.categoryService.getCategoryById(id);
+    return (await this.categoryService.getCategoryById(id)).getData();
   }
 
   @Patch()
@@ -23,16 +23,16 @@ export class CategoryController {
     @Body('id') id: string,
     @Body('update') updateCategoryDto: UpdateCategoryDto
   ): Promise<CategoryDto> {
-    return await this.categoryService.updateCategory(id, updateCategoryDto);
+    return (await this.categoryService.updateCategory(id, updateCategoryDto)).getData();
   }
 
   @Post()
   async createCategory(@Body() createCategoryDto: CreateCategoryDto): Promise<CategoryDto> {
-    return await this.categoryService.createCategory(createCategoryDto);
+    return (await this.categoryService.createCategory(createCategoryDto)).getData();
   }
 
   @Delete()
   async deleteCategory(@Body('id') id: string): Promise<CategoryDto> {
-    return await this.categoryService.deleteCategoryById(id);
+    return (await this.categoryService.deleteCategoryById(id)).getData();
   }
 }
