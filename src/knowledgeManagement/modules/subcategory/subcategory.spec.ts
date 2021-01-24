@@ -152,8 +152,10 @@ describe('SubcategoryService', () => {
       };
       expect(retData.getData()).toStrictEqual(expectedData);
     });
-    // todo: add check updated category (Note that mock repository should contains entity not dto)
-
+    it('it should update category', async () => {
+      const expectedData = { id: 'Category-1', category: 'Internship', subcategories: undefined };
+      expect(await retData.getCategory()).toStrictEqual(expectedData);
+    });
     it('it should update subcategory', async () => {
       const expectedData = [
         {
