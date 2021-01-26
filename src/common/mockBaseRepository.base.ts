@@ -1,5 +1,5 @@
 import { BaseEntity } from './entity.base';
-import { FindOneOptions, SaveOptions } from 'typeorm';
+import { FindOneOptions, ObjectID, SaveOptions } from 'typeorm';
 
 /**
  * Mock up repository class.
@@ -60,4 +60,18 @@ export abstract class MockBaseRepository<T extends BaseEntity> {
     this.data = this.data.filter((item) => item !== entity);
     return Promise.resolve(data);
   }
+
+  findOne(id?: string, options?: FindOneOptions<T>): Promise<T | undefined> {
+    // todo: implement options
+    return this.findById(id, options);
+  }
+  // todo overload findOne(options?: FindOneOptions<Entity>): Promise<Entity | undefined>
+  // todo overload findOne(conditions?: FindConditions<Entity>, options?: FindOneOptions<Entity>): Promise<Entity | undefined>
+
+  findOneOrFail(id?: string, options?: FindOneOptions<T>): Promise<T> {
+    // todo: implement fail
+    return this.findOne(id, options);
+  }
+  // todo overload findOneOrFail(options?: FindOneOptions<Entity>): Promise<Entity>
+  // todo findOneOrFail(conditions?: FindConditions<Entity>, options?: FindOneOptions<Entity>): Promise<Entity>
 }
