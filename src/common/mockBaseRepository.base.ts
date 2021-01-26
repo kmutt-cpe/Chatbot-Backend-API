@@ -5,13 +5,15 @@ import { FindOneOptions, SaveOptions } from 'typeorm';
  * Mock up repository class.
  */
 export abstract class MockBaseRepository<T extends BaseEntity> {
-  private counter = 0;
-  private data = [];
-  private EntityName;
+  protected counter = 0;
+  protected data = [];
+  protected EntityName;
 
   constructor(private Entity: new () => T) {
     this.EntityName = Entity.name;
   }
+
+  abstract setup(data: any[]): void;
 
   /**
    * Mock up data in database for repository.

@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { CategoryModule } from './km.category.module';
-import { SubcategoryModule } from './km.subcategory.module';
-import { FAQModule } from './km.faq.module';
-import { UserModule } from './km.user.module';
+import { CategoryModule } from './modules/category/category.module';
+import { SubcategoryModule } from './modules/subcategory/subcategory.module';
+import { FAQModule } from './modules/faq/faq.module';
+import { UserModule } from './modules/user/user.module';
 
 @Module({
   imports: [CategoryModule, SubcategoryModule, FAQModule, UserModule],
