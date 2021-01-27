@@ -10,7 +10,6 @@ export class CreateFAQDto implements FAQInterface {
   // Implement interface
   id: undefined;
   subcategory: undefined;
-  category: undefined;
   lastEditor: undefined;
 
   @Field(() => String)
