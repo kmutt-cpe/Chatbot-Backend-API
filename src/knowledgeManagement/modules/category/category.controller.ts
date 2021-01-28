@@ -19,11 +19,8 @@ export class CategoryController {
   }
 
   @Patch()
-  async updateCategory(
-    @Body('id') id: string,
-    @Body('update') updateCategoryDto: UpdateCategoryDto
-  ): Promise<CategoryDto> {
-    return (await this.categoryService.updateCategory(id, updateCategoryDto)).getData();
+  async updateCategory(@Body('update') updateCategoryDto: UpdateCategoryDto): Promise<CategoryDto> {
+    return (await this.categoryService.updateCategory(updateCategoryDto)).getData();
   }
 
   @Post()

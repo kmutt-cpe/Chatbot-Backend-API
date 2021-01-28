@@ -52,8 +52,8 @@ export class CategoryService {
     return await this.categoryRepo.save(category);
   }
 
-  async updateCategory(id: string, updateCategoryDto: UpdateCategoryDto): Promise<Category> {
-    const category = await this.categoryRepo.findById(id);
+  async updateCategory(updateCategoryDto: UpdateCategoryDto): Promise<Category> {
+    const category = await this.categoryRepo.findById(updateCategoryDto.id);
     // todo: Throw error 404 if not found category
     category.setDataValues(updateCategoryDto);
     return await this.categoryRepo.save(category);

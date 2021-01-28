@@ -58,14 +58,14 @@ describe('CategoryService', () => {
 
   describe('createCategory', () => {
     let retData;
-    const inputData = { category: 'registration' };
+    const inputData = { category: 'Registration' };
 
     beforeEach(async () => {
       retData = await categoryService.createCategory(inputData);
     });
 
     it('it should return new category', async () => {
-      const expectedData = { id: 'Category-2', category: 'registration', subcategories: undefined };
+      const expectedData = { id: 'Category-2', category: 'Registration', subcategories: undefined };
       expect(retData.getData()).toStrictEqual(expectedData);
     });
 
@@ -77,7 +77,7 @@ describe('CategoryService', () => {
           subcategories: undefined,
         },
         { id: 'Category-1', category: 'Internship', subcategories: undefined },
-        { id: 'Category-2', category: 'registration', subcategories: undefined },
+        { id: 'Category-2', category: 'Registration', subcategories: undefined },
       ];
 
       const categories = await categoryService.getAllCategory();
@@ -88,11 +88,10 @@ describe('CategoryService', () => {
 
   describe('updateCategory', () => {
     let retData;
-    const id = 'Category-0';
-    const updatedData = { category: 'Registration' };
+    const updatedData = { id: 'Category-0', category: 'Registration' };
 
     beforeEach(async () => {
-      retData = await categoryService.updateCategory(id, updatedData);
+      retData = await categoryService.updateCategory(updatedData);
     });
 
     it('it should return updated category', async () => {
@@ -113,7 +112,6 @@ describe('CategoryService', () => {
         },
         { id: 'Category-1', category: 'Internship', subcategories: undefined },
       ];
-      expectedData[0].category = updatedData.category;
 
       const categories = await categoryService.getAllCategory();
       expect(categories.length).toStrictEqual(2);
