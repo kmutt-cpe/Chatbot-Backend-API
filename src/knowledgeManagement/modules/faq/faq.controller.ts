@@ -22,10 +22,7 @@ export class FAQController {
   }
 
   @Patch()
-  async updateFaq(
-    @Body('id') id: string,
-    @Body('update') updateFAQDto: UpdateFAQDto
-  ): Promise<FAQDto> {
+  async updateFaq(@Body('update') updateFAQDto: UpdateFAQDto): Promise<FAQDto> {
     return await (await this.faqService.updateFAQ(updateFAQDto)).getData();
   }
 
