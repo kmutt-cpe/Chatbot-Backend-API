@@ -42,11 +42,8 @@ export class SubcategoryService {
     return await this.subcategoryRepo.save(subcategory);
   }
 
-  async updateSubcategory(
-    id: string,
-    updateSubcategoryDto: UpdateSubcategoryDto
-  ): Promise<Subcategory> {
-    const subcategory = await this.subcategoryRepo.findById(id);
+  async updateSubcategory(updateSubcategoryDto: UpdateSubcategoryDto): Promise<Subcategory> {
+    const subcategory = await this.subcategoryRepo.findById(updateSubcategoryDto.id);
     const category = await this.categoryService.getCategoryById(updateSubcategoryDto.categoryId);
     // todo: Throw error 404 if not found subcategory
     // todo: Throw error 404 if not found category

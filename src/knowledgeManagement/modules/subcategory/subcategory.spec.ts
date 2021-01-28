@@ -11,6 +11,9 @@ import { CategorySeeder } from '../../spec/seeder/category.seeder';
 import { MockCategoryRepository } from '../../spec/mockRepository/mockCategoryRepository.mock';
 import { SubcategorySeeder } from '../../spec/seeder/subcategory.seeder';
 import { MockSubcategoryRepository } from '../../spec/mockRepository/mockSubcategoryRepository.mock';
+import { SubcategoryDto } from './dto/subcategory.dto';
+import { CreateSubcategoryDto } from './dto/subcategory.create.dto';
+import { CategoryDto } from '../category/dto/category.dto';
 
 describe('SubcategoryService', () => {
   let subcategoryService;
@@ -51,7 +54,7 @@ describe('SubcategoryService', () => {
 
   describe('getAllSubcategory', () => {
     it('it should return all subcategory', async () => {
-      const expectedData = [
+      const expectedData: SubcategoryDto[] = [
         {
           id: 'Subcategory-0',
           subcategory: '2B-KMUTT',
@@ -77,7 +80,7 @@ describe('SubcategoryService', () => {
 
   describe('getSubcategoryById', () => {
     it('it should return the correctly subcategory', async () => {
-      const expectedData = {
+      const expectedData: SubcategoryDto = {
         id: 'Subcategory-0',
         subcategory: '2B-KMUTT',
         category: undefined,
@@ -89,14 +92,19 @@ describe('SubcategoryService', () => {
 
   describe('createSubcategory', () => {
     let retData;
-    const inputData = { subcategory: 'รอบเรียนดี', categoryId: 'Category-3' };
+    const inputData: CreateSubcategoryDto = {
+      id: undefined,
+      category: undefined,
+      subcategory: 'รอบเรียนดี',
+      categoryId: 'Category-3',
+    };
 
     beforeEach(async () => {
       retData = await subcategoryService.createSubcategory(inputData);
     });
 
     it('it should return new subcategory', async () => {
-      const expectedData = {
+      const expectedData: SubcategoryDto = {
         id: 'Subcategory-3',
         subcategory: 'รอบเรียนดี',
         category: undefined,
@@ -105,7 +113,7 @@ describe('SubcategoryService', () => {
     });
 
     it('it should add new subcategory', async () => {
-      const expectedData = [
+      const expectedData: SubcategoryDto[] = [
         {
           id: 'Subcategory-0',
           subcategory: '2B-KMUTT',
@@ -132,20 +140,19 @@ describe('SubcategoryService', () => {
 
   describe('updateSubcategory', () => {
     let retData;
-    const id = 'Subcategory-0';
     const updatedData: UpdateSubcategoryDto = {
-      id: undefined,
+      id: 'Subcategory-0',
       category: undefined,
       subcategory: '2B-KMUTT V.2',
       categoryId: 'Category-1',
     };
 
     beforeEach(async () => {
-      retData = await subcategoryService.updateSubcategory(id, updatedData);
+      retData = await subcategoryService.updateSubcategory(updatedData);
     });
 
     it('it should return updated subcategory', async () => {
-      const expectedData = {
+      const expectedData: SubcategoryDto = {
         id: 'Subcategory-0',
         subcategory: '2B-KMUTT V.2',
         category: undefined,
@@ -153,11 +160,15 @@ describe('SubcategoryService', () => {
       expect(retData.getData()).toStrictEqual(expectedData);
     });
     it('it should update category', async () => {
-      const expectedData = { id: 'Category-1', category: 'Internship', subcategories: undefined };
+      const expectedData: CategoryDto = {
+        id: 'Category-1',
+        category: 'Internship',
+        subcategories: undefined,
+      };
       expect(await retData.getCategory()).toStrictEqual(expectedData);
     });
     it('it should update subcategory', async () => {
-      const expectedData = [
+      const expectedData: SubcategoryDto[] = [
         {
           id: 'Subcategory-0',
           subcategory: '2B-KMUTT V.2',
@@ -189,7 +200,7 @@ describe('SubcategoryService', () => {
     });
 
     it('it should return deleted subcategory', async () => {
-      const expectedData = {
+      const expectedData: SubcategoryDto = {
         id: 'Subcategory-0',
         subcategory: '2B-KMUTT',
         category: undefined,
@@ -198,7 +209,7 @@ describe('SubcategoryService', () => {
     });
 
     it('it should delete subcategory', async () => {
-      const expectedData = [
+      const expectedData: SubcategoryDto[] = [
         {
           id: 'Subcategory-1',
           subcategory: 'Petch Prajohm',
