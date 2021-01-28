@@ -17,9 +17,10 @@ export class MockSubcategoryRepository extends MockBaseRepository<Subcategory> {
 
   async mockCategories(categoryRepository: MockCategoryRepository): Promise<void> {
     if (this.data === []) throw new Error(`Need to set up ${this.EntityName}Repository first`);
-    for (const subcategory of this.subcategoriesData) {
-      const categoryId: string = subcategory.category.id;
+    for (const subcategoryData of this.subcategoriesData) {
+      const categoryId: string = subcategoryData.category.id;
       const category = await categoryRepository.findById(categoryId);
+      const subcategory = await this.findById(subcategoryData.id);
       subcategory.category = Promise.resolve(category);
     }
   }
