@@ -33,7 +33,7 @@ describe('UserService', () => {
 
   describe('getAllUser', () => {
     it('it should return all user', async () => {
-      const expectedData = [
+      const expectedData: UserDto[] = [
         {
           id: 'User-0',
           username: 'username1',
@@ -56,7 +56,7 @@ describe('UserService', () => {
 
   describe('getUserById', () => {
     it('it should return the correctly user', async () => {
-      const expectedData = {
+      const expectedData: UserDto = {
         id: 'User-0',
         username: 'username1',
         password: undefined,
@@ -95,7 +95,7 @@ describe('UserService', () => {
 
     // todo: Add test for username exists in db
     it('it should add new user', async () => {
-      const expectedData = [
+      const expectedData: UserDto[] = [
         {
           id: 'User-0',
           username: 'username1',
@@ -127,9 +127,8 @@ describe('UserService', () => {
   // todo: Add register test for username exists in db
   describe('updateUser', () => {
     let retData;
-    const id = 'User-1';
-    const updatedData = {
-      id: undefined,
+    const updatedData: UpdateUserDto = {
+      id: 'User-1',
       username: undefined,
       name: 'name2update',
       password: 'password2update',
@@ -137,7 +136,7 @@ describe('UserService', () => {
     };
 
     beforeEach(async () => {
-      retData = await userService.updateUser(id, updatedData);
+      retData = await userService.updateUser(updatedData);
     });
 
     it('it should return updated user', async () => {
@@ -152,7 +151,7 @@ describe('UserService', () => {
     });
 
     it('it should update user', async () => {
-      const expectedData = [
+      const expectedData: UserDto[] = [
         {
           id: 'User-0',
           username: 'username1',

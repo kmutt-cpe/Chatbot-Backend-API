@@ -36,8 +36,8 @@ export class UserService {
     return await this.userRepo.save(user);
   }
 
-  async updateUser(id: string, updateUserDto: UpdateUserDto): Promise<User> {
-    const user = await this.userRepo.findOneOrFail(id);
+  async updateUser(updateUserDto: UpdateUserDto): Promise<User> {
+    const user = await this.userRepo.findOneOrFail(updateUserDto.id);
     const { password, name, role } = updateUserDto;
     // todo: Throw error 404 if not found user
     user.setDataValue('password', password);
