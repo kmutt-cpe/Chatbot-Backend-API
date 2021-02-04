@@ -11,6 +11,9 @@ import { CategorySeeder } from '../../spec/seeder/category.seeder';
 import { MockCategoryRepository } from '../../spec/mockRepository/mockCategoryRepository.mock';
 import { SubcategorySeeder } from '../../spec/seeder/subcategory.seeder';
 import { MockSubcategoryRepository } from '../../spec/mockRepository/mockSubcategoryRepository.mock';
+import { SubcategoryDto } from './dto/subcategory.dto';
+import { CreateSubcategoryDto } from './dto/subcategory.create.dto';
+import { CategoryDto } from '../category/dto/category.dto';
 
 describe('SubcategoryService', () => {
   let subcategoryService;
@@ -51,133 +54,179 @@ describe('SubcategoryService', () => {
 
   describe('getAllSubcategory', () => {
     it('it should return all subcategory', async () => {
-      const expectedData = [
+      const expectedData: SubcategoryDto[] = [
         {
           id: 'Subcategory-0',
           subcategory: '2B-KMUTT',
-          category: undefined,
+          category: {
+            category: 'Admission',
+            id: 'Category-0',
+            subcategories: undefined,
+          },
         },
         {
           id: 'Subcategory-1',
           subcategory: 'Petch Prajohm',
-          category: undefined,
+          category: {
+            category: 'Admission',
+            id: 'Category-0',
+            subcategories: undefined,
+          },
         },
         {
           id: 'Subcategory-2',
           subcategory: 'Admission Recruitment',
-          category: undefined,
+          category: {
+            category: 'Admission',
+            id: 'Category-0',
+            subcategories: undefined,
+          },
         },
       ];
       const subcategories = await subcategoryService.getAllSubcategory();
-      return expect(subcategories.map((subcategory) => subcategory.getData())).toStrictEqual(
-        expectedData
-      );
+      return expect(subcategories).toStrictEqual(expectedData);
     });
   });
 
   describe('getSubcategoryById', () => {
     it('it should return the correctly subcategory', async () => {
-      const expectedData = {
+      const expectedData: SubcategoryDto = {
         id: 'Subcategory-0',
         subcategory: '2B-KMUTT',
-        category: undefined,
+        category: {
+          category: 'Admission',
+          id: 'Category-0',
+          subcategories: undefined,
+        },
       };
       const subcategory = await subcategoryService.getSubcategoryById('Subcategory-0');
-      return expect(subcategory.getData()).toStrictEqual(expectedData);
+      return expect(subcategory).toStrictEqual(expectedData);
     });
   });
 
   describe('createSubcategory', () => {
     let retData;
-    const inputData = { subcategory: 'รอบเรียนดี', categoryId: 'Category-3' };
+    const inputData: CreateSubcategoryDto = {
+      id: undefined,
+      category: undefined,
+      subcategory: 'รอบเรียนดี',
+      categoryId: 'Category-1',
+    };
 
     beforeEach(async () => {
       retData = await subcategoryService.createSubcategory(inputData);
     });
 
     it('it should return new subcategory', async () => {
-      const expectedData = {
+      const expectedData: SubcategoryDto = {
         id: 'Subcategory-3',
         subcategory: 'รอบเรียนดี',
-        category: undefined,
+        category: { id: 'Category-1', category: 'Internship', subcategories: undefined },
       };
-      expect(retData.getData()).toStrictEqual(expectedData);
+      expect(retData).toStrictEqual(expectedData);
     });
 
     it('it should add new subcategory', async () => {
-      const expectedData = [
+      const expectedData: SubcategoryDto[] = [
         {
           id: 'Subcategory-0',
           subcategory: '2B-KMUTT',
-          category: undefined,
+          category: {
+            category: 'Admission',
+            id: 'Category-0',
+            subcategories: undefined,
+          },
         },
         {
           id: 'Subcategory-1',
           subcategory: 'Petch Prajohm',
-          category: undefined,
+          category: {
+            category: 'Admission',
+            id: 'Category-0',
+            subcategories: undefined,
+          },
         },
         {
           id: 'Subcategory-2',
           subcategory: 'Admission Recruitment',
-          category: undefined,
+          category: {
+            category: 'Admission',
+            id: 'Category-0',
+            subcategories: undefined,
+          },
         },
-        { id: 'Subcategory-3', subcategory: 'รอบเรียนดี', category: undefined },
+        {
+          id: 'Subcategory-3',
+          subcategory: 'รอบเรียนดี',
+          category: { id: 'Category-1', category: 'Internship', subcategories: undefined },
+        },
       ];
 
       const subcategories = await subcategoryService.getAllSubcategory();
       expect(subcategories.length).toStrictEqual(4);
-      expect(subcategories.map((subcategory) => subcategory.getData())).toStrictEqual(expectedData);
+      expect(subcategories).toStrictEqual(expectedData);
     });
   });
 
   describe('updateSubcategory', () => {
     let retData;
-    const id = 'Subcategory-0';
     const updatedData: UpdateSubcategoryDto = {
-      id: undefined,
+      id: 'Subcategory-0',
       category: undefined,
       subcategory: '2B-KMUTT V.2',
       categoryId: 'Category-1',
     };
 
     beforeEach(async () => {
-      retData = await subcategoryService.updateSubcategory(id, updatedData);
+      retData = await subcategoryService.updateSubcategory(updatedData);
     });
 
     it('it should return updated subcategory', async () => {
-      const expectedData = {
+      const expectedData: SubcategoryDto = {
         id: 'Subcategory-0',
         subcategory: '2B-KMUTT V.2',
-        category: undefined,
+        category: {
+          id: 'Category-1',
+          category: 'Internship',
+          subcategories: undefined,
+        },
       };
-      expect(retData.getData()).toStrictEqual(expectedData);
+      expect(retData).toStrictEqual(expectedData);
     });
-    it('it should update category', async () => {
-      const expectedData = { id: 'Category-1', category: 'Internship', subcategories: undefined };
-      expect(await retData.getCategory()).toStrictEqual(expectedData);
-    });
-    it('it should update subcategory', async () => {
-      const expectedData = [
+    it('it should update subcategory and category in database', async () => {
+      const expectedData: SubcategoryDto[] = [
         {
           id: 'Subcategory-0',
           subcategory: '2B-KMUTT V.2',
-          category: undefined,
+          category: {
+            id: 'Category-1',
+            category: 'Internship',
+            subcategories: undefined,
+          },
         },
         {
           id: 'Subcategory-1',
           subcategory: 'Petch Prajohm',
-          category: undefined,
+          category: {
+            category: 'Admission',
+            id: 'Category-0',
+            subcategories: undefined,
+          },
         },
         {
           id: 'Subcategory-2',
           subcategory: 'Admission Recruitment',
-          category: undefined,
+          category: {
+            category: 'Admission',
+            id: 'Category-0',
+            subcategories: undefined,
+          },
         },
       ];
 
       const subcategories = await subcategoryService.getAllSubcategory();
       expect(subcategories.length).toStrictEqual(3);
-      expect(subcategories.map((subcategory) => subcategory.getData())).toStrictEqual(expectedData);
+      expect(subcategories).toStrictEqual(expectedData);
     });
   });
 
@@ -189,31 +238,43 @@ describe('SubcategoryService', () => {
     });
 
     it('it should return deleted subcategory', async () => {
-      const expectedData = {
+      const expectedData: SubcategoryDto = {
         id: 'Subcategory-0',
         subcategory: '2B-KMUTT',
-        category: undefined,
+        category: {
+          category: 'Admission',
+          id: 'Category-0',
+          subcategories: undefined,
+        },
       };
-      expect(retData.getData()).toStrictEqual(expectedData);
+      expect(retData).toStrictEqual(expectedData);
     });
 
-    it('it should delete subcategory', async () => {
-      const expectedData = [
+    it('it should delete subcategory in database', async () => {
+      const expectedData: SubcategoryDto[] = [
         {
           id: 'Subcategory-1',
           subcategory: 'Petch Prajohm',
-          category: undefined,
+          category: {
+            category: 'Admission',
+            id: 'Category-0',
+            subcategories: undefined,
+          },
         },
         {
           id: 'Subcategory-2',
           subcategory: 'Admission Recruitment',
-          category: undefined,
+          category: {
+            category: 'Admission',
+            id: 'Category-0',
+            subcategories: undefined,
+          },
         },
       ];
 
       const subcategories = await subcategoryService.getAllSubcategory();
       expect(subcategories.length).toStrictEqual(2);
-      expect(subcategories.map((subcategory) => subcategory.getData())).toStrictEqual(expectedData);
+      expect(subcategories).toStrictEqual(expectedData);
     });
   });
 });

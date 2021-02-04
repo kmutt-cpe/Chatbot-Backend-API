@@ -10,29 +10,26 @@ export class CategoryController {
 
   @Get()
   async getCategory(): Promise<CategoryDto[]> {
-    return (await this.categoryService.getAllCategory()).map((category) => category.getData());
+    return await this.categoryService.getAllCategory();
   }
 
   @Get(':id')
   async getCategoryById(@Param('id') id: string): Promise<CategoryDto> {
-    return (await this.categoryService.getCategoryById(id)).getData();
+    return await this.categoryService.getCategoryById(id);
   }
 
   @Patch()
-  async updateCategory(
-    @Body('id') id: string,
-    @Body('update') updateCategoryDto: UpdateCategoryDto
-  ): Promise<CategoryDto> {
-    return (await this.categoryService.updateCategory(id, updateCategoryDto)).getData();
+  async updateCategory(@Body('update') updateCategoryDto: UpdateCategoryDto): Promise<CategoryDto> {
+    return await this.categoryService.updateCategory(updateCategoryDto);
   }
 
   @Post()
   async createCategory(@Body() createCategoryDto: CreateCategoryDto): Promise<CategoryDto> {
-    return (await this.categoryService.createCategory(createCategoryDto)).getData();
+    return await this.categoryService.createCategory(createCategoryDto);
   }
 
   @Delete()
   async deleteCategory(@Body('id') id: string): Promise<CategoryDto> {
-    return (await this.categoryService.deleteCategoryById(id)).getData();
+    return await this.categoryService.deleteCategoryById(id);
   }
 }

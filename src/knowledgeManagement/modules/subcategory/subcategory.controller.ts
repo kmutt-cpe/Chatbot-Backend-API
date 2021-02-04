@@ -9,34 +9,35 @@ export class SubcategoryController {
   constructor(private readonly subcategoryService: SubcategoryService) {}
 
   @Get()
-  async getCategory(): Promise<SubcategoryDto[]> {
-    return (await this.subcategoryService.getAllSubcategory()).map((subcategory) =>
-      subcategory.getData()
+  async getSubcategory(): Promise<SubcategoryDto[]> {
+    return await Promise.all(
+      (await this.subcategoryService.getAllSubcategory()).map(
+        async (subcategory) => await subcategory
+      )
     );
   }
 
   @Get(':id')
-  async getCategoryById(@Param('id') id: string): Promise<SubcategoryDto> {
-    return (await this.subcategoryService.getSubcategoryById(id)).getData();
+  async getSubcategoryById(@Param('id') id: string): Promise<SubcategoryDto> {
+    return await this.subcategoryService.getSubcategoryById(id);
   }
 
   @Patch()
-  async updateCategory(
-    @Body('id') id: string,
-    @Body('update') updateCategoryDto: UpdateSubcategoryDto
+  async updateSubcategory(
+    @Body('update') updateSubcategoryDto: UpdateSubcategoryDto
   ): Promise<SubcategoryDto> {
-    return (await this.subcategoryService.updateSubcategory(id, updateCategoryDto)).getData();
+    return await this.subcategoryService.updateSubcategory(updateSubcategoryDto);
   }
 
   @Post()
-  async createCategory(
+  async createSubcategory(
     @Body() createSubcategoryDto: CreateSubcategoryDto
   ): Promise<SubcategoryDto> {
-    return (await this.subcategoryService.createSubcategory(createSubcategoryDto)).getData();
+    return await this.subcategoryService.createSubcategory(createSubcategoryDto);
   }
 
   @Delete()
-  async deleteCategory(@Body('id') id: string): Promise<SubcategoryDto> {
-    return (await this.subcategoryService.deleteSubcategoryById(id)).getData();
+  async deleteSubcategory(@Body('id') id: string): Promise<SubcategoryDto> {
+    return await this.subcategoryService.deleteSubcategoryById(id);
   }
 }

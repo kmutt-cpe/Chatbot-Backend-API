@@ -33,13 +33,11 @@ describe('CategoryService', () => {
         {
           id: 'Category-0',
           category: 'Admission',
-          subcategories: undefined,
+          subcategories: [],
         },
-        { id: 'Category-1', category: 'Internship', subcategories: undefined },
+        { id: 'Category-1', category: 'Internship', subcategories: [] },
       ];
-      const categories = (await categoryService.getAllCategory()).map((category) =>
-        category.getData()
-      );
+      const categories = await categoryService.getAllCategory();
       return expect(categories).toStrictEqual(expectedData);
     });
   });
@@ -49,24 +47,24 @@ describe('CategoryService', () => {
       const expectedData = {
         id: 'Category-0',
         category: 'Admission',
-        subcategories: undefined,
+        subcategories: [],
       };
       const category = await categoryService.getCategoryById('Category-0');
-      return expect(category.getData()).toStrictEqual(expectedData);
+      return expect(category).toStrictEqual(expectedData);
     });
   });
 
   describe('createCategory', () => {
     let retData;
-    const inputData = { category: 'registration' };
+    const inputData = { category: 'Registration' };
 
     beforeEach(async () => {
       retData = await categoryService.createCategory(inputData);
     });
 
     it('it should return new category', async () => {
-      const expectedData = { id: 'Category-2', category: 'registration', subcategories: undefined };
-      expect(retData.getData()).toStrictEqual(expectedData);
+      const expectedData = { id: 'Category-2', category: 'Registration', subcategories: [] };
+      expect(retData).toStrictEqual(expectedData);
     });
 
     it('it should add new category', async () => {
@@ -74,34 +72,33 @@ describe('CategoryService', () => {
         {
           id: 'Category-0',
           category: 'Admission',
-          subcategories: undefined,
+          subcategories: [],
         },
-        { id: 'Category-1', category: 'Internship', subcategories: undefined },
-        { id: 'Category-2', category: 'registration', subcategories: undefined },
+        { id: 'Category-1', category: 'Internship', subcategories: [] },
+        { id: 'Category-2', category: 'Registration', subcategories: [] },
       ];
 
       const categories = await categoryService.getAllCategory();
       expect(categories.length).toStrictEqual(3);
-      expect(categories.map((category) => category.getData())).toStrictEqual(expectedData);
+      expect(categories).toStrictEqual(expectedData);
     });
   });
 
   describe('updateCategory', () => {
     let retData;
-    const id = 'Category-0';
-    const updatedData = { category: 'Registration' };
+    const updatedData = { id: 'Category-0', category: 'Registration' };
 
     beforeEach(async () => {
-      retData = await categoryService.updateCategory(id, updatedData);
+      retData = await categoryService.updateCategory(updatedData);
     });
 
     it('it should return updated category', async () => {
       const expectedData = {
         id: 'Category-0',
         category: 'Registration',
-        subcategories: undefined,
+        subcategories: [],
       };
-      expect(retData.getData()).toStrictEqual(expectedData);
+      expect(retData).toStrictEqual(expectedData);
     });
 
     it('it should update category', async () => {
@@ -109,15 +106,14 @@ describe('CategoryService', () => {
         {
           id: 'Category-0',
           category: 'Registration',
-          subcategories: undefined,
+          subcategories: [],
         },
-        { id: 'Category-1', category: 'Internship', subcategories: undefined },
+        { id: 'Category-1', category: 'Internship', subcategories: [] },
       ];
-      expectedData[0].category = updatedData.category;
 
       const categories = await categoryService.getAllCategory();
       expect(categories.length).toStrictEqual(2);
-      expect(categories.map((category) => category.getData())).toStrictEqual(expectedData);
+      expect(categories).toStrictEqual(expectedData);
     });
   });
 
@@ -132,17 +128,17 @@ describe('CategoryService', () => {
       const expectedData = {
         id: 'Category-0',
         category: 'Admission',
-        subcategories: undefined,
+        subcategories: [],
       };
-      expect(retData.getData()).toStrictEqual(expectedData);
+      expect(retData).toStrictEqual(expectedData);
     });
 
     it('it should delete category', async () => {
-      const expectedData = [{ id: 'Category-1', category: 'Internship', subcategories: undefined }];
+      const expectedData = [{ id: 'Category-1', category: 'Internship', subcategories: [] }];
 
       const categories = await categoryService.getAllCategory();
       expect(categories.length).toStrictEqual(1);
-      expect(categories.map((category) => category.getData())).toStrictEqual(expectedData);
+      expect(categories).toStrictEqual(expectedData);
     });
   });
 });

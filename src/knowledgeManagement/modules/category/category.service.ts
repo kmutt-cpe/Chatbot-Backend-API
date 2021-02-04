@@ -4,13 +4,25 @@ import { CreateCategoryDto } from './dto/category.create.dto';
 // import { FindOneOptions } from 'typeorm';
 import { Category } from './domain/category.entity';
 import { UpdateCategoryDto } from './dto/category.update.dto';
+import { CategoryDto } from './dto/category.dto';
+import { Subcategory } from '../subcategory/domain/subcategory.entity';
 
 @Injectable()
 export class CategoryService {
   constructor(private readonly categoryRepo: CategoryRepository) {}
 
-  async getAllCategory(): Promise<Category[]> {
-    return await this.categoryRepo.findAll();
+  async getAllCategory(): Promise<CategoryDto[]> {
+    const categories: Category[] = await this.categoryRepo.findAll();
+    const categoriesDto: CategoryDto[] = [];
+    for (const category of categories) {
+      const categoryDto: CategoryDto = { ...category.getData(), subcategories: undefined };
+      const subcategories: Subcategory[] = await category.subcategories;
+      categoryDto.subcategories = subcategories
+        ? subcategories.map((subcategory) => subcategory.getData())
+        : [];
+      categoriesDto.push(categoryDto);
+    }
+    return categoriesDto;
   }
 
   // async getCategory(options?: FindOneOptions<CategoryDto>): Promise<CategoryDto[]> {
@@ -19,10 +31,15 @@ export class CategoryService {
   //   return category.map((item) => item.getData());
   // }
 
-  async getCategoryById(id: string): Promise<Category> {
+  async getCategoryById(id: string): Promise<CategoryDto> {
     const category = await this.categoryRepo.findById(id);
     // todo: Throw error 404 if not found category
-    return category;
+    const categoryDto: CategoryDto = { ...category.getData(), subcategories: undefined };
+    const subcategories: Subcategory[] = await category.subcategories;
+    categoryDto.subcategories = subcategories
+      ? subcategories.map((subcategory) => subcategory.getData())
+      : [];
+    return categoryDto;
   }
 
   // async removeCategory(options: FindOneOptions<CategoryDto>): Promise<CategoryDto[]> {
@@ -34,28 +51,43 @@ export class CategoryService {
   //   return categories ? categories.map((item) => item.getData()) : [];
   // }
 
-  async deleteCategoryById(id: string): Promise<Category | null> {
+  async deleteCategoryById(id: string): Promise<CategoryDto | null> {
     let category: Category = await this.categoryRepo.findById(id);
     if (!category)
       // todo: Throw error 404 if not found category
       return null;
     category = await this.categoryRepo.softRemove(category);
-
+    const categoryDto: CategoryDto = { ...category.getData(), subcategories: undefined };
+    const subcategories: Subcategory[] = await category.subcategories;
+    categoryDto.subcategories = subcategories
+      ? subcategories.map((subcategory) => subcategory.getData())
+      : [];
     // todo: Remove subcategory
-    return category ? category : null;
+    return categoryDto;
   }
 
-  async createCategory(createCategoryDto: CreateCategoryDto): Promise<Category> {
-    const category: Category = this.categoryRepo.create();
+  async createCategory(createCategoryDto: CreateCategoryDto): Promise<CategoryDto> {
+    let category: Category = this.categoryRepo.create();
     category.setDataValues(createCategoryDto);
-
-    return await this.categoryRepo.save(category);
+    category = await this.categoryRepo.save(category);
+    const categoryDto: CategoryDto = { ...category.getData(), subcategories: undefined };
+    const subcategories: Subcategory[] = await category.subcategories;
+    categoryDto.subcategories = subcategories
+      ? subcategories.map((subcategory) => subcategory.getData())
+      : [];
+    return categoryDto;
   }
 
-  async updateCategory(id: string, updateCategoryDto: UpdateCategoryDto): Promise<Category> {
-    const category = await this.categoryRepo.findById(id);
+  async updateCategory(updateCategoryDto: UpdateCategoryDto): Promise<CategoryDto> {
+    let category = await this.categoryRepo.findById(updateCategoryDto.id);
     // todo: Throw error 404 if not found category
     category.setDataValues(updateCategoryDto);
-    return await this.categoryRepo.save(category);
+    category = await this.categoryRepo.save(category);
+    const categoryDto: CategoryDto = { ...category.getData(), subcategories: undefined };
+    const subcategories: Subcategory[] = await category.subcategories;
+    categoryDto.subcategories = subcategories
+      ? subcategories.map((subcategory) => subcategory.getData())
+      : [];
+    return categoryDto;
   }
 }

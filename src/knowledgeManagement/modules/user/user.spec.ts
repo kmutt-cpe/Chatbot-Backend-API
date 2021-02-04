@@ -33,7 +33,7 @@ describe('UserService', () => {
 
   describe('getAllUser', () => {
     it('it should return all user', async () => {
-      const expectedData = [
+      const expectedData: UserDto[] = [
         {
           id: 'User-0',
           username: 'username1',
@@ -49,14 +49,14 @@ describe('UserService', () => {
           role: UserRole.ADMIN,
         },
       ];
-      const users = (await userService.getAllUser()).map((user) => user.getData());
+      const users = await userService.getAllUser();
       return expect(users).toStrictEqual(expectedData);
     });
   });
 
   describe('getUserById', () => {
     it('it should return the correctly user', async () => {
-      const expectedData = {
+      const expectedData: UserDto = {
         id: 'User-0',
         username: 'username1',
         password: undefined,
@@ -64,7 +64,7 @@ describe('UserService', () => {
         role: UserRole.ADMIN,
       };
       const user = await userService.getUserById('User-0');
-      return expect(user.getData()).toStrictEqual(expectedData);
+      return expect(user).toStrictEqual(expectedData);
     });
   });
 
@@ -90,12 +90,12 @@ describe('UserService', () => {
         name: 'name3',
         role: UserRole.ADMIN,
       };
-      expect(retData.getData()).toStrictEqual(expectedData);
+      expect(retData).toStrictEqual(expectedData);
     });
 
     // todo: Add test for username exists in db
     it('it should add new user', async () => {
-      const expectedData = [
+      const expectedData: UserDto[] = [
         {
           id: 'User-0',
           username: 'username1',
@@ -121,15 +121,14 @@ describe('UserService', () => {
 
       const users = await userService.getAllUser();
       expect(users.length).toStrictEqual(3);
-      expect(users.map((user) => user.getData())).toStrictEqual(expectedData);
+      expect(users).toStrictEqual(expectedData);
     });
   });
   // todo: Add register test for username exists in db
   describe('updateUser', () => {
     let retData;
-    const id = 'User-1';
-    const updatedData = {
-      id: undefined,
+    const updatedData: UpdateUserDto = {
+      id: 'User-1',
       username: undefined,
       name: 'name2update',
       password: 'password2update',
@@ -137,7 +136,7 @@ describe('UserService', () => {
     };
 
     beforeEach(async () => {
-      retData = await userService.updateUser(id, updatedData);
+      retData = await userService.updateUser(updatedData);
     });
 
     it('it should return updated user', async () => {
@@ -148,11 +147,11 @@ describe('UserService', () => {
         password: undefined,
         role: UserRole.ADMIN,
       };
-      expect(retData.getData()).toStrictEqual(expectedData);
+      expect(retData).toStrictEqual(expectedData);
     });
 
     it('it should update user', async () => {
-      const expectedData = [
+      const expectedData: UserDto[] = [
         {
           id: 'User-0',
           username: 'username1',
@@ -171,7 +170,7 @@ describe('UserService', () => {
 
       const users = await userService.getAllUser();
       expect(users.length).toStrictEqual(2);
-      expect(users.map((user) => user.getData())).toStrictEqual(expectedData);
+      expect(users).toStrictEqual(expectedData);
     });
   });
 
@@ -190,7 +189,7 @@ describe('UserService', () => {
         name: 'name1',
         role: UserRole.ADMIN,
       };
-      expect(retData.getData()).toStrictEqual(expectedData);
+      expect(retData).toStrictEqual(expectedData);
     });
 
     it('it should delete user', async () => {
@@ -205,7 +204,7 @@ describe('UserService', () => {
       ];
       const users = await userService.getAllUser();
       expect(users.length).toStrictEqual(1);
-      expect(users.map((user) => user.getData())).toStrictEqual(expectedData);
+      expect(users).toStrictEqual(expectedData);
     });
   });
 });

@@ -3,59 +3,102 @@ import { CreateFAQDto } from './dto/faq.create.dto';
 import { UpdateFAQDto } from './dto/faq.update.dto';
 import { FAQ } from './domain/faq.entity';
 import { FAQRepository } from './domain/faq.repository';
-import { SubcategoryService } from '../subcategory/subcategory.service';
-import { UserService } from '../user/user.service';
+import { UserRepository } from '../user/domain/user.repository';
+import { SubcategoryRepository } from '../subcategory/domain/subcategory.repository';
+import { FAQDto } from './dto/faq.dto';
+import { User } from '../user/domain/user.entity';
+import { Subcategory } from '../subcategory/domain/subcategory.entity';
+import { Category } from '../category/domain/category.entity';
 
 @Injectable()
 export class FAQService {
   constructor(
     private readonly faqRepo: FAQRepository,
-    private readonly userService: UserService,
-    private readonly subcategoryService: SubcategoryService
+    private readonly userRepo: UserRepository,
+    private readonly subcategoryRepo: SubcategoryRepository
   ) {}
 
-  async getAllFAQ(): Promise<FAQ[]> {
-    return await this.faqRepo.findAll();
+  async getAllFAQ(): Promise<FAQDto[]> {
+    const faqs: FAQ[] = await this.faqRepo.findAll();
+    const faqsDto: FAQDto[] = [];
+    for (const faq of faqs) {
+      const faqDto: FAQDto = { ...faq.getData() };
+      const lastEditor: User = await faq.lastEditor;
+      const subcategory: Subcategory = await faq.subcategory;
+      const category: Category = await subcategory.category;
+      faqDto.lastEditor = lastEditor.getData();
+      faqDto.subcategory = subcategory.getData();
+      faqDto.category = category.getData();
+      faqsDto.push(faqDto);
+    }
+    return faqsDto;
   }
 
-  async getFAQById(id: string): Promise<FAQ> {
+  async getFAQById(id: string): Promise<FAQDto> {
     const faq = await this.faqRepo.findById(id);
     // todo: Throw error 404 if not found faq
-    return faq;
+    const faqDto: FAQDto = { ...faq.getData() };
+    const lastEditor: User = await faq.lastEditor;
+    const subcategory: Subcategory = await faq.subcategory;
+    const category: Category = await subcategory.category;
+    faqDto.lastEditor = lastEditor.getData();
+    faqDto.subcategory = subcategory.getData();
+    faqDto.category = category.getData();
+    return faqDto;
   }
 
-  async deleteFAQById(id: string): Promise<FAQ | null> {
+  async deleteFAQById(id: string): Promise<FAQDto | null> {
     let faq: FAQ = await this.faqRepo.findById(id);
     if (!faq)
       // todo: Throw error 404 if not found faq
       return null;
     faq = await this.faqRepo.softRemove(faq);
     // todo: Remove faq
-    return faq ? faq : null;
+    const faqDto: FAQDto = { ...faq.getData() };
+    const lastEditor: User = await faq.lastEditor;
+    const subcategory: Subcategory = await faq.subcategory;
+    const category: Category = await subcategory.category;
+    faqDto.lastEditor = lastEditor.getData();
+    faqDto.subcategory = subcategory.getData();
+    faqDto.category = category.getData();
+    return faq ? faqDto : null;
   }
 
-  async createFAQ(createFAQDto: CreateFAQDto): Promise<FAQ> {
-    const faq: FAQ = this.faqRepo.create();
+  async createFAQ(createFAQDto: CreateFAQDto): Promise<FAQDto> {
+    let faq: FAQ = this.faqRepo.create();
     const { question, answer, subcategoryId, lastEditorId } = createFAQDto;
-    const subcategory = await this.subcategoryService.getSubcategoryById(subcategoryId);
-    const user = await this.userService.getUserById(lastEditorId);
+    const subcategory = await this.subcategoryRepo.findById(subcategoryId);
+    const category: Category = await subcategory.category;
+    const user = await this.userRepo.findById(lastEditorId);
+    // todo: Throw error 404 if not found subcategory, and user
     faq.setDataValue('question', question);
     faq.setDataValue('answer', answer);
     faq.setDataValue('subcategory', Promise.resolve(subcategory));
     faq.setDataValue('lastEditor', Promise.resolve(user));
-    return await this.faqRepo.save(faq);
+    faq = await this.faqRepo.save(faq);
+    const faqDto: FAQDto = { ...faq.getData() };
+    faqDto.lastEditor = user.getData();
+    faqDto.subcategory = subcategory.getData();
+    faqDto.category = category.getData();
+    return faqDto;
   }
 
-  async updateFAQ(updateFAQDto: UpdateFAQDto): Promise<FAQ> {
+  async updateFAQ(updateFAQDto: UpdateFAQDto): Promise<FAQDto> {
     const { id, question, answer, subcategoryId, lastEditorId } = updateFAQDto;
-    const faq: FAQ = await this.faqRepo.findById(id);
-    const subcategory = await this.subcategoryService.getSubcategoryById(subcategoryId);
-    const user = await this.userService.getUserById(lastEditorId);
+    let faq: FAQ = await this.faqRepo.findById(id);
+    const subcategory = await this.subcategoryRepo.findById(subcategoryId);
+    const category: Category = await subcategory.category;
+    const user = await this.userRepo.findById(lastEditorId);
     // todo: Throw error 404 if not found faq, subcategory, and user
     faq.setDataValue('question', question);
     faq.setDataValue('answer', answer);
     faq.setDataValue('subcategory', Promise.resolve(subcategory));
     faq.setDataValue('lastEditor', Promise.resolve(user));
-    return await this.faqRepo.save(faq);
+    faq = await this.faqRepo.save(faq);
+    const faqDto: FAQDto = { ...faq.getData() };
+    faqDto.lastEditor = user.getData();
+    faqDto.subcategory = subcategory.getData();
+    faqDto.category = category.getData();
+    return faqDto;
   }
 }

@@ -19,17 +19,22 @@ export class FAQ extends BaseEntity implements FAQInterface {
   @ManyToOne(() => User, (user) => user.faqs)
   lastEditor: Promise<User>;
 
-  async getData(): Promise<FAQDto> {
-    const lastEditor = await this.lastEditor;
-    const subcategory = await this.subcategory;
-    const category = await subcategory.category;
+  getData(): FAQDto {
     return {
       id: this.id,
       question: this.question,
       answer: this.answer,
-      subcategory: subcategory.getData(),
-      category: category.getData(),
-      lastEditor: lastEditor.getData(),
+      subcategory: undefined,
+      category: undefined,
+      lastEditor: undefined,
     };
+  }
+
+  async getSubcategory(): Promise<Subcategory> {
+    return await this.subcategory;
+  }
+
+  async getLastEditor(): Promise<User> {
+    return await this.lastEditor;
   }
 }
