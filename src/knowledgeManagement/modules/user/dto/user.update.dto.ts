@@ -1,8 +1,8 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Field, ID, InputType } from '@nestjs/graphql';
 import { IsString } from 'class-validator';
 import { User as UserInterface } from 'knowledgeManagement/modules/user/user.interface';
 
-@ObjectType()
+@InputType()
 export class UpdateUserDto implements UserInterface {
   username: undefined;
 

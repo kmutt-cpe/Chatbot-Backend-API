@@ -1,8 +1,8 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { InputType, Field, ID } from '@nestjs/graphql';
 import { IsString } from 'class-validator';
 import { Category as CategoryInterface } from 'knowledgeManagement/modules/category/category.interface';
 
-@ObjectType()
+@InputType()
 export class UpdateCategoryDto implements CategoryInterface {
   @Field(() => ID)
   @IsString()

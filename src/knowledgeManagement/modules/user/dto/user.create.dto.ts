@@ -1,7 +1,7 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Field, InputType } from '@nestjs/graphql';
 import { User as UserInterface } from 'knowledgeManagement/modules/user/user.interface';
 
-@ObjectType()
+@InputType()
 export class CreateUserDto implements UserInterface {
   id: undefined;
 

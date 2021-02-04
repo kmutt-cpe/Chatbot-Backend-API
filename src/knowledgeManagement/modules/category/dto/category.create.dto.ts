@@ -1,8 +1,8 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, InputType } from '@nestjs/graphql';
 import { IsString } from 'class-validator';
 import { Category as CategoryInterface } from 'knowledgeManagement/modules/category/category.interface';
 
-@ObjectType()
+@InputType()
 export class CreateCategoryDto implements CategoryInterface {
   id: undefined;
 
