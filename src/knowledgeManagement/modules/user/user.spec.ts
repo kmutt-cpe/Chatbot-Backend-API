@@ -49,7 +49,7 @@ describe('UserService', () => {
           role: UserRole.ADMIN,
         },
       ];
-      const users = (await userService.getAllUser()).map((user) => user.getData());
+      const users = await userService.getAllUser();
       return expect(users).toStrictEqual(expectedData);
     });
   });
@@ -64,7 +64,7 @@ describe('UserService', () => {
         role: UserRole.ADMIN,
       };
       const user = await userService.getUserById('User-0');
-      return expect(user.getData()).toStrictEqual(expectedData);
+      return expect(user).toStrictEqual(expectedData);
     });
   });
 
@@ -90,7 +90,7 @@ describe('UserService', () => {
         name: 'name3',
         role: UserRole.ADMIN,
       };
-      expect(retData.getData()).toStrictEqual(expectedData);
+      expect(retData).toStrictEqual(expectedData);
     });
 
     // todo: Add test for username exists in db
@@ -121,7 +121,7 @@ describe('UserService', () => {
 
       const users = await userService.getAllUser();
       expect(users.length).toStrictEqual(3);
-      expect(users.map((user) => user.getData())).toStrictEqual(expectedData);
+      expect(users).toStrictEqual(expectedData);
     });
   });
   // todo: Add register test for username exists in db
@@ -147,7 +147,7 @@ describe('UserService', () => {
         password: undefined,
         role: UserRole.ADMIN,
       };
-      expect(retData.getData()).toStrictEqual(expectedData);
+      expect(retData).toStrictEqual(expectedData);
     });
 
     it('it should update user', async () => {
@@ -170,7 +170,7 @@ describe('UserService', () => {
 
       const users = await userService.getAllUser();
       expect(users.length).toStrictEqual(2);
-      expect(users.map((user) => user.getData())).toStrictEqual(expectedData);
+      expect(users).toStrictEqual(expectedData);
     });
   });
 
@@ -189,7 +189,7 @@ describe('UserService', () => {
         name: 'name1',
         role: UserRole.ADMIN,
       };
-      expect(retData.getData()).toStrictEqual(expectedData);
+      expect(retData).toStrictEqual(expectedData);
     });
 
     it('it should delete user', async () => {
@@ -204,7 +204,7 @@ describe('UserService', () => {
       ];
       const users = await userService.getAllUser();
       expect(users.length).toStrictEqual(1);
-      expect(users.map((user) => user.getData())).toStrictEqual(expectedData);
+      expect(users).toStrictEqual(expectedData);
     });
   });
 });

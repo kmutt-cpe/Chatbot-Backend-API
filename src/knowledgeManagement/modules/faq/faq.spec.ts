@@ -134,10 +134,8 @@ describe('FAQService', () => {
           },
         },
       ];
-      const faqs = await faqService.getAllFAQ();
-      const faqsData = [];
-      for (const faq of faqs) await faqsData.push(await faq.getData());
-      return expect(faqsData).toStrictEqual(expectedData);
+      const retData = await faqService.getAllFAQ();
+      return expect(retData).toStrictEqual(expectedData);
     });
   });
 
@@ -165,9 +163,8 @@ describe('FAQService', () => {
           role: UserRole.ADMIN,
         },
       };
-      const faq = await faqService.getFAQById('FAQ-0');
-      const faqData = await faq.getData();
-      return expect(faqData).toStrictEqual(expectedData);
+      const retData = await faqService.getFAQById('FAQ-0');
+      return expect(retData).toStrictEqual(expectedData);
     });
   });
 
@@ -210,8 +207,7 @@ describe('FAQService', () => {
           role: UserRole.ADMIN,
         },
       };
-      const faqData = await retData.getData();
-      expect(faqData).toStrictEqual(expectedData);
+      expect(retData).toStrictEqual(expectedData);
     });
 
     it('it should add new faq in db', async () => {
@@ -284,11 +280,9 @@ describe('FAQService', () => {
         },
       ];
 
-      const faqs = await faqService.getAllFAQ();
-      const faqsData = [];
-      for (const faq of faqs) await faqsData.push(await faq.getData());
-      expect(faqsData.length).toStrictEqual(3);
-      expect(faqsData).toStrictEqual(expectedData);
+      const retData = await faqService.getAllFAQ();
+      expect(retData.length).toStrictEqual(3);
+      expect(retData).toStrictEqual(expectedData);
     });
   });
 
@@ -331,8 +325,7 @@ describe('FAQService', () => {
           role: UserRole.ADMIN,
         },
       };
-      const faqData = await retData.getData();
-      expect(faqData).toStrictEqual(expectedData);
+      expect(retData).toStrictEqual(expectedData);
     });
     it('it should update faq in db', async () => {
       const expectedData = [
@@ -382,11 +375,9 @@ describe('FAQService', () => {
         },
       ];
 
-      const faqs = await faqService.getAllFAQ();
-      const faqsData = [];
-      for (const faq of faqs) await faqsData.push(await faq.getData());
-      expect(faqsData.length).toStrictEqual(2);
-      expect(faqsData).toStrictEqual(expectedData);
+      const retData = await faqService.getAllFAQ();
+      expect(retData.length).toStrictEqual(2);
+      expect(retData).toStrictEqual(expectedData);
     });
   });
 
@@ -420,8 +411,7 @@ describe('FAQService', () => {
           role: UserRole.ADMIN,
         },
       };
-      const faqData = await retData.getData();
-      expect(faqData).toStrictEqual(expectedData);
+      expect(retData).toStrictEqual(expectedData);
     });
 
     it('it should delete faq in db', async () => {
@@ -450,11 +440,9 @@ describe('FAQService', () => {
         },
       ];
 
-      const faqs = await faqService.getAllFAQ();
-      const faqsData = [];
-      for (const faq of faqs) await faqsData.push(await faq.getData());
-      expect(faqsData.length).toStrictEqual(1);
-      expect(faqsData).toStrictEqual(expectedData);
+      const retData = await faqService.getAllFAQ();
+      expect(retData.length).toStrictEqual(1);
+      expect(retData).toStrictEqual(expectedData);
     });
   });
 });

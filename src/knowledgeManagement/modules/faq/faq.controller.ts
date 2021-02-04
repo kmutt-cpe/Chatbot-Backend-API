@@ -10,29 +10,26 @@ export class FAQController {
 
   @Get()
   async getFAQ(): Promise<FAQDto[]> {
-    const faqEntities = await this.faqService.getAllFAQ();
-    const faqs: FAQDto[] = [];
-    for (const faqEntity of faqEntities) faqs.push(await faqEntity.getData());
-    return faqs;
+    return await this.faqService.getAllFAQ();
   }
 
   @Get(':id')
   async getFAQById(@Param('id') id: string): Promise<FAQDto> {
-    return await (await this.faqService.getFAQById(id)).getData();
+    return await this.faqService.getFAQById(id);
   }
 
   @Patch()
   async updateFaq(@Body('update') updateFAQDto: UpdateFAQDto): Promise<FAQDto> {
-    return await (await this.faqService.updateFAQ(updateFAQDto)).getData();
+    return await this.faqService.updateFAQ(updateFAQDto);
   }
 
   @Post()
   async createFaq(@Body() createCategoryDto: CreateFAQDto): Promise<FAQDto> {
-    return await (await this.faqService.createFAQ(createCategoryDto)).getData();
+    return await this.faqService.createFAQ(createCategoryDto);
   }
 
   @Delete()
   async deleteFaq(@Body('id') id: string): Promise<FAQDto> {
-    return await (await this.faqService.deleteFAQById(id)).getData();
+    return await this.faqService.deleteFAQById(id);
   }
 }
