@@ -1,8 +1,8 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Field, ID, InputType } from '@nestjs/graphql';
 import { IsString } from 'class-validator';
 import { Subcategory as SubcategoryInterface } from 'knowledgeManagement/modules/subcategory/subcategory.interface';
 
-@ObjectType()
+@InputType()
 export class UpdateSubcategoryDto implements SubcategoryInterface {
   category: undefined;
 

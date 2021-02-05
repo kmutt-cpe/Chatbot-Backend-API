@@ -1,8 +1,8 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Field, ID, InputType } from '@nestjs/graphql';
 import { IsString } from 'class-validator';
 import { FAQ as FAQInterface } from 'knowledgeManagement/modules/faq/faq.interface';
 
-@ObjectType()
+@InputType()
 export class UpdateFAQDto implements FAQInterface {
   lastEditor: undefined;
   subcategory: undefined;
