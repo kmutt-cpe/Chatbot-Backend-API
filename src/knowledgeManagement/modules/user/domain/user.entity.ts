@@ -1,9 +1,10 @@
 import { User as UserInterface } from '../user.interface';
 import { BaseEntity } from '@BaseObject';
-import { Entity, Column, OneToMany } from 'typeorm';
+import { Entity, Column, OneToMany, BeforeInsert } from 'typeorm';
 import { FAQ } from '../../faq/domain/faq.entity';
 import { UserDto } from 'knowledgeManagement/modules/user/dto/user.dto';
 import { UserRole } from './userRole.constant';
+import * as bcrypt from 'bcrypt';
 
 @Entity()
 export class User extends BaseEntity implements UserInterface {
