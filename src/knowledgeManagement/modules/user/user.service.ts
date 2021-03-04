@@ -4,6 +4,7 @@ import { UserRepository } from './domain/user.repository';
 import { CreateUserDto } from './dto/user.create.dto';
 import { UserDto } from './dto/user.dto';
 import { UpdateUserDto } from './dto/user.update.dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
@@ -32,8 +33,11 @@ export class UserService {
 
   async createUser(createUserDto: CreateUserDto): Promise<UserDto> {
     const user: User = this.userRepo.create();
-    // todo: Throw error 404 if not found user
-    user.setDataValues(createUserDto);
+    const { username, password, name, role } = createUserDto;
+    user.setDataValue('username', username);
+    user.setDataValue('password', await bcrypt.hash(password, 10));
+    user.setDataValue('name', name);
+    user.setDataValue('role', role);
     return (await this.userRepo.save(user)).getData();
   }
 
@@ -41,19 +45,23 @@ export class UserService {
     const user = await this.userRepo.findOneOrFail(updateUserDto.id);
     const { password, name, role } = updateUserDto;
     // todo: Throw error 404 if not found user
-    user.setDataValue('password', password);
+    user.setDataValue('password', await bcrypt.hash(password, 10));
     user.setDataValue('name', name);
     user.setDataValue('role', role);
     return (await this.userRepo.save(user)).getData();
   }
 
   public async register(createUserDto: CreateUserDto): Promise<UserDto> {
-    const { username } = createUserDto;
+    const { username, password, name, role } = createUserDto;
     let user = await this.userRepo.findOne({ where: { username } });
     if (user) {
       throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
     }
     user = await this.userRepo.create(user);
+    user.setDataValue('username', username);
+    user.setDataValue('password', await bcrypt.hash(password, 10));
+    user.setDataValue('name', name);
+    user.setDataValue('role', role);
     return await (await this.userRepo.save(user)).getData();
   }
 }
