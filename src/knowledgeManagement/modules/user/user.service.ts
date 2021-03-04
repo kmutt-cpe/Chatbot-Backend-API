@@ -64,4 +64,12 @@ export class UserService {
     user.setDataValue('role', role);
     return await (await this.userRepo.save(user)).getData();
   }
+
+  async login(username: string, password: string): Promise<UserDto> {
+    const user: User = await this.userRepo.findOne({ where: { username } });
+    // todo: Throw error 404 if not found user
+    const retBool = await user.comparePassword(password);
+    if (retBool) return user.getData();
+    else return null; // todo : Throw error if invalid pw
+  }
 }
