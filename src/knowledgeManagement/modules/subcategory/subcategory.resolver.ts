@@ -1,4 +1,6 @@
+import { UseGuards } from '@nestjs/common';
 import { Resolver, Query, ID, Args, Mutation } from '@nestjs/graphql';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CreateSubcategoryDto } from './dto/subcategory.create.dto';
 import { SubcategoryDto } from './dto/subcategory.dto';
 import { UpdateSubcategoryDto } from './dto/subcategory.update.dto';
@@ -19,6 +21,7 @@ export class SubategoryResolver {
   }
 
   @Mutation(() => SubcategoryDto)
+  @UseGuards(JwtAuthGuard)
   async createSubcategory(
     @Args('createSubcategoryDto') createSubcategoryDto: CreateSubcategoryDto
   ): Promise<SubcategoryDto> {
@@ -26,6 +29,7 @@ export class SubategoryResolver {
   }
 
   @Mutation(() => SubcategoryDto)
+  @UseGuards(JwtAuthGuard)
   async updateSubcategory(
     @Args('updateSubcategoryDto') updateSubcategoryDto: UpdateSubcategoryDto
   ): Promise<SubcategoryDto> {
@@ -33,6 +37,7 @@ export class SubategoryResolver {
   }
 
   @Mutation(() => SubcategoryDto)
+  @UseGuards(JwtAuthGuard)
   async deleteSubcategory(@Args('id', { type: () => ID }) id: string): Promise<SubcategoryDto> {
     return await this.subcategoryService.deleteSubcategoryById(id);
   }
