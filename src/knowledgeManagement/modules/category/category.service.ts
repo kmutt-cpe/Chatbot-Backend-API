@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CategoryRepository } from './domain/category.repository';
 import { CreateCategoryDto } from './dto/category.create.dto';
-// import { FindOneOptions } from 'typeorm';
 import { Category } from './domain/category.entity';
 import { UpdateCategoryDto } from './dto/category.update.dto';
 import { CategoryDto } from './dto/category.dto';
