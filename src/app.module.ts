@@ -24,6 +24,7 @@ import { PredictionModelModule } from './predictionModel/predictionModel.module'
     }),
     GraphQLModule.forRoot({
       autoSchemaFile: 'src/schema.gql',
+      context: ({ req, res }) => ({ req, res }),
     }),
     KnowledgeManagementModule,
     PredictionModelModule,

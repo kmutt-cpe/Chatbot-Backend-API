@@ -1,4 +1,5 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CreateSubcategoryDto } from './dto/subcategory.create.dto';
 import { SubcategoryDto } from './dto/subcategory.dto';
 import { UpdateSubcategoryDto } from './dto/subcategory.update.dto';
@@ -23,6 +24,7 @@ export class SubcategoryController {
   }
 
   @Patch()
+  @UseGuards(JwtAuthGuard)
   async updateSubcategory(
     @Body('update') updateSubcategoryDto: UpdateSubcategoryDto
   ): Promise<SubcategoryDto> {
@@ -30,6 +32,7 @@ export class SubcategoryController {
   }
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   async createSubcategory(
     @Body() createSubcategoryDto: CreateSubcategoryDto
   ): Promise<SubcategoryDto> {
@@ -37,6 +40,7 @@ export class SubcategoryController {
   }
 
   @Delete()
+  @UseGuards(JwtAuthGuard)
   async deleteSubcategory(@Body('id') id: string): Promise<SubcategoryDto> {
     return await this.subcategoryService.deleteSubcategoryById(id);
   }

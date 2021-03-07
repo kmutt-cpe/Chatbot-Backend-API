@@ -4,6 +4,7 @@ import { Entity, Column, OneToMany } from 'typeorm';
 import { FAQ } from '../../faq/domain/faq.entity';
 import { UserDto } from 'knowledgeManagement/modules/user/dto/user.dto';
 import { UserRole } from './userRole.constant';
+import * as bcrypt from 'bcrypt';
 
 @Entity()
 export class User extends BaseEntity implements UserInterface {
@@ -30,5 +31,9 @@ export class User extends BaseEntity implements UserInterface {
       password: undefined,
       role: this.role,
     };
+  }
+
+  async comparePassword(passwordInput: string): Promise<boolean> {
+    return await bcrypt.compare(passwordInput, this.password);
   }
 }

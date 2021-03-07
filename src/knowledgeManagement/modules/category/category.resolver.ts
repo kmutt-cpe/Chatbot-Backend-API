@@ -3,6 +3,8 @@ import { CategoryDto } from './dto/category.dto';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/category.create.dto';
 import { UpdateCategoryDto } from './dto/category.update.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { UseGuards } from '@nestjs/common';
 
 @Resolver(() => CategoryDto)
 export class CategoryResolver {
@@ -19,6 +21,7 @@ export class CategoryResolver {
   }
 
   @Mutation(() => CategoryDto)
+  @UseGuards(JwtAuthGuard)
   async createCategory(
     @Args('createCategoryDto') createCategoryDto: CreateCategoryDto
   ): Promise<CategoryDto> {
@@ -26,6 +29,7 @@ export class CategoryResolver {
   }
 
   @Mutation(() => CategoryDto)
+  @UseGuards(JwtAuthGuard)
   async updateCategory(
     @Args('updateCategoryDto') updateCategoryDto: UpdateCategoryDto
   ): Promise<CategoryDto> {
@@ -33,6 +37,7 @@ export class CategoryResolver {
   }
 
   @Mutation(() => CategoryDto)
+  @UseGuards(JwtAuthGuard)
   async deleteCategory(@Args('id', { type: () => ID }) id: string): Promise<CategoryDto> {
     return await this.categoryService.deleteCategoryById(id);
   }
