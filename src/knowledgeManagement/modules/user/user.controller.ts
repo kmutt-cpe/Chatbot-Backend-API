@@ -59,7 +59,7 @@ export class UserController {
   }
 
   @Post('/logout')
-  async logout(@Res() res: Response) {
+  async logout(@Res() res: Response): Promise<Response> {
     res.clearCookie('authorization');
     res.clearCookie('user');
     return res.sendStatus(200);
