@@ -23,6 +23,7 @@ import { PredictionModelModule } from './predictionModel/predictionModel.module'
       inject: [ConfigService],
     }),
     GraphQLModule.forRoot({
+      useGlobalPrefix: true,
       autoSchemaFile: 'src/schema.gql',
       context: ({ req, res }) => ({ req, res }),
     }),
