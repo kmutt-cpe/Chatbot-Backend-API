@@ -5,4 +5,5 @@ export interface FAQ extends BaseInterface {
   answer;
   subcategory;
   lastEditor;
+  updatedDate;
 }

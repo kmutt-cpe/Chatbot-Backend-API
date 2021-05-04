@@ -75,6 +75,7 @@ export class FAQService {
     faq.setDataValue('answer', answer);
     faq.setDataValue('subcategory', Promise.resolve(subcategory));
     faq.setDataValue('lastEditor', Promise.resolve(user));
+    faq.setDataValue('updatedDate', new Date());
     faq = await this.faqRepo.save(faq);
     const faqDto: FAQDto = { ...faq.getData() };
     faqDto.lastEditor = user.getData();
@@ -94,6 +95,7 @@ export class FAQService {
     faq.setDataValue('answer', answer);
     faq.setDataValue('subcategory', Promise.resolve(subcategory));
     faq.setDataValue('lastEditor', Promise.resolve(user));
+    faq.setDataValue('updatedDate', new Date());
     faq = await this.faqRepo.save(faq);
     const faqDto: FAQDto = { ...faq.getData() };
     faqDto.lastEditor = user.getData();
