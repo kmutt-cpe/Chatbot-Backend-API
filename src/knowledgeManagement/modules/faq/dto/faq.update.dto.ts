@@ -6,6 +6,7 @@ import { FAQ as FAQInterface } from 'knowledgeManagement/modules/faq/faq.interfa
 export class UpdateFAQDto implements FAQInterface {
   lastEditor: undefined;
   subcategory: undefined;
+  updatedDate: undefined;
 
   @Field(() => ID)
   @IsString()

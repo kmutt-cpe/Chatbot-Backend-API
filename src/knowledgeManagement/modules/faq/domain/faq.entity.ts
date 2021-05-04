@@ -19,11 +19,15 @@ export class FAQ extends BaseEntity implements FAQInterface {
   @ManyToOne(() => User, (user) => user.faqs)
   lastEditor: Promise<User>;
 
+  @Column()
+  updatedDate: Date;
+
   getData(): FAQDto {
     return {
       id: this.id,
       question: this.question,
       answer: this.answer,
+      updatedDate: this.updatedDate,
       subcategory: undefined,
       category: undefined,
       lastEditor: undefined,
