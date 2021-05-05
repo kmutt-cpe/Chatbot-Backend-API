@@ -4,7 +4,6 @@ import { Response, Request } from 'express';
 import { AuthService } from '../auth/auth.service';
 import { LoginDto } from '../auth/dto/login.dto';
 import { AuthDto } from './dto/auth.dto';
-import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { CookieClear } from './helper/cookie.clear';
 
 @Controller('km/auth')
