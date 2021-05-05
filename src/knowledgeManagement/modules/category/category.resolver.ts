@@ -3,8 +3,8 @@ import { CategoryDto } from './dto/category.dto';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/category.create.dto';
 import { UpdateCategoryDto } from './dto/category.update.dto';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { UseGuards } from '@nestjs/common';
+import { GqlAuthGuard } from '../auth/guards/graphql-auth.guard';
 
 @Resolver(() => CategoryDto)
 export class CategoryResolver {
@@ -15,29 +15,29 @@ export class CategoryResolver {
     return await this.categoryService.getAllCategory();
   }
 
-  @Query(() => CategoryDto)
+  @Query(() => CategoryDto, { nullable: true })
   async getCategoryById(@Args('id', { type: () => ID }) id: string): Promise<CategoryDto> {
     return await this.categoryService.getCategoryById(id);
   }
 
   @Mutation(() => CategoryDto)
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(GqlAuthGuard)
   async createCategory(
-    @Args('createCategoryDto') createCategoryDto: CreateCategoryDto
+    @Args('category') createCategoryDto: CreateCategoryDto
   ): Promise<CategoryDto> {
     return await this.categoryService.createCategory(createCategoryDto);
   }
 
   @Mutation(() => CategoryDto)
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(GqlAuthGuard)
   async updateCategory(
-    @Args('updateCategoryDto') updateCategoryDto: UpdateCategoryDto
+    @Args('category') updateCategoryDto: UpdateCategoryDto
   ): Promise<CategoryDto> {
     return await this.categoryService.updateCategory(updateCategoryDto);
   }
 
   @Mutation(() => CategoryDto)
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(GqlAuthGuard)
   async deleteCategory(@Args('id', { type: () => ID }) id: string): Promise<CategoryDto> {
     return await this.categoryService.deleteCategoryById(id);
   }
