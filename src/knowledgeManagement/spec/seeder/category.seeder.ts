@@ -7,8 +7,9 @@ export class CategorySeeder extends BaseSeeder<CategoryInterface> {
       {
         id: 'Category-0',
         category: 'Admission',
+        subcategories: Promise.resolve([]),
       },
-      { id: 'Category-1', category: 'Internship' },
+      { id: 'Category-1', category: 'Internship', subcategories: Promise.resolve([]) },
     ];
     return categories;
   }
