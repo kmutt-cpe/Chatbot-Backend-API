@@ -9,7 +9,7 @@ import {
 } from 'nestjs-dialogflow';
 
 @Injectable()
-export class MyDialogFlowProvider {
+export class ChatbotDialogflowProvider {
   @DialogFlowIntent('ตารางสอบซ้อน')
   public async handleMyIntent1(
     dialogFlowResponse: DialogFlowResponse
