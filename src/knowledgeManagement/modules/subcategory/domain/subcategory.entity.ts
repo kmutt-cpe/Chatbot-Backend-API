@@ -7,7 +7,9 @@ import { SubcategoryDto } from 'knowledgeManagement/modules/subcategory/dto/subc
 
 @Entity()
 export class Subcategory extends BaseEntity implements SubcategoryInterface {
-  @Column()
+  @Column({
+    collation: 'utf8_general_ci',
+  })
   subcategory: string;
 
   @ManyToOne(() => Category, (category) => category.subcategories)

@@ -5,7 +5,9 @@ import { FBMessageDto } from 'chatbot/dto/fbMessage.dto';
 
 @Entity()
 export class FBMessage extends BaseEntity implements FBMessageInterface {
-  @Column()
+  @Column({
+    collation: 'utf8_general_ci',
+  })
   message: string;
 
   getData(): FBMessageDto {

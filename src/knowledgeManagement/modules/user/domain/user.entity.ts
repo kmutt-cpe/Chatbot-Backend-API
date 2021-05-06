@@ -11,14 +11,21 @@ export class User extends BaseEntity implements UserInterface {
   @Column({ unique: true })
   username: string;
 
-  @Column()
+  @Column({
+    collation: 'utf8_general_ci',
+  })
   password: string;
 
-  @Column()
+  @Column({
+    collation: 'utf8_general_ci',
+  })
   name: string;
 
-  @Column({ type: 'set', enum: UserRole, default: UserRole.ADMIN })
-  role: UserRole;
+  // todo: Change role
+  @Column({
+    collation: 'utf8_general_ci',
+  })
+  role: string;
 
   @OneToMany(() => FAQ, (faq) => faq.lastEditor)
   faqs: Promise<FAQ[]>;
