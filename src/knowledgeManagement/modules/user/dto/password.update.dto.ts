@@ -3,17 +3,23 @@ import { IsString } from 'class-validator';
 import { User as UserInterface } from 'knowledgeManagement/modules/user/user.interface';
 
 @InputType()
-export class UpdateUserDto implements UserInterface {
+export class UpdatePasswordDto implements UserInterface {
   username: undefined;
-  password: undefined;
+  name: undefined;
+  role: undefined;
 
   @Field(() => ID)
   @IsString()
   id: string;
 
   @Field(() => String)
-  name: string;
+  @IsString()
+  password: string;
 
   @Field(() => String)
-  role: string;
+  @IsString()
+  editorPassword: string;
+
+  @Field(() => String, { nullable: true })
+  editorId: string | null;
 }

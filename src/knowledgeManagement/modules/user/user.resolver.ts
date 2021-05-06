@@ -1,6 +1,7 @@
 import { UseGuards } from '@nestjs/common';
 import { Resolver, Query, ID, Args, Mutation } from '@nestjs/graphql';
 import { GqlAuthGuard } from '../auth/guards/graphql-auth.guard';
+import { UpdatePasswordDto } from './dto/password.update.dto';
 import { CreateUserDto } from './dto/user.create.dto';
 import { UserDto } from './dto/user.dto';
 import { UpdateUserDto } from './dto/user.update.dto';
@@ -32,6 +33,18 @@ export class UserResolver {
   @UseGuards(GqlAuthGuard)
   async updateUser(@Args('user') updateUserDto: UpdateUserDto): Promise<UserDto> {
     return await this.userService.updateUser(updateUserDto);
+  }
+
+  @Mutation(() => UserDto)
+  @UseGuards(GqlAuthGuard)
+  async setPasswordByAdmin(@Args('user') updatePasswordDto: UpdatePasswordDto): Promise<UserDto> {
+    return await this.userService.setPasswordByAdmin(updatePasswordDto);
+  }
+
+  @Mutation(() => UserDto)
+  @UseGuards(GqlAuthGuard)
+  async changePassword(@Args('user') updatePasswordDto: UpdatePasswordDto): Promise<UserDto> {
+    return await this.userService.changePassword(updatePasswordDto);
   }
 
   @Mutation(() => UserDto)
