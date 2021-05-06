@@ -14,8 +14,6 @@ services:
       - '3306:3306'
     expose:
       - '3306'
-    volumes:
-      - db_data:/var/lib/mysql
     networks:
       - app-tier
 
@@ -25,10 +23,6 @@ services:
       - 6379:6379
     networks:
       - app-tier
-
-volumes:
-  db_data:
-    driver: local
 
 networks:
   app-tier:

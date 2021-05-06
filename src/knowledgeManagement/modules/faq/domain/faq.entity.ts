@@ -16,7 +16,7 @@ export class FAQ extends BaseEntity implements FAQInterface {
   @ManyToOne(() => Subcategory, (subcategory) => subcategory.faqs)
   subcategory: Promise<Subcategory>;
 
-  @ManyToOne(() => User, (user) => user.faqs)
+  @ManyToOne(() => User, (user) => user.faqs, { onDelete: 'SET NULL', nullable: true })
   lastEditor: Promise<User>;
 
   @Column()

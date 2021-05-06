@@ -1,6 +1,6 @@
 import { UseGuards } from '@nestjs/common';
 import { Resolver, Query, ID, Args, Mutation } from '@nestjs/graphql';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { GqlAuthGuard } from '../auth/guards/graphql-auth.guard';
 import { CreateFAQDto } from './dto/faq.create.dto';
 import { FAQDto } from './dto/faq.dto';
 import { UpdateFAQDto } from './dto/faq.update.dto';
@@ -15,25 +15,25 @@ export class FAQResolver {
     return await this.faqService.getAllFAQ();
   }
 
-  @Query(() => FAQDto)
+  @Query(() => FAQDto, { nullable: true })
   async getFAQById(@Args('id', { type: () => ID }) id: string): Promise<FAQDto> {
     return await this.faqService.getFAQById(id);
   }
 
   @Mutation(() => FAQDto)
-  @UseGuards(JwtAuthGuard)
-  async createFAQ(@Args('createFAQDto') createFAQDto: CreateFAQDto): Promise<FAQDto> {
+  @UseGuards(GqlAuthGuard)
+  async createFAQ(@Args('faq') createFAQDto: CreateFAQDto): Promise<FAQDto> {
     return await this.faqService.createFAQ(createFAQDto);
   }
 
   @Mutation(() => FAQDto)
-  @UseGuards(JwtAuthGuard)
-  async updateFAQ(@Args('updateFAQDto') updateFAQDto: UpdateFAQDto): Promise<FAQDto> {
+  @UseGuards(GqlAuthGuard)
+  async updateFAQ(@Args('faq') updateFAQDto: UpdateFAQDto): Promise<FAQDto> {
     return await this.faqService.updateFAQ(updateFAQDto);
   }
 
   @Mutation(() => FAQDto)
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(GqlAuthGuard)
   async deleteFAQ(@Args('id', { type: () => ID }) id: string): Promise<FAQDto> {
     return await this.faqService.deleteFAQById(id);
   }

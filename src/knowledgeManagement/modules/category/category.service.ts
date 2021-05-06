@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CategoryRepository } from './domain/category.repository';
 import { CreateCategoryDto } from './dto/category.create.dto';
 import { Category } from './domain/category.entity';
@@ -24,15 +24,9 @@ export class CategoryService {
     return categoriesDto;
   }
 
-  // async getCategory(options?: FindOneOptions<CategoryDto>): Promise<CategoryDto[]> {
-  //   console.log(options);
-  //   const category: Category[] = await this.categoryRepo.find(options);
-  //   return category.map((item) => item.getData());
-  // }
-
   async getCategoryById(id: string): Promise<CategoryDto> {
     const category = await this.categoryRepo.findById(id);
-    // todo: Throw error 404 if not found category
+    if (!category) return null;
     const categoryDto: CategoryDto = { ...category.getData(), subcategories: undefined };
     const subcategories: Subcategory[] = await category.subcategories;
     categoryDto.subcategories = subcategories
@@ -41,34 +35,31 @@ export class CategoryService {
     return categoryDto;
   }
 
-  // async removeCategory(options: FindOneOptions<CategoryDto>): Promise<CategoryDto[]> {
-  //   let categories: Category[] = await this.categoryRepo.find(options);
-  //   if (!categories) return [];
-  //   categories = await this.categoryRepo.softRemove(categories);
-
-  //   // todo: Remove subcategory
-  //   return categories ? categories.map((item) => item.getData()) : [];
-  // }
-
   async deleteCategoryById(id: string): Promise<CategoryDto | null> {
     let category: Category = await this.categoryRepo.findById(id);
-    if (!category)
-      // todo: Throw error 404 if not found category
-      return null;
+    if (!category) throw new HttpException('Category not found', HttpStatus.NOT_FOUND);
+    if ((await category.getSubcategories()).length !== 0)
+      throw new HttpException(
+        'Cannot remove category because there are subcategories left',
+        HttpStatus.BAD_REQUEST
+      );
     category = await this.categoryRepo.softRemove(category);
+    if (!category) throw new HttpException('Cannot remove category', HttpStatus.NOT_IMPLEMENTED);
     const categoryDto: CategoryDto = { ...category.getData(), subcategories: undefined };
     const subcategories: Subcategory[] = await category.subcategories;
     categoryDto.subcategories = subcategories
       ? subcategories.map((subcategory) => subcategory.getData())
       : [];
-    // todo: Remove subcategory
+
     return categoryDto;
   }
 
   async createCategory(createCategoryDto: CreateCategoryDto): Promise<CategoryDto> {
     let category: Category = this.categoryRepo.create();
+    if (!category) throw new HttpException('Category not found', HttpStatus.NOT_FOUND);
     category.setDataValues(createCategoryDto);
     category = await this.categoryRepo.save(category);
+    if (!category) throw new HttpException('Cannot remove category', HttpStatus.NOT_IMPLEMENTED);
     const categoryDto: CategoryDto = { ...category.getData(), subcategories: undefined };
     const subcategories: Subcategory[] = await category.subcategories;
     categoryDto.subcategories = subcategories
@@ -79,9 +70,10 @@ export class CategoryService {
 
   async updateCategory(updateCategoryDto: UpdateCategoryDto): Promise<CategoryDto> {
     let category = await this.categoryRepo.findById(updateCategoryDto.id);
-    // todo: Throw error 404 if not found category
+    if (!category) throw new HttpException('Category not found', HttpStatus.NOT_FOUND);
     category.setDataValues(updateCategoryDto);
     category = await this.categoryRepo.save(category);
+    if (!category) throw new HttpException('Cannot remove category', HttpStatus.NOT_IMPLEMENTED);
     const categoryDto: CategoryDto = { ...category.getData(), subcategories: undefined };
     const subcategories: Subcategory[] = await category.subcategories;
     categoryDto.subcategories = subcategories

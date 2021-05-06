@@ -12,16 +12,19 @@ export class SubcategorySeeder extends BaseSeeder<SubcategoryInterface> {
         id: 'Subcategory-0',
         subcategory: '2B-KMUTT',
         category,
+        faqs: Promise.resolve([]),
       },
       {
         id: 'Subcategory-1',
         subcategory: 'Petch Prajohm',
         category,
+        faqs: Promise.resolve([]),
       },
       {
         id: 'Subcategory-2',
         subcategory: 'Admission Recruitment',
         category,
+        faqs: Promise.resolve([]),
       },
     ];
     return subcategories;

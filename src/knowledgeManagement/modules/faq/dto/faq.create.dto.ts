@@ -4,7 +4,6 @@ import { FAQ as FAQInterface } from 'knowledgeManagement/modules/faq/faq.interfa
 
 @InputType()
 export class CreateFAQDto implements FAQInterface {
-  // Implement interface
   id: undefined;
   subcategory: undefined;
   lastEditor: undefined;
