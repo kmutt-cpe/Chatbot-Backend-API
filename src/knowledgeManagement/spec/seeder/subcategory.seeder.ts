@@ -5,25 +5,25 @@ import { CategorySeeder } from './category.seeder';
 export class SubcategorySeeder extends BaseSeeder<SubcategoryInterface> {
   getData(): SubcategoryInterface[] {
     const categorySeeder = new CategorySeeder();
-    const category = categorySeeder.getData()[0];
+    const categories = categorySeeder.getData();
 
     const subcategories: SubcategoryInterface[] = [
       {
         id: 'Subcategory-0',
         subcategory: '2B-KMUTT',
-        category,
+        category: categories[0],
         faqs: Promise.resolve([]),
       },
       {
         id: 'Subcategory-1',
         subcategory: 'Petch Prajohm',
-        category,
+        category: categories[0],
         faqs: Promise.resolve([]),
       },
       {
         id: 'Subcategory-2',
         subcategory: 'Admission Recruitment',
-        category,
+        category: categories[1],
         faqs: Promise.resolve([]),
       },
     ];

@@ -23,6 +23,8 @@ export class SubcategoryController {
     return await this.subcategoryService.getSubcategoryById(id);
   }
 
+  // todo: Implement get subcategory by categoryId
+
   @Patch()
   @UseGuards(JwtAuthGuard)
   async updateSubcategory(

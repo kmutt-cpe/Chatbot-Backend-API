@@ -103,6 +103,21 @@ describe('SubcategoryService', () => {
       return expect(subcategory).toStrictEqual(expectedData);
     });
   });
+  describe('getSubcategoryByCategoryId', () => {
+    it('it should return the correctly subcategory', async () => {
+      const expectedData: SubcategoryDto = {
+        id: 'Subcategory-0',
+        subcategory: '2B-KMUTT',
+        category: {
+          category: 'Admission',
+          id: 'Category-0',
+          subcategories: undefined,
+        },
+      };
+      const subcategory = await subcategoryService.getSubcategoryById('Subcategory-0');
+      return expect(subcategory).toStrictEqual(expectedData);
+    });
+  });
 
   describe('createSubcategory', () => {
     let retData;
