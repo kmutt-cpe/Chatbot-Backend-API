@@ -47,6 +47,23 @@ export class FAQService {
     return faqDto;
   }
 
+  async getFAQByCategoryId(id: string): Promise<FAQDto[]> {
+    const faqs: FAQ[] = await this.faqRepo.findAll();
+    const faqsDto: FAQDto[] = [];
+    for (const faq of faqs) {
+      const subcategory: Subcategory = await faq.subcategory;
+      const category: Category = await subcategory.category;
+      if (category.id !== id) continue;
+      const faqDto: FAQDto = { ...faq.getData() };
+      const lastEditor: User = await faq.lastEditor;
+      faqDto.lastEditor = lastEditor.getData();
+      faqDto.subcategory = subcategory.getData();
+      faqDto.category = category.getData();
+      faqsDto.push(faqDto);
+    }
+    return faqsDto;
+  }
+
   async deleteFAQById(id: string): Promise<FAQDto | null> {
     let faq: FAQ = await this.faqRepo.findById(id);
     if (!faq) throw new HttpException('FAQ not found', HttpStatus.NOT_FOUND);

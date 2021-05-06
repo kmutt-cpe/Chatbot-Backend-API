@@ -20,6 +20,13 @@ export class SubategoryResolver {
     return await this.subcategoryService.getSubcategoryById(id);
   }
 
+  @Query(() => [SubcategoryDto])
+  async getSubcategoryByCategoryId(
+    @Args('id', { type: () => ID }) id: string
+  ): Promise<SubcategoryDto[]> {
+    return await this.subcategoryService.getSubcategoryByCategoryId(id);
+  }
+
   @Mutation(() => SubcategoryDto)
   @UseGuards(GqlAuthGuard)
   async createSubcategory(
