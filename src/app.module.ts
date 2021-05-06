@@ -26,6 +26,10 @@ import { PredictionModelModule } from './predictionModel/predictionModel.module'
       useGlobalPrefix: true,
       autoSchemaFile: 'src/schema.gql',
       context: ({ req, res }) => ({ req, res }),
+      cors: {
+        origin: process.env.FRONT_END_URL || 'http://localhost:3001',
+        credentials: true,
+      },
     }),
     KnowledgeManagementModule,
     PredictionModelModule,
