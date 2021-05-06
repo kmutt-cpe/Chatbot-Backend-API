@@ -40,11 +40,9 @@ export class AuthProvider {
     const res = context.res as Response;
     const authorization = req.cookies?.authorization;
     const user = req.cookies?.user;
-    const retAuth = await this.authService.checkAuth({ authorization, ...user });
-    if (retAuth.authorization !== '') return retAuth;
-    else {
-      CookieClear(res);
-      return retAuth;
-    }
+    const retAuth: AuthDto = await this.authService.checkAuth({ authorization, ...user });
+    if (retAuth.authorization === '') CookieClear(res);
+
+    return retAuth;
   }
 }

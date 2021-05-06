@@ -31,7 +31,7 @@ export class AuthService {
     const user: User = await this.userRepo.findById(id);
 
     try {
-      if (!user || this.jwtService.verify(token)) throw Error();
+      if (!user || !this.jwtService.verify(token)) throw Error();
     } catch (e) {
       return {
         id: '',
