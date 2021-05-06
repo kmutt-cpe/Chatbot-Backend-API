@@ -20,6 +20,11 @@ export class FAQResolver {
     return await this.faqService.getFAQById(id);
   }
 
+  @Query(() => [FAQDto])
+  async getFAQByCategoryId(@Args('id', { type: () => ID }) id: string): Promise<FAQDto[]> {
+    return await this.faqService.getFAQByCategoryId(id);
+  }
+
   @Mutation(() => FAQDto)
   @UseGuards(GqlAuthGuard)
   async createFAQ(@Args('faq') createFAQDto: CreateFAQDto): Promise<FAQDto> {
