@@ -7,14 +7,10 @@ import { FAQDto } from 'knowledgeManagement/modules/faq/dto/faq.dto';
 
 @Entity()
 export class FAQ extends BaseEntity implements FAQInterface {
-  @Column({
-    collation: 'utf8_general_ci',
-  })
+  @Column()
   question: string;
 
-  @Column({
-    collation: 'utf8_general_ci',
-  })
+  @Column()
   answer: string;
 
   @ManyToOne(() => Subcategory, (subcategory) => subcategory.faqs)
@@ -23,9 +19,7 @@ export class FAQ extends BaseEntity implements FAQInterface {
   @ManyToOne(() => User, (user) => user.faqs, { onDelete: 'SET NULL', nullable: true })
   lastEditor: Promise<User>;
 
-  @Column({
-    collation: 'utf8_general_ci',
-  })
+  @Column()
   updatedDate: Date;
 
   getData(): FAQDto {
