@@ -11,5 +11,6 @@ import { FAQResolver } from './faq.resolver';
   imports: [TypeOrmModule.forFeature([FAQRepository]), SubcategoryModule, UserModule],
   providers: [FAQService, FAQResolver],
   controllers: [FAQController],
+  exports: [FAQService],
 })
 export class FAQModule {}
