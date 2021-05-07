@@ -8,6 +8,9 @@ export class ChatMessage extends BaseEntity implements ChatMessageInterface {
   @Column()
   message: string;
 
+  @Column()
+  responseId: string;
+
   getData(): ChatMessageDto {
     return { id: this.id, message: this.message };
   }

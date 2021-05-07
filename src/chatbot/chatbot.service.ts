@@ -4,12 +4,12 @@ import { ChatMessageRepository } from './domain/chatMessage.repository';
 
 @Injectable()
 export class ChatbotService {
-  constructor(private readonly fbMessageRepository: ChatMessageRepository) {}
+  constructor(private readonly chatMessageRepository: ChatMessageRepository) {}
 
-  saveFbMessage(message: string): ChatMessage {
-    const fbMessage: ChatMessage = this.fbMessageRepository.create();
-    fbMessage.message = message ? message : '';
-    this.fbMessageRepository.save(fbMessage);
-    return fbMessage;
+  saveChatMessage(message: string): ChatMessage {
+    const chatMessage: ChatMessage = this.chatMessageRepository.create();
+    chatMessage.message = message ? message : '';
+    this.chatMessageRepository.save(chatMessage);
+    return chatMessage;
   }
 }
