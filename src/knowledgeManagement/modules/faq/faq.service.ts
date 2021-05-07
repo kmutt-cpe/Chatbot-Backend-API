@@ -67,12 +67,13 @@ export class FAQService {
   async deleteFAQById(id: string): Promise<FAQDto | null> {
     let faq: FAQ = await this.faqRepo.findById(id);
     if (!faq) throw new HttpException('FAQ not found', HttpStatus.NOT_FOUND);
-    faq = await this.faqRepo.softRemove(faq);
-    if (!faq) throw new HttpException('Cannot remove FAQ', HttpStatus.NOT_IMPLEMENTED);
-    const faqDto: FAQDto = { ...faq.getData() };
     const lastEditor: User = await faq.lastEditor;
     const subcategory: Subcategory = await faq.subcategory;
     const category: Category = await subcategory.category;
+
+    faq = await this.faqRepo.softRemove(faq);
+    if (!faq) throw new HttpException('Cannot remove FAQ', HttpStatus.NOT_IMPLEMENTED);
+    const faqDto: FAQDto = { ...faq.getData() };
     faqDto.lastEditor = lastEditor.getData();
     faqDto.subcategory = subcategory.getData();
     faqDto.category = category.getData();
