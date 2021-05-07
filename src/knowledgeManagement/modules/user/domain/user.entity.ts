@@ -3,7 +3,6 @@ import { BaseEntity } from '@BaseObject';
 import { Entity, Column, OneToMany } from 'typeorm';
 import { FAQ } from '../../faq/domain/faq.entity';
 import { UserDto } from 'knowledgeManagement/modules/user/dto/user.dto';
-import { UserRole } from './userRole.constant';
 import * as bcrypt from 'bcrypt';
 
 @Entity()
@@ -11,19 +10,16 @@ export class User extends BaseEntity implements UserInterface {
   @Column({ unique: true })
   username: string;
 
-  @Column({
-    collation: 'utf8_general_ci',
-  })
+  @Column()
   password: string;
 
-  @Column({
-    collation: 'utf8_general_ci',
-  })
+  @Column()
   name: string;
 
-  // todo: Change role
   @Column({
-    collation: 'utf8_general_ci',
+    type: 'enum',
+    enum: ['admin', 'root'],
+    default: 'admin',
   })
   role: string;
 

@@ -6,9 +6,7 @@ import { CategoryDto } from 'knowledgeManagement/modules/category/dto/category.d
 
 @Entity()
 export class Category extends BaseEntity implements CategoryInterface {
-  @Column({
-    collation: 'utf8_general_ci',
-  })
+  @Column()
   category: string;
 
   @OneToMany(() => Subcategory, (subcategory) => subcategory.category)
