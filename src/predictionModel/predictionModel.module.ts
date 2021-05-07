@@ -1,5 +1,5 @@
 import { BullModule } from '@nestjs/bull';
-import { Module } from '@nestjs/common';
+import { HttpModule, Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { FAQModule } from 'knowledgeManagement/modules/faq/faq.module';
@@ -17,6 +17,7 @@ import { PredictTaskRepository } from './domain/predictTask.repository';
     }),
     TypeOrmModule.forFeature([PredictTaskRepository]),
     FAQModule,
+    HttpModule,
   ],
   controllers: [PredictionModelController],
   providers: [PredictionModelProcessor, PredictionModelService],
