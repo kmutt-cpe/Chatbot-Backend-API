@@ -18,6 +18,7 @@ export class FAQSeeder extends BaseSeeder<FAQInterface> {
         answer: 'answer1',
         subcategory: subcategory,
         lastEditor: user,
+        updatedDate: new Date('2021-05-03'),
       },
       {
         id: 'FAQ-1',
@@ -25,6 +26,7 @@ export class FAQSeeder extends BaseSeeder<FAQInterface> {
         answer: 'answer2',
         subcategory: subcategory,
         lastEditor: user,
+        updatedDate: new Date('2021-05-02'),
       },
     ];
     return users;

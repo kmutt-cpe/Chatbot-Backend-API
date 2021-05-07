@@ -14,7 +14,5 @@ export class UpdateSubcategoryDto implements SubcategoryInterface {
   @IsString()
   subcategory: string;
 
-  @Field(() => String)
-  @IsString()
-  categoryId: string;
+  categoryId: undefined;
 }

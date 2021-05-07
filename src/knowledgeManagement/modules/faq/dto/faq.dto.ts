@@ -23,4 +23,7 @@ export class FAQDto implements FAQInterface {
 
   @Field(() => UserDto)
   lastEditor: UserDto;
+
+  @Field(() => Date)
+  updatedDate: Date;
 }

@@ -110,6 +110,7 @@ describe('FAQService', () => {
             name: 'name1',
             role: UserRole.ADMIN,
           },
+          updatedDate: new Date('2021-05-03'),
         },
         {
           id: 'FAQ-1',
@@ -132,6 +133,7 @@ describe('FAQService', () => {
             name: 'name1',
             role: UserRole.ADMIN,
           },
+          updatedDate: new Date('2021-05-02'),
         },
       ];
       const retData = await faqService.getAllFAQ();
@@ -162,6 +164,7 @@ describe('FAQService', () => {
           name: 'name1',
           role: UserRole.ADMIN,
         },
+        updatedDate: new Date('2021-05-03'),
       };
       const retData = await faqService.getFAQById('FAQ-0');
       return expect(retData).toStrictEqual(expectedData);
@@ -178,10 +181,12 @@ describe('FAQService', () => {
       answer: 'answer3',
       subcategoryId: 'Subcategory-1',
       lastEditorId: 'User-1',
+      updatedDate: undefined,
     };
-
+    let updatedDate;
     beforeEach(async () => {
       retData = await faqService.createFAQ(inputData);
+      updatedDate = new Date();
     });
 
     it('it should return new faq', async () => {
@@ -206,6 +211,7 @@ describe('FAQService', () => {
           name: 'name2',
           role: UserRole.ADMIN,
         },
+        updatedDate,
       };
       expect(retData).toStrictEqual(expectedData);
     });
@@ -233,6 +239,7 @@ describe('FAQService', () => {
             name: 'name1',
             role: UserRole.ADMIN,
           },
+          updatedDate: new Date('2021-05-03'),
         },
         {
           id: 'FAQ-1',
@@ -255,6 +262,7 @@ describe('FAQService', () => {
             name: 'name1',
             role: UserRole.ADMIN,
           },
+          updatedDate: new Date('2021-05-02'),
         },
         {
           id: 'FAQ-2',
@@ -277,6 +285,7 @@ describe('FAQService', () => {
             name: 'name2',
             role: UserRole.ADMIN,
           },
+          updatedDate,
         },
       ];
 
@@ -287,11 +296,13 @@ describe('FAQService', () => {
   });
 
   describe('updateFAQ', () => {
-    let retData;
+    let retData, updatedDate;
+
     const updatedData: UpdateFAQDto = {
       id: 'FAQ-0',
       subcategory: undefined,
       lastEditor: undefined,
+      updatedDate: undefined,
       question: 'question1update',
       answer: 'answer1update',
       subcategoryId: 'Subcategory-1',
@@ -300,6 +311,7 @@ describe('FAQService', () => {
 
     beforeEach(async () => {
       retData = await faqService.updateFAQ(updatedData);
+      updatedDate = new Date();
     });
 
     it('it should return updated faq', async () => {
@@ -324,6 +336,7 @@ describe('FAQService', () => {
           name: 'name2',
           role: UserRole.ADMIN,
         },
+        updatedDate,
       };
       expect(retData).toStrictEqual(expectedData);
     });
@@ -350,6 +363,7 @@ describe('FAQService', () => {
             name: 'name2',
             role: UserRole.ADMIN,
           },
+          updatedDate,
         },
         {
           id: 'FAQ-1',
@@ -372,6 +386,7 @@ describe('FAQService', () => {
             name: 'name1',
             role: UserRole.ADMIN,
           },
+          updatedDate: new Date('2021-05-02'),
         },
       ];
 
@@ -410,6 +425,7 @@ describe('FAQService', () => {
           name: 'name1',
           role: UserRole.ADMIN,
         },
+        updatedDate: new Date('2021-05-03'),
       };
       expect(retData).toStrictEqual(expectedData);
     });
@@ -437,6 +453,7 @@ describe('FAQService', () => {
             name: 'name1',
             role: UserRole.ADMIN,
           },
+          updatedDate: new Date('2021-05-02'),
         },
       ];
 
