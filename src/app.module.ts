@@ -27,7 +27,7 @@ import { PredictionModelModule } from './predictionModel/predictionModel.module'
       autoSchemaFile: 'src/schema.gql',
       context: ({ req, res }) => ({ req, res }),
       cors: {
-        origin: process.env.FRONT_END_URL || 'http://localhost:3001',
+        origin: true,
         credentials: true,
       },
     }),
