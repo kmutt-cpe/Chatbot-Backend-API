@@ -12,8 +12,8 @@ import { ChatMessageRepository } from './domain/chatMessage.repository';
     TypeOrmModule.forFeature([ChatMessageRepository]),
     DialogFlowModule.forRoot({
       /* The url with the default config should looks like https://myurl.me/basepath/postpath */
-      basePath: process.env.BASEPATH,
-      postPath: process.env.POSTPATH,
+      basePath: 'chatbot',
+      postPath: 'dialogflow',
     }),
     PredictionModelModule,
   ],

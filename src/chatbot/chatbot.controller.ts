@@ -6,9 +6,9 @@ import { Response, Request } from 'express';
 export class ChatbotController {
   constructor(private readonly chatbotService: ChatbotService) {}
 
-  @Post('fb-message')
+  @Post('chatMessage')
   async saveFBMessage(@Req() req: Request, @Res() res: Response): Promise<Response> {
-    await this.chatbotService.saveFbMessage(req.body.message);
+    await this.chatbotService.saveChatMessage(req.body.message);
     return res.sendStatus(200);
   }
 }
