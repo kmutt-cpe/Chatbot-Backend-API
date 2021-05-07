@@ -1,7 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { DialogFlowResponse } from 'nestjs-dialogflow';
 import { PredictionModelService } from 'predictionModel/predictionModel.service';
 import { ChatMessage } from './domain/chatMessage.entity';
 import { ChatMessageRepository } from './domain/chatMessage.repository';
+import { ChatMessageDto } from './dto/chatMessage.dto';
+import { queryResultToJSON } from './helper/helperFunction';
 
 @Injectable()
 export class ChatbotService {
@@ -10,10 +13,13 @@ export class ChatbotService {
     private readonly predictionModelService: PredictionModelService
   ) {}
 
-  saveChatMessage(message: string): ChatMessage {
-    const chatMessage: ChatMessage = this.chatMessageRepository.create();
-    chatMessage.message = message ? message : '';
-    this.chatMessageRepository.save(chatMessage);
-    return chatMessage;
+  async saveChatMessage(chatMessage: DialogFlowResponse): Promise<ChatMessageDto> {
+    let chatMessageEntity: ChatMessage = this.chatMessageRepository.create();
+    const chatMessageJSON = queryResultToJSON(chatMessage);
+    chatMessageEntity.setDataValues(chatMessageJSON);
+    chatMessageEntity = await this.chatMessageRepository.save(chatMessageEntity);
+    if (!chatMessageEntity)
+      throw new HttpException('Cannot save chat message', HttpStatus.NOT_IMPLEMENTED);
+    return chatMessageEntity.getData();
   }
 }
