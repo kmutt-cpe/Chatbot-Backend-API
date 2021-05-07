@@ -1,15 +1,29 @@
-import { Injectable } from '@nestjs/common';
-import { FBMessage } from './domain/fbMessage.entity';
-import { FBMessageRepository } from './domain/fbMessage.repository';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { DialogFlowResponse } from 'nestjs-dialogflow';
+import { PredictionModelService } from 'predictionModel/predictionModel.service';
+import { ChatMessage } from './domain/chatMessage.entity';
+import { ChatMessageRepository } from './domain/chatMessage.repository';
+import { ChatMessageDto } from './dto/chatMessage.dto';
+import { queryResultToJSON } from './helper/helperFunction';
 
 @Injectable()
 export class ChatbotService {
-  constructor(private readonly fbMessageRepository: FBMessageRepository) {}
+  constructor(
+    private readonly chatMessageRepository: ChatMessageRepository,
+    private readonly predictionModelService: PredictionModelService
+  ) {}
 
-  saveFbMessage(message: string): FBMessage {
-    const fbMessage: FBMessage = this.fbMessageRepository.create();
-    fbMessage.message = message ? message : '';
-    this.fbMessageRepository.save(fbMessage);
-    return fbMessage;
+  async saveChatMessage(chatMessage: DialogFlowResponse): Promise<ChatMessageDto> {
+    let chatMessageEntity: ChatMessage = this.chatMessageRepository.create();
+    const chatMessageJSON = queryResultToJSON(chatMessage);
+    chatMessageEntity.setDataValues(chatMessageJSON);
+    chatMessageEntity = await this.chatMessageRepository.save(chatMessageEntity);
+    if (!chatMessageEntity)
+      throw new HttpException('Cannot save chat message', HttpStatus.NOT_IMPLEMENTED);
+    return chatMessageEntity.getData();
+  }
+
+  async getReplyMessage(question: string): Promise<string> {
+    return (await this.predictionModelService.createPredictTask(question)).predictedAnswer;
   }
 }

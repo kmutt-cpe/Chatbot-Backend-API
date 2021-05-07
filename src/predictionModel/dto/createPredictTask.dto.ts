@@ -1,10 +1,13 @@
 import { IsString } from 'class-validator';
-import { PredictTask as PredictTaskInterface } from '../interfaces/predictTask.interface';
+import { PredictTask as PredictTaskInterface } from '../predictTask.interface';
 export class CreatePredictTaskDto implements PredictTaskInterface {
+  predictedAnswer: undefined;
   id: undefined;
-  @IsString() inputQuestion: string;
   predictedQuestion: undefined;
+  predictedQuestionId: undefined;
   inputTime: undefined;
   outputTime: undefined;
   status: undefined;
+
+  @IsString() inputQuestion: string;
 }
