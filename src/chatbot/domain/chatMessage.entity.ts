@@ -5,33 +5,33 @@ import { FBMessageDto as ChatMessageDto } from 'chatbot/dto/fbMessage.dto';
 
 @Entity()
 export class ChatMessage extends BaseEntity implements ChatMessageInterface {
-  @Column({ collation: 'utf8_general_ci' })
+  @Column()
   message: string;
 
-  @Column({ collation: 'utf8_general_ci' })
+  @Column()
   /** Id of message from dialogflow */
   responseId: string;
 
-  @Column({ collation: 'utf8_general_ci' })
+  @Column()
   /** Message from client */
   queryText: string;
 
-  @Column({ type: 'json', collation: 'utf8_general_ci' })
+  @Column({ type: 'json' })
   parameters: string;
 
-  @Column({ collation: 'utf8_general_ci' })
+  @Column()
   /** Path of agent, dialogflow: { intent:{ name : agent }} */
   agent: string;
 
-  @Column({ collation: 'utf8_general_ci' })
+  @Column()
   /** Name of agent, dialogflow: { intent:{ displayName : agent }} */
   agentName: string;
 
-  @Column({ collation: 'utf8_general_ci' })
+  @Column()
   /** Source of chat e.g. Line, Facebook */
   source: string;
 
-  @Column({ collation: 'utf8_general_ci' })
+  @Column()
   /** Use for reply msg back */
   replyToken: string;
 
