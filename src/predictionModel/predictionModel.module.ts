@@ -2,10 +2,11 @@ import { BullModule } from '@nestjs/bull';
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { FAQModule } from 'knowledgeManagement/modules/faq/faq.module';
 import { PredictionModelController } from './predictionModel.controller';
 import { PredictionModelProcessor } from './predictionModel.processor';
 import { PredictionModelService } from './predictionModel.service';
-import { PredictTaskRepository } from './repositories/predictTask.repository';
+import { PredictTaskRepository } from './domain/predictTask.repository';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { PredictTaskRepository } from './repositories/predictTask.repository';
       inject: [ConfigService],
     }),
     TypeOrmModule.forFeature([PredictTaskRepository]),
+    FAQModule,
   ],
   controllers: [PredictionModelController],
   providers: [PredictionModelProcessor, PredictionModelService],
