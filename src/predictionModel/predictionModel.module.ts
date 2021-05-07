@@ -18,5 +18,6 @@ import { PredictTaskRepository } from './repositories/predictTask.repository';
   ],
   controllers: [PredictionModelController],
   providers: [PredictionModelProcessor, PredictionModelService],
+  exports: [PredictionModelService],
 })
 export class PredictionModelModule {}
