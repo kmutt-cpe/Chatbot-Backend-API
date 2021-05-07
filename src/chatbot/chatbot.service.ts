@@ -22,4 +22,8 @@ export class ChatbotService {
       throw new HttpException('Cannot save chat message', HttpStatus.NOT_IMPLEMENTED);
     return chatMessageEntity.getData();
   }
+
+  async getReplyMessage(question: string): Promise<string> {
+    return (await this.predictionModelService.createPredictTask(question)).predictedAnswer;
+  }
 }
