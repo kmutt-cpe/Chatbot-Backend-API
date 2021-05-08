@@ -1,75 +1,68 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
-</p>
+## Project description
 
-[travis-image]: https://api.travis-ci.org/nestjs/nest.svg?branch=master
-[travis-url]: https://travis-ci.org/nestjs/nest
-[linux-image]: https://img.shields.io/travis/nestjs/nest/master.svg?label=linux
-[linux-url]: https://travis-ci.org/nestjs/nest
+Backend API of CPE KMUTT department for chatbot, automated build Siamese, and knowledge management.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="blank">Node.js</a> framework for building efficient and scalable server-side applications, heavily inspired by <a href="https://angular.io" target="blank">Angular</a>.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/dm/@nestjs/core.svg" alt="NPM Downloads" /></a>
-<a href="https://travis-ci.org/nestjs/nest"><img src="https://api.travis-ci.org/nestjs/nest.svg?branch=master" alt="Travis" /></a>
-<a href="https://travis-ci.org/nestjs/nest"><img src="https://img.shields.io/travis/nestjs/nest/master.svg?label=linux" alt="Linux" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#5" alt="Coverage" /></a>
-<a href="https://gitter.im/nestjs/nestjs?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge"><img src="https://badges.gitter.im/nestjs/nestjs.svg" alt="Gitter" /></a>
-<a href="https://opencollective.com/nest#backer"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec"><img src="https://img.shields.io/badge/Donate-PayPal-dc3d53.svg"/></a>
-  <a href="https://twitter.com/nestframework"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+This project is a senior project of CPE KMUTT Chatbot group 59 in King Mongkut's University of Technology Thonburi.
 
-## Description
+## Requirement
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- Node version 12.18.1
+- Yarn manager
+- Docker
 
-## Installation
+## File Structure
 
-```bash
-$ yarn install
-```
+- `common` - Contains base class to makes other class need to have same property / method and can implement later
+- `chatbot` - Chatbot module. Used to manage message from dialogflow and send to model prediction to predict question and reply answer message back
+- `knowledgeManagement` - Knowledge management module. Used to manage backend for knowledge management.
+  - `modules` - Module inside km which consists of `auth`, `faq`, `category`, `subcategory`, `user`
+  - `spec` - Used for test data.
+- `predictionModel` - Prediction model module. Used to manage the queue and model url.
 
-## Running the app
+## Development Instruction
 
-```bash
-# development
-$ yarn run start
+1. `yarn install` or `yarn` to install `node_modules` that required for running app
+2. Use `yarn docker:dev up` to start mysql and redis
 
-# watch mode
-$ yarn run start:dev
+- (Optional) You can use `yarn docker:dev -d up` instead to run container in daemon
 
-# production mode
-$ yarn run start:prod
-```
+3. open a new terminal and run `yarn start`
 
-## Test
+- (Optional) You can use `yarn start:dev` instead to run the backend api in watch mode (Auto start)
 
-```bash
-# unit tests
-$ yarn run test
+## Production Instruction
 
-# e2e tests
-$ yarn run test:e2e
+1. `yarn install` or `yarn` to install `node_modules` that required for running app
+2. Use `yarn docker:prod up` to start mysql and redis
 
-# test coverage
-$ yarn run test:cov
-```
+- (Optional) You can use `yarn docker:prod -d up` instead to run container in daemon
 
-## Support
+## Available Scripts
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+In the project directory, you can run:
 
-## Stay in touch
+### `yarn start`
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Runs the app in the development mode.<br />
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-## License
+The page will reload if you make edits.<br />
+You will also see any lint errors in the console.
 
-Nest is [MIT licensed](LICENSE).
+**(Optional)** You can use `yarn start:dev` for watch mode instead.
+
+### `yarn test`
+
+Run jest test.
+
+### `yarn format`
+
+Let's prettier to scans files for style issues and automatically reformats your code to ensure consistent rules are being followed for indentation, spacing, semicolons, single quotes vs double quotes, etc.
+
+### `yarn docker:dev`
+
+Start `mysql` and `redis` in Docker. You need to run this command before run `yarn start`. This command use in development state
+
+### `yarn docker:prod`
+
+Start `mysql`, `redis`, and `backend-api` in Docker. This command use in production state

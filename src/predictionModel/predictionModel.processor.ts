@@ -2,7 +2,6 @@ import { Process, Processor } from '@nestjs/bull';
 import { HttpService } from '@nestjs/common';
 import { Job } from 'bull';
 import { FAQService } from 'knowledgeManagement/modules/faq/faq.service';
-import { getCustomRepository } from 'typeorm';
 import { TaskStatus } from './domain/predictTask.entity';
 import { PredictTaskRepository } from './domain/predictTask.repository';
 
