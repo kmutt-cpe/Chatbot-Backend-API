@@ -31,7 +31,7 @@ jobs:
         run: rsync ./ chatbot@104.46.228.65:backend/kmutt-cpe-chatbot-back-end-api/
       - name: remote command
         run: |
-          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} chatbot@104.46.228.65,
+          ssh chatbot@104.46.228.65,
           cd /backend/kmutt-cpe-chatbot-back-end-api/,
           ls,
           exit.
