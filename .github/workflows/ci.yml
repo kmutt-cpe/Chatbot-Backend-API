@@ -29,9 +29,12 @@ jobs:
           if_key_exists: fail # replace / ignore / fail; optional (defaults to fail)
       - name: rsync over ssh
         run: rsync ./ chatbot@104.46.228.65:backend/kmutt-cpe-chatbot-back-end-api/
-      - name: remote command
-        run: |
-          ssh chatbot@104.46.228.65,
-          cd /backend/kmutt-cpe-chatbot-back-end-api/,
-          ls,
-          exit.
+      - name: Execute SSH commmands on remote server
+        uses: JimCronqvist/action-ssh@master
+        with:
+          hosts: 'chatbot@104.46.228.65'
+          privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
+          command: |
+            cd ~/backend/kmutt-cpe-chatbot-back-end-api/
+            ls -lah
+            echo "I am $NAME"
