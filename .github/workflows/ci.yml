@@ -28,4 +28,10 @@ jobs:
           known_hosts: ${{ secrets.KNOWN_HOSTS }}
           if_key_exists: fail # replace / ignore / fail; optional (defaults to fail)
       - name: rsync over ssh
-        run: rsync ./README.md chatbot@104.46.228.65:backend/kmutt-cpe-chatbot-back-end-api/
+        run: rsync ./ chatbot@104.46.228.65:backend/kmutt-cpe-chatbot-back-end-api/
+      - name: remote command
+        run: |
+          ssh -i secrets.SSH_PRIVATE_KEY chatbot@104.46.228.65,
+          cd /backend/kmutt-cpe-chatbot-back-end-api/,
+          ls,
+          exit.
