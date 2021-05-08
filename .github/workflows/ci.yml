@@ -39,4 +39,3 @@ jobs:
             cd ~/backend/kmutt-cpe-chatbot-back-end-api/
             ls
             yarn docker:prod up
-            exit
