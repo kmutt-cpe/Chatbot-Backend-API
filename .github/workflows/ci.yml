@@ -35,7 +35,7 @@ jobs:
           hosts: 'chatbot@104.46.228.65'
           privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
           command: |
-            whoami
+            export yarn=/home/chatbot/.nvm/versions/node/v12.22.1/bin/yarn
+            export node=/home/chatbot/.nvm/versions/node/v12.22.1/bin/node
             cd ~/backend/kmutt-cpe-chatbot-back-end-api/
-            ls
             yarn docker:prod up
