@@ -36,5 +36,5 @@ jobs:
           privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
           command: |
             cd ~/backend/kmutt-cpe-chatbot-back-end-api/
-            ls -lah
-            echo "I am $NAME"
+            yarn docker:prod up
+            exit
