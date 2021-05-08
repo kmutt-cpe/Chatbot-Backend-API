@@ -35,6 +35,7 @@ jobs:
           hosts: 'chatbot@104.46.228.65'
           privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
           command: |
+            whoami
             cd ~/backend/kmutt-cpe-chatbot-back-end-api/
             yarn docker:prod up
             exit
