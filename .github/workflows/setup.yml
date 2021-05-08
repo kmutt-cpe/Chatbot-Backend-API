@@ -1,12 +1,9 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: Setup
 
 # Controls when the action will run. 
 on:
-  # Triggers the workflow on push or pull request events but only for the master branch
-  pull_request:
-    branches: [master]
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -38,4 +35,4 @@ jobs:
           command: |
             export PATH=/home/chatbot/.nvm/versions/node/v12.22.1/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/chatbot/.nvm/versions/node/v12.22.1/bin/yarn:/home/chatbot/.nvm/versions/node/v12.22.1/bin/node
             cd ~/backend/kmutt-cpe-chatbot-back-end-api/
-            yarn docker:prod up -d
+            docker-compose -f docker-compose.prod.yml build
