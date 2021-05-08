@@ -30,9 +30,11 @@ export class PredictionModelProcessor {
     const predictedCategoryResponse = { category: 'test' };
 
     /** After sending to model */
+    predictTask.outputTimeCategory = new Date();
     const { category } = predictedCategoryResponse;
 
-    predictTask.outputTimeCategory = new Date();
+    /** Query questions */
+    const questionsDto = await this.faqService.getAllFAQ();
     if (category) {
       predictTask.status = TaskStatus.SUCCESS_CATEGORY;
       predictTask.predictedCategory = category;
@@ -42,16 +44,13 @@ export class PredictionModelProcessor {
     }
     await this.predictTaskRepo.save(predictTask);
 
-    /** Query questions */
-    const allQuestionEntities = await this.faqService.getAllFAQ();
-    let questionEntities = [];
-    for (const questionEntity of questionEntities) {
-      if ((await questionEntity.category).category === category)
-        questionEntities.push(questionEntity);
+    let questionFilter = [];
+    for (const questionDto of questionsDto) {
+      if ((await questionDto.category).category === category) questionFilter.push(questionDto);
     }
 
-    if (questionEntities.length === 0) questionEntities = allQuestionEntities;
-    const questions = questionEntities.map((faq) => faq.question);
+    if (questionFilter.length === 0) questionFilter = questionsDto;
+    const questions = questionFilter.map((faq) => faq.question);
 
     /** Before sending to question model */
     predictTask.inputTimeQuestion = new Date();
@@ -74,13 +73,13 @@ export class PredictionModelProcessor {
       .toPromise();
 
     /** After sending to question model */
+    predictTask.outputTimeQuestion = new Date();
     const predictedQuestion = predictedResponse.data && predictedResponse.data.intent;
-    const questionEntity = questionEntities.find(
+    const questionEntity = questionFilter.find(
       (question) => question.question === predictedQuestion
     );
 
     /** Save result */
-    predictTask.outputTimeQuestion = new Date();
     /** If do not have response, fail */
     if (!predictedQuestion) {
       predictTask.status = TaskStatus.FAILED_QUESTION;
