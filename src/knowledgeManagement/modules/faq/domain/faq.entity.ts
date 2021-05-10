@@ -7,10 +7,10 @@ import { FAQDto } from 'knowledgeManagement/modules/faq/dto/faq.dto';
 
 @Entity()
 export class FAQ extends BaseEntity implements FAQInterface {
-  @Column()
+  @Column({ type: 'longtext' })
   question: string;
 
-  @Column()
+  @Column({ type: 'longtext' })
   answer: string;
 
   @ManyToOne(() => Subcategory, (subcategory) => subcategory.faqs)
