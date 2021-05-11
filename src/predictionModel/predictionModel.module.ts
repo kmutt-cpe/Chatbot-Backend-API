@@ -17,7 +17,10 @@ import { PredictTaskRepository } from './domain/predictTask.repository';
     }),
     TypeOrmModule.forFeature([PredictTaskRepository]),
     FAQModule,
-    HttpModule,
+    HttpModule.register({
+      timeout: 60000,
+      maxRedirects: 5,
+    }),
   ],
   controllers: [PredictionModelController],
   providers: [PredictionModelProcessor, PredictionModelService],
