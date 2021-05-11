@@ -26,7 +26,7 @@ jobs:
           known_hosts: ${{ secrets.KNOWN_HOSTS }}
           if_key_exists: fail # replace / ignore / fail; optional (defaults to fail)
       - name: rsync over ssh
-        run: rsync -avz --delete ./ chatbot@104.46.228.65:backend/kmutt-cpe-chatbot-back-end-api/ --exclude=/.db_data
+        run: rsync -avz --delete ./ chatbot@104.46.228.65:backend/kmutt-cpe-chatbot-back-end-api/ --cvs-exclude --exclude=/.db_data
       - name: Execute SSH commmands on remote server
         uses: JimCronqvist/action-ssh@master
         with:
