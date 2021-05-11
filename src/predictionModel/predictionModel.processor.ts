@@ -72,6 +72,7 @@ export class PredictionModelProcessor {
       .toPromise()
       .then((res) => res.data)
       .catch((e) => console.log(e));
+    console.log(predictedResponse);
 
     /** After sending to question model */
     predictTask.outputTimeQuestion = new Date();
@@ -83,6 +84,7 @@ export class PredictionModelProcessor {
 
     /** Save result */
     /** If do not have response, fail */
+    console.log(predictedQuestion);
     if (!predictedQuestion) {
       predictTask.status = TaskStatus.FAILED_QUESTION;
       predictTask.predictedQuestionId = '';
