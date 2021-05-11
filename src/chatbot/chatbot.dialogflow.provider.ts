@@ -7,7 +7,7 @@ import { createFulfillmentResponse } from './helper/helperFunction';
 export class ChatbotDialogflowProvider {
   constructor(private readonly chatbotService: ChatbotService) {}
 
-  @DialogFlowIntent('myEnrollment')
+  @DialogFlowIntent('Default Fallback Intent')
   public async handleMyIntent1(
     @DialogFlowParam() chatMessage: DialogFlowResponse
   ): Promise<string> {
