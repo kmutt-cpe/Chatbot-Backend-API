@@ -19,10 +19,6 @@ export class PredictionModelService {
 
     predictTask = await predictTaskRepo.findById(predictTask.id);
     const predictTaskDto = predictTask.getData();
-    predictTask.predictedAnswer =
-      predictTask.questionAccuracy >= parseFloat(process.env.QUESTION_SIMILARITY)
-        ? predictTask.predictedAnswer
-        : 'กรุณารอเจ้าหน้าที่มาตอบค่ะ';
     return predictTaskDto;
   }
 }
