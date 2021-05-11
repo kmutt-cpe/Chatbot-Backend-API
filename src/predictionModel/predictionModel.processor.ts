@@ -20,40 +20,40 @@ export class PredictionModelProcessor {
     const { inputQuestion } = predictTask;
 
     /** Before sending to category model */
-    predictTask.inputTimeCategory = new Date();
-    predictTask.status = TaskStatus.IN_PROCESS_CATEGORY;
-    await this.predictTaskRepo.save(predictTask);
+    // predictTask.inputTimeCategory = new Date();
+    // predictTask.status = TaskStatus.IN_PROCESS_CATEGORY;
+    // await this.predictTaskRepo.save(predictTask);
 
-    /** Sending to category model */
-    const predictedCategoryResponse = await this.httpService
-      .post<{ category: string; accuracy: number }>(process.env.CATEGORY_MODEL_URL, {
-        inputQuestion,
-      })
-      .toPromise()
-      .then((res) => res.data)
-      .catch((e) => console.log(e));
+    // /** Sending to category model */
+    // const predictedCategoryResponse = await this.httpService
+    //   .post<{ category: string; accuracy: number }>(process.env.CATEGORY_MODEL_URL, {
+    //     inputQuestion,
+    //   })
+    //   .toPromise()
+    //   .then((res) => res.data)
+    //   .catch((e) => console.log(e));
 
     /** After sending to model */
-    predictTask.outputTimeCategory = new Date();
-    const { category, accuracy } = predictedCategoryResponse || { category: null, accuracy: -1 };
-    predictTask.categoryAccuracy = accuracy;
-    predictTask.predictedCategory = category;
+    // predictTask.outputTimeCategory = new Date();
+    // const { category, accuracy } = predictedCategoryResponse || { category: null, accuracy: -1 };
+    // predictTask.categoryAccuracy = accuracy;
+    // predictTask.predictedCategory = category;
 
     /** Query questions */
     const questionsDto = await this.faqService.getAllFAQ();
-    if (category) {
-      predictTask.status = TaskStatus.SUCCESS_CATEGORY;
-      predictTask.predictedCategory = category;
-    } else {
-      predictTask.status = TaskStatus.FAILED_CATEGORY;
-      predictTask.predictedCategory = '';
-    }
-    await this.predictTaskRepo.save(predictTask);
+    // if (category) {
+    //   predictTask.status = TaskStatus.SUCCESS_CATEGORY;
+    //   predictTask.predictedCategory = category;
+    // } else {
+    //   predictTask.status = TaskStatus.FAILED_CATEGORY;
+    //   predictTask.predictedCategory = '';
+    // }
+    // await this.predictTaskRepo.save(predictTask);
 
     let questionFilter = [];
-    for (const questionDto of questionsDto) {
-      if ((await questionDto.category).category === category) questionFilter.push(questionDto);
-    }
+    // for (const questionDto of questionsDto) {
+    //   if ((await questionDto.category).category === category) questionFilter.push(questionDto);
+    // }
 
     if (questionFilter.length === 0) questionFilter = questionsDto;
     const questions = questionFilter.map((faq) => faq.question);
@@ -72,7 +72,6 @@ export class PredictionModelProcessor {
       .toPromise()
       .then((res) => res.data)
       .catch((e) => console.log(e));
-    console.log(predictedResponse);
 
     /** After sending to question model */
     predictTask.outputTimeQuestion = new Date();
@@ -84,7 +83,6 @@ export class PredictionModelProcessor {
 
     /** Save result */
     /** If do not have response, fail */
-    console.log(predictedQuestion);
     if (!predictedQuestion) {
       predictTask.status = TaskStatus.FAILED_QUESTION;
       predictTask.predictedQuestionId = '';
