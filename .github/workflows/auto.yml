@@ -5,8 +5,8 @@ name: Auto
 # Controls when the action will run. 
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
-  # pull_request:
-  #   branches: [master]
+  pull_request:
+    branches: [master]
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -22,15 +22,6 @@ jobs:
       - uses: actions/checkout@v2
       - name: ls
         run: ls
-      - name: Execute SSH commmands on remote server
-        uses: JimCronqvist/action-ssh@master
-        with:
-          hosts: 'chatbot@104.46.228.65'
-          privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
-          command: |
-            export PATH=/home/chatbot/.nvm/versions/node/v12.22.1/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/chatbot/.nvm/versions/node/v12.22.1/bin/yarn:/home/chatbot/.nvm/versions/node/v12.22.1/bin/node
-            cd ~/backend/kmutt-cpe-chatbot-back-end-api/
-            docker-compose -f docker-compose.prod.yml down
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
         with:
@@ -38,7 +29,7 @@ jobs:
           known_hosts: ${{ secrets.KNOWN_HOSTS }}
           if_key_exists: fail # replace / ignore / fail; optional (defaults to fail)
       - name: rsync over ssh
-        run: rsync -avz -p ./ chatbot@104.46.228.65:backend/kmutt-cpe-chatbot-back-end-api/
+        run: rsync -ravzc --delete --exclude 'db_data' ./ chatbot@104.46.228.65:backend/kmutt-cpe-chatbot-back-end-api/
       - name: Execute SSH commmands on remote server
         uses: JimCronqvist/action-ssh@master
         with:
