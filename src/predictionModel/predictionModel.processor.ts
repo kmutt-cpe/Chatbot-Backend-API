@@ -29,11 +29,13 @@ export class PredictionModelProcessor {
       .post<{ category: string; accuracy: number }>(process.env.CATEGORY_MODEL_URL, {
         inputQuestion,
       })
-      .toPromise();
+      .toPromise()
+      .then((res) => res.data)
+      .catch((e) => console.log(e));
 
     /** After sending to model */
     predictTask.outputTimeCategory = new Date();
-    const { category, accuracy } = predictedCategoryResponse.data;
+    const { category, accuracy } = predictedCategoryResponse || { category: null, accuracy: -1 };
     predictTask.categoryAccuracy = accuracy;
     predictTask.predictedCategory = category;
 
@@ -62,18 +64,19 @@ export class PredictionModelProcessor {
     await this.predictTaskRepo.save(predictTask);
 
     /** Sending to question model */
-    // todo: Send to prediciton model
     const predictedResponse = await this.httpService
       .post<{ predictedQuestion: string; similarity: string }>(process.env.QUESTION_MODEL_URL, {
         questions,
         inputQuestion,
       })
-      .toPromise();
+      .toPromise()
+      .then((res) => res.data)
+      .catch((e) => console.log(e));
 
     /** After sending to question model */
     predictTask.outputTimeQuestion = new Date();
-    const predictedQuestion = predictedResponse.data && predictedResponse.data.predictedQuestion;
-    const similarity = predictedResponse.data && predictedResponse.data.similarity;
+    const predictedQuestion = predictedResponse && predictedResponse.predictedQuestion;
+    const similarity = predictedResponse && predictedResponse.similarity;
     const questionEntity = questionFilter.find(
       (question) => question.question === predictedQuestion
     );
@@ -84,13 +87,13 @@ export class PredictionModelProcessor {
       predictTask.status = TaskStatus.FAILED_QUESTION;
       predictTask.predictedQuestionId = '';
       predictTask.predictedQuestion = predictedQuestion;
-      predictTask.predictedAnswer = 'โปรดถามใหม่อีกครั้งค่ะ';
+      predictTask.predictedAnswer = 'กรุณารอเจ้าหน้าที่มาตอบ';
     } else if (!questionEntity) {
       /** If cannot find question entity */
       predictTask.status = TaskStatus.CANNOT_FIND_QUSTION;
       predictTask.predictedQuestionId = '';
       predictTask.predictedQuestion = predictedQuestion;
-      predictTask.predictedAnswer = 'โปรดถามใหม่อีกครั้งค่ะ';
+      predictTask.predictedAnswer = 'กรุณารอเจ้าหน้าที่มาตอบ';
     } /* Else success */ else {
       predictTask.status = TaskStatus.SUCCESS_QUESTION;
       predictTask.predictedQuestionId = questionEntity.id;
