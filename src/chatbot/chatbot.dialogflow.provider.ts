@@ -15,7 +15,7 @@ export class ChatbotDialogflowProvider {
       queryResult: { queryText },
     } = await this.chatbotService.saveChatMessage(chatMessage);
     const replyMessage = await this.chatbotService.getReplyMessage(queryText);
-    const fulfilmentResposne = createFulfillmentResponse(replyMessage);
-    return JSON.stringify(fulfilmentResposne);
+    const fulfillmentResponse = createFulfillmentResponse(replyMessage);
+    return JSON.stringify(fulfillmentResponse);
   }
 }

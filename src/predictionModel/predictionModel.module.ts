@@ -19,7 +19,6 @@ import { PredictTaskRepository } from './domain/predictTask.repository';
     FAQModule,
     HttpModule.register({
       timeout: 60000,
-      maxRedirects: 5,
     }),
   ],
   controllers: [PredictionModelController],
