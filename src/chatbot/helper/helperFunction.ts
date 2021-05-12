@@ -29,3 +29,13 @@ export const createFulfillmentResponse = (message: string): DialogFlowFulfillmen
 export const delay = (ms: number) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
 };
+
+export const followUpEvent = (intent: string, parameters?: any) => {
+  return {
+    followupEventInput: {
+      name: intent,
+      parameters,
+      languageCode: 'th-TH',
+    },
+  };
+};

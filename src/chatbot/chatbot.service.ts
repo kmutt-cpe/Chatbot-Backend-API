@@ -23,7 +23,12 @@ export class ChatbotService {
     return chatMessageEntity.getData();
   }
 
-  async getReplyMessage(question: string): Promise<string> {
-    return (await this.predictionModelService.createPredictTask(question)).predictedAnswer;
+  async predictMessage(question: string): Promise<string> {
+    /** Return id of predictedTask */
+    return (await this.predictionModelService.createPredictTask(question)).id;
+  }
+
+  async getReplyMessage(id: string): Promise<string> {
+    return (await this.predictionModelService.getPredictedResult(id)).predictedAnswer;
   }
 }
