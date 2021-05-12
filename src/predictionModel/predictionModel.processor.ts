@@ -40,6 +40,7 @@ export class PredictionModelProcessor {
     // predictTask.predictedCategory = category;
 
     /** Query questions */
+
     const questionsDto = await this.faqService.getAllFAQ();
     // if (category) {
     //   predictTask.status = TaskStatus.SUCCESS_CATEGORY;
@@ -66,7 +67,7 @@ export class PredictionModelProcessor {
     /** Sending to question model */
     const predictedResponse = await this.httpService
       .post<{ predictedQuestion: string; similarity: string }>(process.env.QUESTION_MODEL_URL, {
-        questions,
+        // questions,
         inputQuestion,
       })
       .toPromise()
