@@ -25,22 +25,22 @@ export class PredictTask extends BaseEntity implements PredictTaskInterface {
   @Column({ type: 'datetime', nullable: true })
   outputTimeCategory: Date = null;
 
-  @Column({ type: 'numeric' })
+  @Column({ type: 'float' })
   categoryAccuracy = -1;
 
-  @Column()
+  @Column({ type: 'longtext' })
   inputQuestion: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'longtext' })
   predictedQuestion: string = null;
 
   @Column({ nullable: true })
   predictedQuestionId: string = null;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'longtext' })
   predictedAnswer: string = null;
 
-  @Column({ type: 'numeric' })
+  @Column({ type: 'float' })
   questionAccuracy = -1;
 
   @Column({ type: 'datetime', nullable: true })

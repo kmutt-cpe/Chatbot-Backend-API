@@ -27,7 +27,7 @@ export class PredictionModelService {
   async getPredictedResult(id: string): Promise<PredictTaskDto> {
     const predictTask = await this.predictTaskRepo.findById(id);
     const predictTaskDto = predictTask.getData();
-    console.log(predictTaskDto);
+    predictTaskDto;
     return predictTaskDto;
   }
 }
