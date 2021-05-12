@@ -53,7 +53,6 @@ export class PredictionModelProcessor {
     predictTask.inputTimeQuestion = new Date();
     predictTask.status = TaskStatus.IN_PROCESS_QUESTION;
     await this.predictTaskRepo.save(predictTask);
-
     /** Sending to question model */
     const predictedResponse = await this.httpService
       .post<{ predictedQuestion: string; similarity: string }>(process.env.QUESTION_MODEL_URL, {
@@ -69,7 +68,6 @@ export class PredictionModelProcessor {
     const predictedQuestion = predictedResponse && predictedResponse.predictedQuestion;
     const similarity = predictedResponse && predictedResponse.similarity;
     const questionEntity = await this.faqService.getFAQ({ where: { question: predictedQuestion } });
-
     /** Save result */
     /** If do not have response, fail */
     if (!predictedQuestion) {
