@@ -30,7 +30,7 @@ export class ChatbotDialogflowProvider {
   @DialogFlowIntent('intent_extend_deadlock_1')
   public async extendDeadlock_1(@DialogFlowParam() dialogflowMessage: any): Promise<string> {
     console.log('First deadlock');
-    await delay(4000);
+    await delay(3500);
     const predictedTaskId = dialogflowMessage.queryResult.parameters.id || '';
     return JSON.stringify(followUpEvent('reply_question', { id: predictedTaskId }));
   }
@@ -78,7 +78,7 @@ export class ChatbotDialogflowProvider {
   @DialogFlowIntent('intent_reply_question')
   public async lastExtendDeadlock(@DialogFlowParam() dialogflowMessage: any): Promise<string> {
     console.log('Last Intent');
-    delay(4000);
+    delay(3500);
     const predictedId = dialogflowMessage.queryResult.parameters.id || '';
     const replyMessage = await this.chatbotService.getReplyMessage(predictedId);
     console.log('Message', replyMessage);
