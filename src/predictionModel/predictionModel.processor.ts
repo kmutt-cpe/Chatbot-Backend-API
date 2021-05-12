@@ -20,44 +20,34 @@ export class PredictionModelProcessor {
     const { inputQuestion } = predictTask;
 
     /** Before sending to category model */
-    // predictTask.inputTimeCategory = new Date();
-    // predictTask.status = TaskStatus.IN_PROCESS_CATEGORY;
-    // await this.predictTaskRepo.save(predictTask);
+    predictTask.inputTimeCategory = new Date();
+    predictTask.status = TaskStatus.IN_PROCESS_CATEGORY;
+    await this.predictTaskRepo.save(predictTask);
 
     /** Sending to category model */
-    // const predictedCategoryResponse = await this.httpService
-    //   .post<{ category: string; accuracy: number }>(process.env.CATEGORY_MODEL_URL, {
-    //     inputQuestion,
-    //   })
-    //   .toPromise()
-    //   .then((res) => res.data)
-    //   .catch((e) => console.log(e));
+    const predictedCategoryResponse = await this.httpService
+      .post<{ category: string; accuracy: number }>(process.env.CATEGORY_MODEL_URL, {
+        inputQuestion,
+      })
+      .toPromise()
+      .then((res) => res.data)
+      .catch((e) => console.log(e));
 
-    // /** After sending to model */
-    // predictTask.outputTimeCategory = new Date();
-    // const { category, accuracy } = predictedCategoryResponse || { category: null, accuracy: -1 };
-    // predictTask.categoryAccuracy = accuracy;
-    // predictTask.predictedCategory = category;
+    /** After sending to model */
+    predictTask.outputTimeCategory = new Date();
+    const { category, accuracy } = predictedCategoryResponse || { category: null, accuracy: -1 };
+    predictTask.categoryAccuracy = accuracy;
+    predictTask.predictedCategory = category;
 
     /** Query questions */
-
-    const questionsDto = await this.faqService.getAllFAQ();
-    // if (category) {
-    //   predictTask.status = TaskStatus.SUCCESS_CATEGORY;
-    //   predictTask.predictedCategory = category;
-    // } else {
-    //   predictTask.status = TaskStatus.FAILED_CATEGORY;
-    //   predictTask.predictedCategory = '';
-    // }
-    // await this.predictTaskRepo.save(predictTask);
-
-    let questionFilter = [];
-    // for (const questionDto of questionsDto) {
-    //   if ((await questionDto.category).category === category) questionFilter.push(questionDto);
-    // }
-
-    if (questionFilter.length === 0) questionFilter = questionsDto;
-    //const questions = questionFilter.map((faq) => faq.question);
+    if (category) {
+      predictTask.status = TaskStatus.SUCCESS_CATEGORY;
+      predictTask.predictedCategory = category;
+    } else {
+      predictTask.status = TaskStatus.FAILED_CATEGORY;
+      predictTask.predictedCategory = '';
+    }
+    await this.predictTaskRepo.save(predictTask);
 
     /** Before sending to question model */
     predictTask.inputTimeQuestion = new Date();
@@ -67,21 +57,18 @@ export class PredictionModelProcessor {
     /** Sending to question model */
     const predictedResponse = await this.httpService
       .post<{ predictedQuestion: string; similarity: string }>(process.env.QUESTION_MODEL_URL, {
-        // questions,
+        category,
         inputQuestion,
       })
       .toPromise()
       .then((res) => res.data)
       .catch((e) => console.log(e));
-    console.log(predictedResponse);
+
     /** After sending to question model */
     predictTask.outputTimeQuestion = new Date();
     const predictedQuestion = predictedResponse && predictedResponse.predictedQuestion;
     const similarity = predictedResponse && predictedResponse.similarity;
     const questionEntity = await this.faqService.getFAQ({ where: { question: predictedQuestion } });
-    // questionFilter.find(
-    //   (question) => question.question === predictedQuestion
-    // );
 
     /** Save result */
     /** If do not have response, fail */
@@ -90,7 +77,7 @@ export class PredictionModelProcessor {
       predictTask.predictedQuestionId = '';
       predictTask.predictedQuestion = predictedQuestion;
       predictTask.predictedAnswer = 'กรุณารอเจ้าหน้าที่มาตอบ';
-    } else if (questionEntity.length === 0) {
+    } else if (!questionEntity) {
       /** If cannot find question entity */
       predictTask.status = TaskStatus.CANNOT_FIND_QUSTION;
       predictTask.predictedQuestionId = '';
@@ -98,10 +85,10 @@ export class PredictionModelProcessor {
       predictTask.predictedAnswer = 'กรุณารอเจ้าหน้าที่มาตอบ';
     } /* Else success */ else {
       predictTask.status = TaskStatus.SUCCESS_QUESTION;
-      predictTask.predictedQuestionId = questionEntity[0].id;
+      predictTask.predictedQuestionId = questionEntity.id;
       predictTask.questionAccuracy = parseFloat(similarity);
       predictTask.predictedQuestion = predictedQuestion;
-      predictTask.predictedAnswer = questionEntity[0].answer;
+      predictTask.predictedAnswer = questionEntity.answer;
     }
 
     await this.predictTaskRepo.save(predictTask);

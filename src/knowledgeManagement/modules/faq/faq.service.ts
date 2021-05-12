@@ -35,20 +35,17 @@ export class FAQService {
     return faqsDto;
   }
 
-  async getFAQ(options?: FindManyOptions<FAQ>): Promise<FAQDto[]> {
-    const faqs: FAQ[] = await this.faqRepo.find(options);
-    const faqsDto: FAQDto[] = [];
-    for (const faq of faqs) {
-      const faqDto: FAQDto = { ...faq.getData() };
-      const lastEditor: User = await faq.lastEditor;
-      const subcategory: Subcategory = await faq.subcategory;
-      const category: Category = await subcategory.category;
-      faqDto.lastEditor = lastEditor.getData();
-      faqDto.subcategory = subcategory.getData();
-      faqDto.category = category.getData();
-      faqsDto.push(faqDto);
-    }
-    return faqsDto;
+  async getFAQ(options?: FindManyOptions<FAQ>): Promise<FAQDto> {
+    const faq = await this.faqRepo.findOne(options);
+    if (!faq) return null;
+    const faqDto: FAQDto = { ...faq.getData() };
+    const lastEditor: User = await faq.lastEditor;
+    const subcategory: Subcategory = await faq.subcategory;
+    const category: Category = await subcategory.category;
+    faqDto.lastEditor = lastEditor.getData();
+    faqDto.subcategory = subcategory.getData();
+    faqDto.category = category.getData();
+    return faqDto;
   }
 
   async getFAQById(id: string): Promise<FAQDto> {
