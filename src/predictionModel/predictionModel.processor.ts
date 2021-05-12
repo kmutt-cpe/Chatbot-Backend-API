@@ -78,9 +78,10 @@ export class PredictionModelProcessor {
     predictTask.outputTimeQuestion = new Date();
     const predictedQuestion = predictedResponse && predictedResponse.predictedQuestion;
     const similarity = predictedResponse && predictedResponse.similarity;
-    const questionEntity = questionFilter.find(
-      (question) => question.question === predictedQuestion
-    );
+    const questionEntity = await this.faqService.getFAQ({ where: { question: predictedQuestion } });
+    // questionFilter.find(
+    //   (question) => question.question === predictedQuestion
+    // );
 
     /** Save result */
     /** If do not have response, fail */
@@ -89,7 +90,7 @@ export class PredictionModelProcessor {
       predictTask.predictedQuestionId = '';
       predictTask.predictedQuestion = predictedQuestion;
       predictTask.predictedAnswer = 'กรุณารอเจ้าหน้าที่มาตอบ';
-    } else if (!questionEntity) {
+    } else if (questionEntity.length === 0) {
       /** If cannot find question entity */
       predictTask.status = TaskStatus.CANNOT_FIND_QUSTION;
       predictTask.predictedQuestionId = '';
@@ -97,10 +98,10 @@ export class PredictionModelProcessor {
       predictTask.predictedAnswer = 'กรุณารอเจ้าหน้าที่มาตอบ';
     } /* Else success */ else {
       predictTask.status = TaskStatus.SUCCESS_QUESTION;
-      predictTask.predictedQuestionId = questionEntity.id;
+      predictTask.predictedQuestionId = questionEntity[0].id;
       predictTask.questionAccuracy = parseFloat(similarity);
       predictTask.predictedQuestion = predictedQuestion;
-      predictTask.predictedAnswer = questionEntity.answer;
+      predictTask.predictedAnswer = questionEntity[0].answer;
     }
 
     await this.predictTaskRepo.save(predictTask);

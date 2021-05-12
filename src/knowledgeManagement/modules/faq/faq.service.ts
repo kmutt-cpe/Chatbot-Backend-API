@@ -9,6 +9,7 @@ import { FAQDto } from './dto/faq.dto';
 import { User } from '../user/domain/user.entity';
 import { Subcategory } from '../subcategory/domain/subcategory.entity';
 import { Category } from '../category/domain/category.entity';
+import { FindManyOptions } from 'typeorm';
 
 @Injectable()
 export class FAQService {
@@ -20,6 +21,22 @@ export class FAQService {
 
   async getAllFAQ(): Promise<FAQDto[]> {
     const faqs: FAQ[] = await this.faqRepo.findAll();
+    const faqsDto: FAQDto[] = [];
+    for (const faq of faqs) {
+      const faqDto: FAQDto = { ...faq.getData() };
+      const lastEditor: User = await faq.lastEditor;
+      const subcategory: Subcategory = await faq.subcategory;
+      const category: Category = await subcategory.category;
+      faqDto.lastEditor = lastEditor.getData();
+      faqDto.subcategory = subcategory.getData();
+      faqDto.category = category.getData();
+      faqsDto.push(faqDto);
+    }
+    return faqsDto;
+  }
+
+  async getFAQ(options?: FindManyOptions<FAQ>): Promise<FAQDto[]> {
+    const faqs: FAQ[] = await this.faqRepo.find(options);
     const faqsDto: FAQDto[] = [];
     for (const faq of faqs) {
       const faqDto: FAQDto = { ...faq.getData() };
