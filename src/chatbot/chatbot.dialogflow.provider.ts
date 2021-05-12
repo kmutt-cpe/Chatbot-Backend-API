@@ -21,8 +21,7 @@ export class ChatbotDialogflowProvider {
     } = await this.chatbotService.saveChatMessage(dialogflowMessage);
     // console.log(queryText);
     const predictedTaskId = await this.chatbotService.predictMessage(queryText);
-    const msec = 4000;
-    await delay(msec);
+    await delay(3500);
     // console.log(JSON.stringify(followUpEvent('dead_lock_extend_1', { id: predictedTaskId })));
     console.log('TEMP');
     return JSON.stringify(followUpEvent('dead_lock_extend_1', { id: predictedTaskId }));
@@ -30,7 +29,7 @@ export class ChatbotDialogflowProvider {
 
   @DialogFlowIntent('intent_extend_deadlock_1')
   public async extendDeadlock_1(@DialogFlowParam() dialogflowMessage: any): Promise<string> {
-    // console.log('First deadlock');
+    console.log('First deadlock');
     await delay(4000);
     const predictedTaskId = dialogflowMessage.queryResult.parameters.id || '';
     return JSON.stringify(followUpEvent('reply_question', { id: predictedTaskId }));
@@ -38,7 +37,7 @@ export class ChatbotDialogflowProvider {
 
   @DialogFlowIntent('intent_extend_deadlock_2')
   public async extendDeadlock_2(@DialogFlowParam() dialogflowMessage: any): Promise<string> {
-    // console.log('Second deadlock');
+    console.log('Second deadlock');
     await delay(4000);
     const predictedTaskId = dialogflowMessage.queryResult.parameters.id || '';
     return JSON.stringify(followUpEvent('dead_lock_extend_3', { id: predictedTaskId }));
