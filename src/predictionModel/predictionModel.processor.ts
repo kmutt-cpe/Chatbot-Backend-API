@@ -24,7 +24,7 @@ export class PredictionModelProcessor {
     // predictTask.status = TaskStatus.IN_PROCESS_CATEGORY;
     // await this.predictTaskRepo.save(predictTask);
 
-    // /** Sending to category model */
+    /** Sending to category model */
     // const predictedCategoryResponse = await this.httpService
     //   .post<{ category: string; accuracy: number }>(process.env.CATEGORY_MODEL_URL, {
     //     inputQuestion,
@@ -33,7 +33,7 @@ export class PredictionModelProcessor {
     //   .then((res) => res.data)
     //   .catch((e) => console.log(e));
 
-    /** After sending to model */
+    // /** After sending to model */
     // predictTask.outputTimeCategory = new Date();
     // const { category, accuracy } = predictedCategoryResponse || { category: null, accuracy: -1 };
     // predictTask.categoryAccuracy = accuracy;
@@ -57,7 +57,7 @@ export class PredictionModelProcessor {
     // }
 
     if (questionFilter.length === 0) questionFilter = questionsDto;
-    const questions = questionFilter.map((faq) => faq.question);
+    //const questions = questionFilter.map((faq) => faq.question);
 
     /** Before sending to question model */
     predictTask.inputTimeQuestion = new Date();
@@ -73,7 +73,7 @@ export class PredictionModelProcessor {
       .toPromise()
       .then((res) => res.data)
       .catch((e) => console.log(e));
-
+    console.log(predictedResponse);
     /** After sending to question model */
     predictTask.outputTimeQuestion = new Date();
     const predictedQuestion = predictedResponse && predictedResponse.predictedQuestion;
