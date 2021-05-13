@@ -13,7 +13,6 @@ import { SubcategorySeeder } from '../../spec/seeder/subcategory.seeder';
 import { MockSubcategoryRepository } from '../../spec/mockRepository/mockSubcategoryRepository.mock';
 import { SubcategoryDto } from './dto/subcategory.dto';
 import { CreateSubcategoryDto } from './dto/subcategory.create.dto';
-import { CategoryDto } from '../category/dto/category.dto';
 
 describe('SubcategoryService', () => {
   let subcategoryService;
@@ -77,8 +76,8 @@ describe('SubcategoryService', () => {
           id: 'Subcategory-2',
           subcategory: 'Admission Recruitment',
           category: {
-            category: 'Admission',
-            id: 'Category-0',
+            category: 'Internship',
+            id: 'Category-1',
             subcategories: undefined,
           },
         },
@@ -165,8 +164,8 @@ describe('SubcategoryService', () => {
           id: 'Subcategory-2',
           subcategory: 'Admission Recruitment',
           category: {
-            category: 'Admission',
-            id: 'Category-0',
+            category: 'Internship',
+            id: 'Category-1',
             subcategories: undefined,
           },
         },
@@ -189,7 +188,7 @@ describe('SubcategoryService', () => {
       id: 'Subcategory-0',
       category: undefined,
       subcategory: '2B-KMUTT V.2',
-      categoryId: 'Category-1',
+      categoryId: undefined,
     };
 
     beforeEach(async () => {
@@ -201,8 +200,8 @@ describe('SubcategoryService', () => {
         id: 'Subcategory-0',
         subcategory: '2B-KMUTT V.2',
         category: {
-          id: 'Category-1',
-          category: 'Internship',
+          id: 'Category-0',
+          category: 'Admission',
           subcategories: undefined,
         },
       };
@@ -214,8 +213,8 @@ describe('SubcategoryService', () => {
           id: 'Subcategory-0',
           subcategory: '2B-KMUTT V.2',
           category: {
-            id: 'Category-1',
-            category: 'Internship',
+            id: 'Category-0',
+            category: 'Admission',
             subcategories: undefined,
           },
         },
@@ -232,8 +231,8 @@ describe('SubcategoryService', () => {
           id: 'Subcategory-2',
           subcategory: 'Admission Recruitment',
           category: {
-            category: 'Admission',
-            id: 'Category-0',
+            category: 'Internship',
+            id: 'Category-1',
             subcategories: undefined,
           },
         },
@@ -280,8 +279,8 @@ describe('SubcategoryService', () => {
           id: 'Subcategory-2',
           subcategory: 'Admission Recruitment',
           category: {
-            category: 'Admission',
-            id: 'Category-0',
+            category: 'Internship',
+            id: 'Category-1',
             subcategories: undefined,
           },
         },

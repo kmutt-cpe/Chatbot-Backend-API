@@ -131,7 +131,7 @@ describe('UserService', () => {
       id: 'User-1',
       username: undefined,
       name: 'name2update',
-      password: 'password2update',
+      password: undefined,
       role: UserRole.ADMIN,
     };
 
