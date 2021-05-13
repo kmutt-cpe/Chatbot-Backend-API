@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { CreatePredictTaskDto } from './dto/createPredictTask.dto';
 import { PredictTaskDto } from './dto/predictTask.dto';
 import { PredictionModelService } from './predictionModel.service';
@@ -7,9 +7,19 @@ import { PredictionModelService } from './predictionModel.service';
 export class PredictionModelController {
   constructor(private readonly predictionModelService: PredictionModelService) {}
 
-  @Post('create-predict-task')
-  createPredictTask(@Body() createPredictTaskDto: CreatePredictTaskDto): Promise<PredictTaskDto> {
+  @Get()
+  async getAllPredictedResult(
+    @Query('id') id?: string
+  ): Promise<PredictTaskDto | PredictTaskDto[]> {
+    if (id) return await this.predictionModelService.getPredictedResult(id);
+    return await this.predictionModelService.getAllPredictedResult();
+  }
+
+  @Post()
+  async createPredictTask(
+    @Body() createPredictTaskDto: CreatePredictTaskDto
+  ): Promise<PredictTaskDto> {
     const { inputQuestion } = createPredictTaskDto;
-    return this.predictionModelService.createPredictTask(inputQuestion);
+    return await this.predictionModelService.createPredictTask(inputQuestion);
   }
 }

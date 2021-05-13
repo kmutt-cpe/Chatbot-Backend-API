@@ -1,7 +1,6 @@
 import { InjectQueue } from '@nestjs/bull';
 import { Injectable } from '@nestjs/common';
 import { Queue } from 'bull';
-import { getCustomRepository } from 'typeorm';
 import { PredictTaskRepository } from './domain/predictTask.repository';
 import { PredictTaskDto } from './dto/predictTask.dto';
 
@@ -27,7 +26,12 @@ export class PredictionModelService {
   async getPredictedResult(id: string): Promise<PredictTaskDto> {
     const predictTask = await this.predictTaskRepo.findById(id);
     const predictTaskDto = predictTask.getData();
-    predictTaskDto;
     return predictTaskDto;
+  }
+
+  async getAllPredictedResult(): Promise<PredictTaskDto[]> {
+    const predictTask = await this.predictTaskRepo.findAll();
+    const predictTasksDto = predictTask.map((predictTask) => predictTask.getData());
+    return predictTasksDto;
   }
 }
