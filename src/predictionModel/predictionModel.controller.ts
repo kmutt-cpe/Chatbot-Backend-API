@@ -1,4 +1,5 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from 'knowledgeManagement/modules/auth/guards/jwt-auth.guard';
 import { CreatePredictTaskDto } from './dto/createPredictTask.dto';
 import { PredictTaskDto } from './dto/predictTask.dto';
 import { PredictionModelService } from './predictionModel.service';
@@ -8,6 +9,7 @@ export class PredictionModelController {
   constructor(private readonly predictionModelService: PredictionModelService) {}
 
   @Get()
+  @UseGuards(JwtAuthGuard)
   async getAllPredictedResult(
     @Query('id') id?: string
   ): Promise<PredictTaskDto | PredictTaskDto[]> {
@@ -16,6 +18,7 @@ export class PredictionModelController {
   }
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   async createPredictTask(
     @Body() createPredictTaskDto: CreatePredictTaskDto
   ): Promise<PredictTaskDto> {
