@@ -55,36 +55,38 @@ export class PredictionModelProcessor {
     await this.predictTaskRepo.save(predictTask);
     /** Sending to question model */
     const predictedResponse = await this.httpService
-      .post<{ predictedQuestion: string; similarity: string }>(process.env.QUESTION_MODEL_URL, {
-        // category,
-        inputQuestion,
-      })
+      .post<{ predictedQuestion: string; similarity: string; category: string; accuracy }>(
+        process.env.QUESTION_MODEL_URL,
+        {
+          // category,
+          inputQuestion,
+        }
+      )
       .toPromise()
       .then((res) => res.data)
       .catch((e) => console.log(e));
 
     /** After sending to question model */
     predictTask.outputTimeQuestion = new Date();
-    const predictedQuestion = predictedResponse && predictedResponse.predictedQuestion;
-    const similarity = predictedResponse && predictedResponse.similarity;
+    const { predictedQuestion, similarity, category, accuracy } =
+      predictedResponse && predictedResponse;
     const questionEntity = await this.faqService.getFAQ({ where: { question: predictedQuestion } });
     /** Save result */
     /** If do not have response, fail */
     if (!predictedQuestion) {
       predictTask.status = TaskStatus.FAILED_QUESTION;
-      predictTask.predictedQuestionId = '';
-      predictTask.predictedQuestion = predictedQuestion;
       predictTask.predictedAnswer = 'กรุณารอเจ้าหน้าที่มาตอบ';
     } else if (!questionEntity) {
       /** If cannot find question entity */
       predictTask.status = TaskStatus.CANNOT_FIND_QUSTION;
-      predictTask.predictedQuestionId = '';
       predictTask.predictedQuestion = predictedQuestion;
       predictTask.predictedAnswer = 'กรุณารอเจ้าหน้าที่มาตอบ';
     } /* Else success */ else {
       predictTask.status = TaskStatus.SUCCESS_QUESTION;
       predictTask.predictedQuestionId = questionEntity.id;
+      predictTask.categoryAccuracy = parseFloat(accuracy);
       predictTask.questionAccuracy = parseFloat(similarity);
+      predictTask.predictedCategory = category;
       predictTask.predictedQuestion = predictedQuestion;
       predictTask.predictedAnswer = questionEntity.answer;
     }
