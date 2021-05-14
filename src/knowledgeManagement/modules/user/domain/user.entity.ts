@@ -4,6 +4,7 @@ import { Entity, Column, OneToMany } from 'typeorm';
 import { FAQ } from '../../faq/domain/faq.entity';
 import { UserDto } from 'knowledgeManagement/modules/user/dto/user.dto';
 import * as bcrypt from 'bcrypt';
+import { UserRole } from './userRole.constant';
 
 @Entity()
 export class User extends BaseEntity implements UserInterface {
@@ -18,7 +19,7 @@ export class User extends BaseEntity implements UserInterface {
 
   @Column({
     type: 'enum',
-    enum: ['admin', 'root'],
+    enum: UserRole,
     default: 'admin',
   })
   role: string;

@@ -6,6 +6,7 @@ import { UserDto } from './dto/user.dto';
 import { UpdateUserDto } from './dto/user.update.dto';
 import * as bcrypt from 'bcrypt';
 import { UpdatePasswordDto } from './dto/password.update.dto';
+import { UserRole } from './domain/userRole.constant';
 
 @Injectable()
 export class UserService {
@@ -24,7 +25,7 @@ export class UserService {
   async deleteUserById(id: string): Promise<UserDto | null> {
     let user: User = await this.userRepo.findById(id);
     if (!user) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
-    if (user.role === 'root')
+    if (user.role === UserRole.ROOT)
       throw new HttpException('Cannot delete root user', HttpStatus.BAD_REQUEST);
     user = await this.userRepo.softRemove(user);
     if (!user) throw new HttpException('Cannot delete user', HttpStatus.NOT_IMPLEMENTED);
@@ -34,7 +35,7 @@ export class UserService {
   async updateUser(updateUserDto: UpdateUserDto): Promise<UserDto> {
     let user = await this.userRepo.findById(updateUserDto.id);
     if (!user) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
-    if (user.role === 'root')
+    if (user.role === UserRole.ROOT)
       throw new HttpException('Cannot edit root user', HttpStatus.BAD_REQUEST);
     const { name, role } = updateUserDto;
     user.setDataValue('name', name);
@@ -49,7 +50,7 @@ export class UserService {
     const editor: User = await this.userRepo.findById(editorId);
     if (!editorId || !editor)
       throw new HttpException('Cannot find editor information', HttpStatus.NOT_FOUND);
-    if (editor.role !== 'admin' && editor.role !== 'root')
+    if (editor.role !== 'admin' && editor.role !== UserRole.ROOT)
       throw new HttpException('You do not have authorization to edit this', HttpStatus.BAD_REQUEST);
     if (!(await editor.comparePassword(editorPassword)))
       throw new HttpException('Your password is not correct', HttpStatus.BAD_REQUEST);
@@ -57,7 +58,7 @@ export class UserService {
     const { id, password } = updateUserDto;
     let user = await this.userRepo.findById(id);
     if (!user) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
-    if (user.role === 'root')
+    if (user.role === UserRole.ROOT)
       throw new HttpException('Cannot edit root user', HttpStatus.BAD_REQUEST);
     user.setDataValue('password', await bcrypt.hash(password, 10));
 
