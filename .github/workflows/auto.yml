@@ -38,4 +38,4 @@ jobs:
           command: |
             export PATH=/home/chatbot/.nvm/versions/node/v12.22.1/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/chatbot/.nvm/versions/node/v12.22.1/bin/yarn:/home/chatbot/.nvm/versions/node/v12.22.1/bin/node
             cd ~/backend/kmutt-cpe-chatbot-back-end-api/
-            docker-compose -f docker-compose.prod.yml build
+            docker-compose -f docker-compose.prod.yml up -d --build
