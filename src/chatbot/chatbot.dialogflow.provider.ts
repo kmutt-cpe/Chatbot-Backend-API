@@ -21,7 +21,7 @@ export class ChatbotDialogflowProvider {
     } = await this.chatbotService.saveChatMessage(dialogflowMessage);
     const predictedTaskId = await this.chatbotService.predictMessage(queryText);
     await delay(3500);
-    return JSON.stringify(followUpEvent('dead_lock_extend', { id: predictedTaskId }));
+    return JSON.stringify(followUpEvent('reply_question', { id: predictedTaskId }));
   }
 
   @DialogFlowIntent('intent_extend_deadlock')
