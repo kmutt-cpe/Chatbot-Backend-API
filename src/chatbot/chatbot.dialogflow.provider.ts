@@ -9,6 +9,8 @@ import { TaskStatus } from 'predictionModel/domain/predictTask.entity';
 import { ChatbotService } from './chatbot.service';
 import { delay, createFulfillmentResponse, followUpEvent } from './helper/helperFunction';
 
+const timeout_exit = 3500;
+
 @Injectable()
 export class ChatbotDialogflowProvider {
   constructor(private readonly chatbotService: ChatbotService) {}
@@ -21,30 +23,22 @@ export class ChatbotDialogflowProvider {
       queryResult: { queryText },
     } = await this.chatbotService.saveChatMessage(dialogflowMessage);
     const predictedTaskId = await this.chatbotService.predictMessage(queryText);
-    // await delay(3500);
 
-    let success = false;
-    let replyMessage = '';
-    await new Promise(() => {
-      const taskTimer = setInterval(async () => {
-        const predictTaskDto = await this.chatbotService.getReplyMessage(predictedTaskId);
-        if (predictTaskDto.status === TaskStatus.SUCCESS_QUESTION) {
-          success = true;
-          replyMessage = predictTaskDto.predictedAnswer;
-          clearInterval(taskTimer);
-          clearTimeout(taskTimeout);
-        }
-      }, 250);
+    let timeCount = 0;
+    while (timeCount <= timeout_exit) {
+      const predictTaskDto = await this.chatbotService.getReplyMessage(predictedTaskId);
+      if (predictTaskDto.status === TaskStatus.SUCCESS_QUESTION) {
+        const replyMessage = predictTaskDto.predictedAnswer;
+        console.log('Done1:', replyMessage);
+        return JSON.stringify(createFulfillmentResponse(replyMessage));
+      }
+      timeCount += 250;
+      await delay(250);
+    }
 
-      const taskTimeout = setTimeout(() => {
-        clearInterval(taskTimer);
-      }, 3500);
-    });
-    console.log('First:', replyMessage);
+    console.log('First not done');
 
-    return success
-      ? JSON.stringify(createFulfillmentResponse(replyMessage))
-      : JSON.stringify(followUpEvent('dead_lock_extend', { id: predictedTaskId }));
+    return JSON.stringify(followUpEvent('dead_lock_extend', { id: predictedTaskId }));
   }
 
   @DialogFlowIntent('intent_extend_deadlock')
@@ -52,31 +46,20 @@ export class ChatbotDialogflowProvider {
     // await delay(3500);
     const predictedTaskId = dialogflowMessage.queryResult.parameters.id || '';
     // return JSON.stringify(followUpEvent('reply_question', { id: predictedTaskId }));
+    let timeCount = 0;
+    while (timeCount <= timeout_exit) {
+      const predictTaskDto = await this.chatbotService.getReplyMessage(predictedTaskId);
+      if (predictTaskDto.status === TaskStatus.SUCCESS_QUESTION) {
+        const replyMessage = predictTaskDto.predictedAnswer;
+        console.log('Done2:', replyMessage);
+        return JSON.stringify(createFulfillmentResponse(replyMessage));
+      }
+      timeCount += 250;
+      await delay(250);
+    }
 
-    let success = false;
-    let replyMessage = '';
-
-    await new Promise(() => {
-      const taskTimer = setInterval(async () => {
-        const predictTaskDto = await this.chatbotService.getReplyMessage(predictedTaskId);
-        if (predictTaskDto.status === TaskStatus.SUCCESS_QUESTION) {
-          success = true;
-          replyMessage = predictTaskDto.predictedAnswer;
-          clearInterval(taskTimer);
-          clearTimeout(taskTimeout);
-        }
-      }, 250);
-
-      const taskTimeout = setTimeout(() => {
-        clearInterval(taskTimer);
-      }, 3500);
-    });
-
-    console.log('Extend:', replyMessage);
-
-    return success
-      ? JSON.stringify(createFulfillmentResponse(replyMessage))
-      : JSON.stringify(followUpEvent('reply_question', { id: predictedTaskId }));
+    console.log('Second not done');
+    return JSON.stringify(followUpEvent('reply_question', { id: predictedTaskId }));
   }
 
   @DialogFlowIntent('intent_reply_question')
@@ -85,23 +68,19 @@ export class ChatbotDialogflowProvider {
     const predictedTaskId = dialogflowMessage.queryResult.parameters.id || '';
     // const replyMessage = (await this.chatbotService.getReplyMessage(predictedId)).predictedAnswer;
     // return JSON.stringify(createFulfillmentResponse(replyMessage));
-    let replyMessage = '';
+    let timeCount = 0;
+    while (timeCount <= timeout_exit) {
+      const predictTaskDto = await this.chatbotService.getReplyMessage(predictedTaskId);
+      if (predictTaskDto.status === TaskStatus.SUCCESS_QUESTION) {
+        const replyMessage = predictTaskDto.predictedAnswer;
+        console.log('Done2:', replyMessage);
+        return JSON.stringify(createFulfillmentResponse(replyMessage));
+      }
+      timeCount += 250;
+      await delay(250);
+    }
 
-    await new Promise(() => {
-      const taskTimer = setInterval(async () => {
-        const predictTaskDto = await this.chatbotService.getReplyMessage(predictedTaskId);
-        if (predictTaskDto.status === TaskStatus.SUCCESS_QUESTION) {
-          replyMessage = predictTaskDto.predictedAnswer;
-          clearInterval(taskTimer);
-          clearTimeout(taskTimeout);
-        }
-      }, 250);
-
-      const taskTimeout = setTimeout(() => {
-        clearInterval(taskTimer);
-      }, 3500);
-    });
-
-    return JSON.stringify(createFulfillmentResponse(replyMessage));
+    console.log('Last not done');
+    return JSON.stringify(createFulfillmentResponse('กรุณารอเจ้าหน้าที่มาตอบ'));
   }
 }
