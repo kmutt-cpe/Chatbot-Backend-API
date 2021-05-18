@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { DialogFlowResponse } from 'nestjs-dialogflow';
+import { PredictTaskDto } from 'predictionModel/dto/predictTask.dto';
 import { PredictionModelService } from 'predictionModel/predictionModel.service';
 import { ChatMessage } from './domain/chatMessage.entity';
 import { ChatMessageRepository } from './domain/chatMessage.repository';
@@ -28,7 +29,7 @@ export class ChatbotService {
     return (await this.predictionModelService.createPredictTask(question)).id;
   }
 
-  async getReplyMessage(id: string): Promise<string> {
-    return (await this.predictionModelService.getPredictedResult(id)).predictedAnswer;
+  async getReplyMessage(id: string): Promise<PredictTaskDto> {
+    return await this.predictionModelService.getPredictedResult(id);
   }
 }

@@ -1,3 +1,4 @@
+import { TaskStatus } from 'predictionModel/domain/predictTask.entity';
 import { PredictTask as PredictTaskInterface } from '../predictTask.interface';
 
 export class PredictTaskDto implements PredictTaskInterface {
@@ -14,5 +15,5 @@ export class PredictTaskDto implements PredictTaskInterface {
   questionAccuracy: number;
   inputTimeQuestion: Date;
   outputTimeQuestion: Date;
-  status: string;
+  status: TaskStatus;
 }
