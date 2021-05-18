@@ -38,10 +38,11 @@ export class ChatbotDialogflowProvider {
     const taskTimeout = setTimeout(() => {
       clearInterval(taskTimer);
     }, 3500);
+    console.log('First:', replyMessage);
 
     return success
       ? JSON.stringify(createFulfillmentResponse(replyMessage))
-      : JSON.stringify(followUpEvent('reply_question', { id: predictedTaskId }));
+      : JSON.stringify(followUpEvent('dead_lock_extend', { id: predictedTaskId }));
   }
 
   @DialogFlowIntent('intent_extend_deadlock')
@@ -65,6 +66,7 @@ export class ChatbotDialogflowProvider {
     const taskTimeout = setTimeout(() => {
       clearInterval(taskTimer);
     }, 3500);
+    console.log('Extend:', replyMessage);
 
     return success
       ? JSON.stringify(createFulfillmentResponse(replyMessage))
@@ -77,12 +79,10 @@ export class ChatbotDialogflowProvider {
     const predictedTaskId = dialogflowMessage.queryResult.parameters.id || '';
     // const replyMessage = (await this.chatbotService.getReplyMessage(predictedId)).predictedAnswer;
     // return JSON.stringify(createFulfillmentResponse(replyMessage));
-    let success = false;
     let replyMessage = '';
     const taskTimer = setInterval(async () => {
       const predictTaskDto = await this.chatbotService.getReplyMessage(predictedTaskId);
       if (predictTaskDto.status === TaskStatus.SUCCESS_QUESTION) {
-        success = true;
         replyMessage = predictTaskDto.predictedAnswer;
         clearInterval(taskTimer);
         clearTimeout(taskTimeout);
@@ -92,9 +92,8 @@ export class ChatbotDialogflowProvider {
     const taskTimeout = setTimeout(() => {
       clearInterval(taskTimer);
     }, 3500);
+    console.log('Last:', replyMessage);
 
-    return success
-      ? JSON.stringify(createFulfillmentResponse(replyMessage))
-      : JSON.stringify(followUpEvent('reply_question', { id: predictedTaskId }));
+    return JSON.stringify(createFulfillmentResponse(replyMessage));
   }
 }
