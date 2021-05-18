@@ -25,19 +25,21 @@ export class ChatbotDialogflowProvider {
 
     let success = false;
     let replyMessage = '';
-    const taskTimer = setInterval(async () => {
-      const predictTaskDto = await this.chatbotService.getReplyMessage(predictedTaskId);
-      if (predictTaskDto.status === TaskStatus.SUCCESS_QUESTION) {
-        success = true;
-        replyMessage = predictTaskDto.predictedAnswer;
-        clearInterval(taskTimer);
-        clearTimeout(taskTimeout);
-      }
-    }, 500);
+    await new Promise(() => {
+      const taskTimer = setInterval(async () => {
+        const predictTaskDto = await this.chatbotService.getReplyMessage(predictedTaskId);
+        if (predictTaskDto.status === TaskStatus.SUCCESS_QUESTION) {
+          success = true;
+          replyMessage = predictTaskDto.predictedAnswer;
+          clearInterval(taskTimer);
+          clearTimeout(taskTimeout);
+        }
+      }, 250);
 
-    const taskTimeout = setTimeout(() => {
-      clearInterval(taskTimer);
-    }, 3500);
+      const taskTimeout = setTimeout(() => {
+        clearInterval(taskTimer);
+      }, 3500);
+    });
     console.log('First:', replyMessage);
 
     return success
@@ -53,19 +55,23 @@ export class ChatbotDialogflowProvider {
 
     let success = false;
     let replyMessage = '';
-    const taskTimer = setInterval(async () => {
-      const predictTaskDto = await this.chatbotService.getReplyMessage(predictedTaskId);
-      if (predictTaskDto.status === TaskStatus.SUCCESS_QUESTION) {
-        success = true;
-        replyMessage = predictTaskDto.predictedAnswer;
-        clearInterval(taskTimer);
-        clearTimeout(taskTimeout);
-      }
-    }, 500);
 
-    const taskTimeout = setTimeout(() => {
-      clearInterval(taskTimer);
-    }, 3500);
+    await new Promise(() => {
+      const taskTimer = setInterval(async () => {
+        const predictTaskDto = await this.chatbotService.getReplyMessage(predictedTaskId);
+        if (predictTaskDto.status === TaskStatus.SUCCESS_QUESTION) {
+          success = true;
+          replyMessage = predictTaskDto.predictedAnswer;
+          clearInterval(taskTimer);
+          clearTimeout(taskTimeout);
+        }
+      }, 250);
+
+      const taskTimeout = setTimeout(() => {
+        clearInterval(taskTimer);
+      }, 3500);
+    });
+
     console.log('Extend:', replyMessage);
 
     return success
@@ -80,19 +86,21 @@ export class ChatbotDialogflowProvider {
     // const replyMessage = (await this.chatbotService.getReplyMessage(predictedId)).predictedAnswer;
     // return JSON.stringify(createFulfillmentResponse(replyMessage));
     let replyMessage = '';
-    const taskTimer = setInterval(async () => {
-      const predictTaskDto = await this.chatbotService.getReplyMessage(predictedTaskId);
-      if (predictTaskDto.status === TaskStatus.SUCCESS_QUESTION) {
-        replyMessage = predictTaskDto.predictedAnswer;
-        clearInterval(taskTimer);
-        clearTimeout(taskTimeout);
-      }
-    }, 500);
 
-    const taskTimeout = setTimeout(() => {
-      clearInterval(taskTimer);
-    }, 3500);
-    console.log('Last:', replyMessage);
+    await new Promise(() => {
+      const taskTimer = setInterval(async () => {
+        const predictTaskDto = await this.chatbotService.getReplyMessage(predictedTaskId);
+        if (predictTaskDto.status === TaskStatus.SUCCESS_QUESTION) {
+          replyMessage = predictTaskDto.predictedAnswer;
+          clearInterval(taskTimer);
+          clearTimeout(taskTimeout);
+        }
+      }, 250);
+
+      const taskTimeout = setTimeout(() => {
+        clearInterval(taskTimer);
+      }, 3500);
+    });
 
     return JSON.stringify(createFulfillmentResponse(replyMessage));
   }
