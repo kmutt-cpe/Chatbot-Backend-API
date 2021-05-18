@@ -29,14 +29,11 @@ export class ChatbotDialogflowProvider {
       const predictTaskDto = await this.chatbotService.getReplyMessage(predictedTaskId);
       if (predictTaskDto.status === TaskStatus.SUCCESS_QUESTION) {
         const replyMessage = predictTaskDto.predictedAnswer;
-        console.log('Done1:', replyMessage);
         return JSON.stringify(createFulfillmentResponse(replyMessage));
       }
       timeCount += 250;
       await delay(250);
     }
-
-    console.log('First not done');
 
     return JSON.stringify(followUpEvent('dead_lock_extend', { id: predictedTaskId }));
   }
@@ -51,14 +48,12 @@ export class ChatbotDialogflowProvider {
       const predictTaskDto = await this.chatbotService.getReplyMessage(predictedTaskId);
       if (predictTaskDto.status === TaskStatus.SUCCESS_QUESTION) {
         const replyMessage = predictTaskDto.predictedAnswer;
-        console.log('Done2:', replyMessage);
         return JSON.stringify(createFulfillmentResponse(replyMessage));
       }
       timeCount += 250;
       await delay(250);
     }
 
-    console.log('Second not done');
     return JSON.stringify(followUpEvent('reply_question', { id: predictedTaskId }));
   }
 
@@ -73,14 +68,12 @@ export class ChatbotDialogflowProvider {
       const predictTaskDto = await this.chatbotService.getReplyMessage(predictedTaskId);
       if (predictTaskDto.status === TaskStatus.SUCCESS_QUESTION) {
         const replyMessage = predictTaskDto.predictedAnswer;
-        console.log('Done2:', replyMessage);
         return JSON.stringify(createFulfillmentResponse(replyMessage));
       }
       timeCount += 250;
       await delay(250);
     }
 
-    console.log('Last not done');
     return JSON.stringify(createFulfillmentResponse('กรุณารอเจ้าหน้าที่มาตอบ'));
   }
 }
