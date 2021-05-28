@@ -1,3 +1,4 @@
+import { Delete } from '@nestjs/common';
 import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'knowledgeManagement/modules/auth/guards/jwt-auth.guard';
 import { CreatePredictTaskDto } from './dto/createPredictTask.dto';
@@ -24,5 +25,11 @@ export class PredictionModelController {
   ): Promise<PredictTaskDto> {
     const { inputQuestion } = createPredictTaskDto;
     return await this.predictionModelService.createPredictTask(inputQuestion);
+  }
+
+  @Delete()
+  @UseGuards(JwtAuthGuard)
+  async deleteAllPredictTask(): Promise<PredictTaskDto[]> {
+    return await this.predictionModelService.deleteAllPredictTask();
   }
 }
