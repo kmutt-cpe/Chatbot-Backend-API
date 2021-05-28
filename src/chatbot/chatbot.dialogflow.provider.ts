@@ -1,10 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import {
-  DialogFlowAction,
-  DialogFlowIntent,
-  DialogFlowParam,
-  DialogFlowResponse,
-} from 'nestjs-dialogflow';
+import { DialogFlowIntent, DialogFlowParam, DialogFlowResponse } from 'nestjs-dialogflow';
 import { TaskStatus } from 'predictionModel/domain/predictTask.entity';
 import { ChatbotService } from './chatbot.service';
 import { delay, createFulfillmentResponse, followUpEvent } from './helper/helperFunction';

@@ -34,4 +34,11 @@ export class PredictionModelService {
     const predictTasksDto = predictTask.map((predictTask) => predictTask.getData());
     return predictTasksDto;
   }
+
+  async deleteAllPredictTask(): Promise<PredictTaskDto[]> {
+    const predictTasks = await this.predictTaskRepo.findAll();
+    const predictTasksDto = predictTasks.map((predictTask) => predictTask.getData());
+    await this.predictTaskRepo.remove(predictTasks);
+    return predictTasksDto;
+  }
 }
